@@ -1,0 +1,56 @@
+<div *ngIf="isAdmin">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="admin/login" class="navbar-brand">Smart Home TEC</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li routerLinkActive="active"><a routerLink="/admin/dashboard">Dashboard</a></li>
+                    <li routerLinkActive="active"><a routerLink="/admin/gestion-dispositivos">Gestión de dispositivos</a></li>
+                    <li routerLinkActive="active"><a routerLink="/admin/gestion-tipo-dispositivos">Gestión de tipos dispositivos</a></li>
+                    <li routerLinkActive="active"><a routerLink="/admin/gestion-distribuidores">Gestión de distribuidores</a></li>
+                    <li routerLinkActive="active"><a routerLink="/admin/tienda">Tienda en Linea</a></li>
+
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown" appDropdown>
+                        <a class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a style="cursor: pointer;" (click)="changeView()" >Cambiar a Cliente</a></li>
+                            <li><a style="cursor: pointer;" (click)="logout()">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>  
+</div>
+
+<div *ngIf="!isAdmin">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="client/login" class="navbar-brand">Smart Home TEC</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li routerLinkActive="active"><a routerLink="/client/perfil">Perfil</a></li>
+                    <li routerLinkActive="active"><a routerLink="/client/gestion-dispositivos">Gestión de dispositivos</a></li>
+                    <li routerLinkActive="active"><a routerLink="/client/smart-home">SmartHome</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown" appDropdown>
+                        <a class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a style="cursor: pointer;" (click)="changeView()" >Cambiar a Admin</a></li>
+                            <li><a style="cursor: pointer;" (click)="logout()">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>  
+</div>
+
