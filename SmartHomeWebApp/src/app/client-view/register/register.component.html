@@ -1,0 +1,97 @@
+<h2>Register</h2>
+<form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)"> 
+    <div class="form-group">
+        <label for="name">Nombre</label>
+        <input 
+        style="width: 500px"
+        id="name"
+        class="form-control"
+        ngModel
+        name="name"
+        required
+        >
+    </div>
+    <div class="form-group">
+        <label for="Flastname">Primer Apellido</label>
+        <input 
+        style="width: 500px"
+        id="Flastname"
+        class="form-control"
+        ngModel
+        name="Flastname"
+        required
+        >
+    </div>
+    <div class="form-group">
+        <label for="Slastname">Segundo Apellido</label>
+        <input 
+        style="width: 500px"
+        id="Slastname"
+        class="form-control"
+        ngModel
+        name="Slastname"
+        required
+        >
+    </div>
+    <div class="form-group">
+        <label for="continent">Continente</label>
+        <input 
+        style="width: 500px"
+        id="continent"
+        class="form-control"
+        ngModel
+        name="continent"
+        required
+        >
+    </div>
+    <div class="form-group">
+        <label for="country">País</label>
+        <input 
+        style="width: 500px"
+        id="country"
+        class="form-control"
+        ngModel
+        name="country"
+        required
+        >
+    </div>
+    <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input 
+        style="width: 500px"
+        type="email" 
+        id="email"
+        class="form-control"
+        ngModel
+        name="email"
+        required
+        email>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+        style="width: 500px"
+        id="password"
+        class="form-control"
+        ngModel
+        name="password"
+        required
+        minlength="6">
+    </div>
+    <div class="form-group">
+        <label for="adress">Dirección de Entrega</label>
+        <input 
+        style="width: 500px"
+        id="adress"
+        class="form-control"
+        ngModel
+        name="adress"
+        required>
+    </div>
+    <div class="form-group">
+        <button routerLink="/client/login" class="btn btn-primary">
+            Register
+        </button>
+        <a routerLink="/client/login" class="btn btn-link">Cancel</a>
+    </div>
+</form>
