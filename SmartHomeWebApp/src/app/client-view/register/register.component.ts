@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ClientService } from '../client-profile/client.service';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,9 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private router: Router) { }
+
+  constructor(private router: Router,
+              private clientService: ClientService) { }
 
   ngOnInit(): void {
   }
@@ -21,6 +24,7 @@ export class RegisterComponent implements OnInit {
     form.reset();
   }
 
+ 
   
 
 }
