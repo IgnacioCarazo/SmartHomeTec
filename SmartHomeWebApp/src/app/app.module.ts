@@ -16,8 +16,18 @@ import { DistributorComponent } from './admin-view/distributor/distributor.compo
 import { DeviceTypesComponent } from './admin-view/device-types/device-types.component';
 import { RegisterComponent } from './client-view/register/register.component';
 import { SmartHomeComponent } from './client-view/smart-home/smart-home.component';
-import { ClientDevicesComponent } from './client-view/client-devices/client-devices.component';
 import { ClientProfileComponent } from './client-view/client-profile/client-profile.component';
+import { ClientService } from './client-view/client-profile/client.service';
+import { OnlineStoreComponent } from './client-view/online-store/online-store.component';
+import { ClientReportsComponent } from './client-view/client-reports/client-reports.component';
+import { DeviceEditComponent } from './admin-view/devices/device-edit/device-edit.component';
+import { DeviceListComponent } from './admin-view/devices/device-list/device-list.component';
+import { DeviceItemComponent } from './admin-view/devices/device-list/device-item/device-item.component';
+import { DeviceDetailComponent } from './admin-view/devices/device-detail/device-detail.component';
+import { DeviceTypeDetailComponent } from './admin-view/device-types/device-type-detail/device-type-detail.component';
+import { DeviceTypeEditComponent } from './admin-view/device-types/device-type-edit/device-type-edit.component';
+import { DeviceTypeListComponent } from './admin-view/device-types/device-type-list/device-type-list.component';
+import { DeviceTypeItemComponent } from './admin-view/device-types/device-type-list/device-type-item/device-type-item.component';
 
 @NgModule({
   declarations: [
@@ -34,8 +44,17 @@ import { ClientProfileComponent } from './client-view/client-profile/client-prof
     DistributorComponent,
     StoreComponent,
     SmartHomeComponent,
-    ClientDevicesComponent,
     ClientProfileComponent,
+    OnlineStoreComponent,
+    ClientReportsComponent,
+    DeviceEditComponent,
+    DeviceListComponent,
+    DeviceItemComponent,
+    DeviceDetailComponent,
+    DeviceTypeDetailComponent,
+    DeviceTypeEditComponent,
+    DeviceTypeListComponent,
+    DeviceTypeItemComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +62,7 @@ import { ClientProfileComponent } from './client-view/client-profile/client-prof
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [ClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
