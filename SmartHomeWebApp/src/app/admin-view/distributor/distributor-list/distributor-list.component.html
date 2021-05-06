@@ -1,0 +1,8 @@
+<div class="row">
+    <div class="col-xs-12">
+      <app-distributor-item
+        *ngFor="let distEl of distributors; let i = index"
+        [distributor]="distEl"
+        [index]="i"></app-distributor-item>
+    </div>
+  </div>

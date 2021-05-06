@@ -1,1 +1,83 @@
-<p>device-edit works!</p>
+<div class="row">
+    <div class="col-xs-12">
+      <form [formGroup]="deviceForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-xs-12">
+            <button
+              type="submit"
+              class="btn btn-success"
+              [disabled]="!deviceForm.valid">Guardar</button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancelar</button>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="name">Nombre</label>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                class="form-control">
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="brand">Marca</label>
+              <input
+                type="text"
+                id="brand"
+                formControlName="brand"
+                class="form-control">
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-xs-12">
+            <label for="type">Tipo de Dispositivo</label>
+              <input
+                type="text"
+                id="type"
+                class="form-control"
+                formControlName="type"
+                >
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-xs-4">
+            <div class="form-group">
+              <label for="eConsumption">Consumo de Electricidad</label>
+              <input
+                type="text"
+                id="eConsumption"
+                class="form-control"
+                formControlName="eConsumption"
+                >
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-xs-4">
+            <div class="form-group">
+              <label for="serialNumber">Número de Serie</label>
+              <input
+                type="text"
+                id="serialNumber"
+                class="form-control"
+                formControlName="serialNumber"
+                >
+            </div>
+          </div>
+        
+        </div>
+      </form>
+    </div>
+  </div>
+  

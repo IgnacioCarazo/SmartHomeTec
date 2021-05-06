@@ -1,1 +1,57 @@
-<p>device-detail works!</p>
+<div class="row">  
+  <div class="row" style="margin-top: 10px;">
+    <div class="col-xs-12">
+        <h1>Nombre del Dispositivo </h1>
+      <h2>{{ device.name }}</h2>
+    </div>
+  </div>  
+<hr>
+  <div *ngIf="!device.associated" class="row" style="margin-top: 5px; margin-bottom: 5px;">
+    <div class="col-xs-12">
+      <div
+        class="btn-group"
+        appDropdown>
+        <button
+          type="button"
+          class="btn btn-primary dropdown-toggle">
+          Manejar Dispositivo <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a style="cursor: pointer;" (click)="onEditDevice()">Editar Dispositivo</a></li>
+          <li><a style="cursor: pointer;" (click)="onDeleteDevice()">Eliminar Dispositivo</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="device.associated" class="row">
+    <div class="col-xs-12">
+      Usuario: {{ device.ownerName }}
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      Marca: {{ device.brand }}
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+     Número de Serie: {{ device.serialNumber }} 
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+     Consumo de Electricidad: {{ device.eConsumption }} 
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+     Tipo: {{ device.type.name }} 
+    </div>
+  </div>
+  <hr>
+  
+  

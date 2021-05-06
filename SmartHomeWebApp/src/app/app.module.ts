@@ -28,6 +28,12 @@ import { DeviceTypeDetailComponent } from './admin-view/device-types/device-type
 import { DeviceTypeEditComponent } from './admin-view/device-types/device-type-edit/device-type-edit.component';
 import { DeviceTypeListComponent } from './admin-view/device-types/device-type-list/device-type-list.component';
 import { DeviceTypeItemComponent } from './admin-view/device-types/device-type-list/device-type-item/device-type-item.component';
+import { DeviceService } from './admin-view/devices/device.service';
+import { DeviceTypeService } from './admin-view/device-types/device-types.service';
+import { DistributorDetailComponent } from './admin-view/distributor/distributor-detail/distributor-detail.component';
+import { DistributorListComponent } from './admin-view/distributor/distributor-list/distributor-list.component';
+import { DistributorItemComponent } from './admin-view/distributor/distributor-list/distributor-item/distributor-item.component';
+import { DistributorService } from './admin-view/distributor/distributor.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +60,10 @@ import { DeviceTypeItemComponent } from './admin-view/device-types/device-type-l
     DeviceTypeDetailComponent,
     DeviceTypeEditComponent,
     DeviceTypeListComponent,
-    DeviceTypeItemComponent
+    DeviceTypeItemComponent,
+    DistributorDetailComponent,
+    DistributorListComponent,
+    DistributorItemComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +71,7 @@ import { DeviceTypeItemComponent } from './admin-view/device-types/device-type-l
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ClientService],
+  providers: [ClientService, DeviceService, DeviceTypeService, DistributorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

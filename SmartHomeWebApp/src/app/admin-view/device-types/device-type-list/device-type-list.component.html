@@ -1,1 +1,15 @@
-<p>device-type-list works!</p>
+<div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-success" (click)="onNewDeviceType()">Nuevo Tipo de Dispositivo</button>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+      <div class="col-xs-12">
+        <app-device-type-item
+          *ngFor="let deviceTypeEl of deviceTypes; let i = index"
+          [deviceType]="deviceTypeEl"
+          [index]="i"></app-device-type-item>
+      </div>
+    </div>
+  
