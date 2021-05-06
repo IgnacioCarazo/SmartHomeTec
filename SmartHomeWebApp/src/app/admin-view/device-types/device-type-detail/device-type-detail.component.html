@@ -1,1 +1,39 @@
-<p>device-type-detail works!</p>
+<div class="row">  
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-xs-12">
+          <h1>Tipo de Dispositivo </h1>
+        <h2>{{ deviceType.name }}</h2>
+      </div>
+    </div>  
+  <hr>
+    <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+      <div class="col-xs-12">
+        <div
+          class="btn-group"
+          appDropdown>
+          <button
+            type="button"
+            class="btn btn-primary dropdown-toggle">
+            Manejar Dispositivo <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a style="cursor: pointer;" (click)="onEditDevice()">Editar Dispositivo</a></li>
+            <li><a style="cursor: pointer;" (click)="onDeleteDevice()">Eliminar Dispositivo</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-xs-12">
+        Descripción: {{ deviceType.description }}
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-xs-12">
+       Tiempo de Garantía (En días): {{ deviceType.warrantyTime }} 
+      </div>
+    </div>
+   
+    

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Device } from 'src/app/models/device.model';
 
 @Component({
   selector: 'app-device-item',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeviceItemComponent implements OnInit {
 
+  @Input() device: Device;
+  @Input() index: number;
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  
 
 }
