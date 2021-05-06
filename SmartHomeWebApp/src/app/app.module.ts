@@ -34,6 +34,9 @@ import { DistributorDetailComponent } from './admin-view/distributor/distributor
 import { DistributorListComponent } from './admin-view/distributor/distributor-list/distributor-list.component';
 import { DistributorItemComponent } from './admin-view/distributor/distributor-list/distributor-item/distributor-item.component';
 import { DistributorService } from './admin-view/distributor/distributor.service';
+import { StoreDeviceDetailComponent } from './client-view/online-store/store-device-detail/store-device-detail.component';
+import { StoreDeviceListComponent } from './client-view/online-store/store-device-list/store-device-list.component';
+import { StoreDeviceItemComponent } from './client-view/online-store/store-device-list/store-device-item/store-device-item.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,10 @@ import { DistributorService } from './admin-view/distributor/distributor.service
     DeviceTypeItemComponent,
     DistributorDetailComponent,
     DistributorListComponent,
-    DistributorItemComponent
+    DistributorItemComponent,
+    StoreDeviceDetailComponent,
+    StoreDeviceListComponent,
+    StoreDeviceItemComponent
   ],
   imports: [
     BrowserModule,
