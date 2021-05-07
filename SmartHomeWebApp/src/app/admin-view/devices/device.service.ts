@@ -10,12 +10,12 @@ import { Distributor } from 'src/app/models/distributor.model';
 export class DeviceService {
   device: Device;
   private devices: Device[] = [
-      new Device("Iphone 12", 534634631, "450mW", "Apple",true, new DeviceType("SmartPhone","esta es la descripcion"),"Ignacio Carazo",new Distributor("Mario", "Hernandez", "Mena", 23451346, "America", "Costa Rica")),
-      new Device("Mate 20", 3466793, "400mW", "Huawei",false, new DeviceType("SmartPhone","esta es la descripcion"), "",new Distributor("Mario", "Hernandez", "Mena", 23451346, "America", "Costa Rica")),
-      new Device("Iphone X", 23466434, "600mW", "Apple",false, new DeviceType("SmartPhone","esta es la descripcion"), "",new Distributor("Mario", "Hernandez", "Mena", 23451346, "America", "Costa Rica")),
-      new Device("Macbook Pro", 25364715, "1100mW", "Apple",true, new DeviceType("Laptop","esta es la descripcion"), "Joseph Jimenez", new Distributor("Manrique", "Jimenez", "De la Paz", 23543245, "America", "Costa Rica")),
-      new Device("Refrigerador", 908635246, "46W", "Sony",false, new DeviceType("Electrodomestico","esta es la descripcion"), "",new Distributor("Haziel", "Gudino", "Rovira", 2325462, "Asia", "Japon")),
-      new Device("Refrigerador", 342341212, "46W", "Sony",false, new DeviceType("Electrodomestico","esta es la descripcion"), "",new Distributor("Manrique", "Jimenez", "De la Paz", 23543245, "America", "Costa Rica"))];
+      new Device("Iphone 12", 534634631, "450mW", "Apple",true, new DeviceType("SmartPhone","esta es la descripcion"),"Ignacio Carazo"),
+      new Device("Mate 20", 3466793, "400mW", "Huawei",false, new DeviceType("SmartPhone","esta es la descripcion"), ""),
+      new Device("Iphone X", 23466434, "600mW", "Apple",false, new DeviceType("SmartPhone","esta es la descripcion"), ""),
+      new Device("Macbook Pro", 25364715, "1100mW", "Apple",true, new DeviceType("Laptop","esta es la descripcion"), "Joseph Jimenez"),
+      new Device("Refrigerador", 908635246, "46W", "Sony",false, new DeviceType("Electrodomestico","esta es la descripcion"), ""),
+      new Device("Refrigerador", 342341212, "46W", "Sony",false, new DeviceType("Electrodomestico","esta es la descripcion"), "")];
   devicesChanged = new Subject<Device[]>();
   private devicesByClientRegion: Device[];
 
@@ -69,25 +69,21 @@ export class DeviceService {
   }
 
   getDeviceByRegion(index: number) {
+    console.log(123456);
+    console.log(this.devicesByClientRegion)
+
+    console.log(this.devicesByClientRegion[index])
     return this.devicesByClientRegion[index];
+    
 
   }
 
-  getDevicesByRegion(client: Client) {
-    let _devices = [];
-    for (var device of this.devices) {
-        if (!device.associated) {
-          if (device.distributor.continent === client.continent) {
-              if (device.distributor.country === client.country) {
-                _devices.push(device);
-              }
-          }
-        }
-    }
-    this.devicesByClientRegion = _devices;
-    return this.devicesByClientRegion;
-  }
 
+  SetDevicesByRegion(devices: Device[]) {
+    console.log(88888);
+    this.devicesByClientRegion = devices;
+
+  }
  
 
 
