@@ -1,4 +1,5 @@
 import { DeviceType } from "./device-type.model";
+import { Distributor } from "./distributor.model";
 
 export class Device {
 
@@ -9,9 +10,10 @@ export class Device {
     public associated: boolean;
     public type: DeviceType;
     public ownerName: string;
+    public distributor: Distributor;
     
 
-    constructor(name: string, serialNumber: number, eConsumption: string, brand: string, associated: boolean, type: DeviceType, ownerName: string) {
+    constructor(name: string, serialNumber: number, eConsumption: string, brand: string, associated: boolean, type: DeviceType, ownerName: string, distributor: Distributor) {
         this.name = name;
         this.serialNumber = serialNumber;
         this.eConsumption = eConsumption;
@@ -19,6 +21,7 @@ export class Device {
         this.type = type;
         this.associated = associated;
         this.ownerName = ownerName
+        this.distributor = distributor;
     }
 
 }
