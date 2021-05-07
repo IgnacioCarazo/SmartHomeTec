@@ -1,1 +1,69 @@
-<p>dashboard works!</p>
+<h1>Promedio de dispositivos por usuario</h1>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+          <th scope="col">Usuario</th>
+          <th scope="col">Promedio</th>
+        </tr>
+      </thead>
+    <tbody>
+        <tr *ngFor="let row of usuarios">
+            <td *ngFor="let cell of row">
+                {{ cell }}
+            </td>
+        </tr>
+    </tbody>
+</table>
+<hr>
+<h1>Cantidad total de dispositivos activos gestionados por el sistema</h1>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+          <th scope="col">Cantidad total</th>
+        </tr>
+      </thead>
+    <tbody>
+        <td>
+            549
+        </td>
+    </tbody>
+</table>
+<hr>
+<h1>Cantidad total de dispositivos por región.</h1>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+          <th scope="col">Región</th>
+          <th scope="col">Cantidad</th>
+        </tr>
+      </thead>
+    <tbody>
+        <tr *ngFor="let row of dispRegiones">
+            <td *ngFor="let cell of row">
+                {{ cell }}
+            </td>
+        </tr>
+    </tbody>
+</table>
+<hr>
+<h1>Listado de dispositivos registrados en el sistema</h1>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+          <th scope="col">Dispositivo</th>
+          <th scope="col">Registrado</th>
+          <th scope="col">Usuario</th>
+        </tr>
+      </thead>
+    <tbody>
+        <tr *ngFor="let row of listaDispositivos">
+            <td *ngFor="let cell of row">
+                {{ cell }}
+            </td>
+        </tr>
+    </tbody>
+</table>

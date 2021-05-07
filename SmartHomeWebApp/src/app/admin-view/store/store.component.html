@@ -1,1 +1,23 @@
-<p>store works!</p>
+
+<label for="exampleFormControlFile1">Seleccione el archivo Excel que desea cargar</label>
+<input type="file" multiple="false" (change)="loadExcelFile($event)"/>
+<hr>
+<div *ngIf="flag">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+              <th scope="col">Distribuidor</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Continente</th>
+              <th scope="col">País</th>
+            </tr>
+          </thead>
+        <tbody>
+            <tr *ngFor="let row of data">
+                <td *ngFor="let cell of row">
+                    {{ cell }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

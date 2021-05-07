@@ -15,6 +15,7 @@ import { ClientProfileComponent } from './client-view/client-profile/client-prof
 import { ClientReportsComponent } from './client-view/client-reports/client-reports.component';
 import { LoginComponent } from './client-view/login/login.component';
 import { OnlineStoreComponent } from './client-view/online-store/online-store.component';
+import { StoreDeviceDetailComponent } from './client-view/online-store/store-device-detail/store-device-detail.component';
 import { RegisterComponent } from './client-view/register/register.component';
 
 const appRoutes: Routes = [ 
@@ -24,7 +25,12 @@ const appRoutes: Routes = [
   // client paths
   { path: 'client/login', component: LoginComponent },
   { path: 'client/register', component: RegisterComponent }, 
-  { path: 'client/tienda-en-linea', component: OnlineStoreComponent }, 
+  { path: 'client/tienda-en-linea', component: OnlineStoreComponent, children: [
+    {
+      path: ':id',
+      component: StoreDeviceDetailComponent
+    }
+  ] }, 
   { path: 'client/reportes-cliente', component: ClientReportsComponent }, 
   { path: 'client/perfil', component: ClientProfileComponent }, 
 

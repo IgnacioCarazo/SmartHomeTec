@@ -1,1 +1,62 @@
-<p>store-device-detail works!</p>
+<div class="row">  
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-xs-12">
+          <h1>Nombre del Dispositivo </h1>
+        <h2>{{ device.name }}</h2>
+      </div>
+    </div>  
+  <hr>
+    <div class="row" style="margin-top: 5px; margin-bottom: 5px;">
+      <div class="col-xs-12">
+        <div
+          class="btn-group"
+          appDropdown>
+          <button
+            type="button"
+            class="btn btn-primary dropdown-toggle">
+            Manejar Dispositivo <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a style="cursor: pointer;" (click)="onOrderDevice()">Ordenar Dispositivo</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        Distribuidor: {{ device.distributor.name }} {{ device.distributor.primaryLastName }} {{ device.distributor.secondaryLastName }}
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-xs-12">
+          Region: {{ device.distributor.continent }}, {{ device.distributor.country }} 
+        </div>
+      </div>
+      <hr>
+    <div class="row">
+      <div class="col-xs-12">
+        Marca: {{ device.brand }}
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-xs-12">
+       Número de Serie: {{ device.serialNumber }} 
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-xs-12">
+       Consumo de Electricidad: {{ device.eConsumption }} 
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-xs-12">
+       Tipo: {{ device.type.name }} 
+      </div>
+    </div>
+    <hr>
+    
+    
