@@ -50,6 +50,15 @@ export class DataStorageService {
       
   }
 
+  /**
+  * @name sendRegisterInfo()
+  * @description  It sends an http get request to the backend wiht the info of the user's registration.
+  */
+   sendRegisterInfo(client: Client) {
+
+      
+  }
+
 /**
  * ------------------------------------------------
   * http requests de dispositivos
@@ -134,5 +143,19 @@ export class DataStorageService {
    sendOrder() {
     
   } 
+
+  /**
+   * ------------------------------------------------
+  * http requests de dashboard
+  * ------------------------------------------------
+  */
+
+  /**
+  * @name fetchDashboard()
+  * @description Sends an http get request to fetch the Dashboard values from the database.
+  */
+   fetchDashboard() {
+    
+} 
   
 }
