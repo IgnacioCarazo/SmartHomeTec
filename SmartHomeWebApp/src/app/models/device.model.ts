@@ -8,18 +8,23 @@ export class Device {
     public eConsumption: string;
     public brand: string;
     public associated: boolean;
-    public type: DeviceType;
-    public ownerName: string;
+    public typeName: string;
+    public ownerEmail: string;
+    public dniDistributor: number;
+    public price: number;
+    public roomName: string;
     
 
-    constructor(name: string, serialNumber: number, eConsumption: string, brand: string, associated: boolean, type: DeviceType, ownerName: string) {
+    constructor(name: string, serialNumber: number, eConsumption: string, brand: string, associated: boolean, typeName: string, ownerEmail: string, dniDistributor: number, price: number) {
         this.name = name;
         this.serialNumber = serialNumber;
         this.eConsumption = eConsumption;
         this.brand = brand;
-        this.type = type;
+        this.typeName = typeName;
         this.associated = associated;
-        this.ownerName = ownerName
+        this.ownerEmail = ownerEmail
+        this.dniDistributor = dniDistributor;
+        this.price = price;
     }
 
 }

@@ -12,24 +12,24 @@
         >
     </div>
     <div class="form-group">
-        <label for="Flastname">Primer Apellido</label>
+        <label for="primaryLastName">Primer Apellido</label>
         <input 
         style="width: 500px"
-        id="Flastname"
+        id="primaryLastName"
         class="form-control"
         ngModel
-        name="Flastname"
+        name="primaryLastName"
         required
         >
     </div>
     <div class="form-group">
-        <label for="Slastname">Segundo Apellido</label>
+        <label for="secondaryLastName">Segundo Apellido</label>
         <input 
         style="width: 500px"
-        id="Slastname"
+        id="secondaryLastName"
         class="form-control"
         ngModel
-        name="Slastname"
+        name="secondaryLastName"
         required
         >
     </div>
@@ -79,17 +79,17 @@
         minlength="6">
     </div>
     <div class="form-group">
-        <label for="adress">Dirección de Entrega</label>
+        <label for="deliveryAdresses">Dirección de Entrega</label>
         <input 
         style="width: 500px"
-        id="adress"
+        id="deliveryAdresses"
         class="form-control"
         ngModel
-        name="adress"
+        name="deliveryAdresses"
         required>
     </div>
     <div class="form-group">
-        <button routerLink="/client/login" class="btn btn-primary">
+        <button class="btn btn-primary">
             Register
         </button>
         <a routerLink="/client/login" class="btn btn-link">Cancel</a>

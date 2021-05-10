@@ -4,8 +4,8 @@ import { Device } from "./device.model";
 export class Invoice {
 
     invoiceNumber: number;
-    device: Device;
-    deviceType: DeviceType;
+    deviceSerialNumber: number;
+    deviceTypeName: string;
     price: number;
     date: string;
 

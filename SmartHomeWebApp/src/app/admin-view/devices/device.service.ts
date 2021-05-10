@@ -1,26 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ClientService } from 'src/app/client-view/client-profile/client.service';
 import { Client } from 'src/app/models/client.model';
 import { DeviceType } from 'src/app/models/device-type.model';
 
 import { Device } from 'src/app/models/device.model';
 import { Distributor } from 'src/app/models/distributor.model';
+import { DistributorService } from '../distributor/distributor.service';
 
 @Injectable()
 export class DeviceService {
   device: Device;
+  client: Client;
   private devices: Device[] = [
-      new Device("Iphone 12", 534634631, "450mW", "Apple",true, new DeviceType("SmartPhone","esta es la descripcion"),"Ignacio Carazo"),
-      new Device("Mate 20", 3466793, "400mW", "Huawei",false, new DeviceType("SmartPhone","esta es la descripcion"), ""),
-      new Device("Iphone X", 23466434, "600mW", "Apple",false, new DeviceType("SmartPhone","esta es la descripcion"), ""),
-      new Device("Macbook Pro", 25364715, "1100mW", "Apple",true, new DeviceType("Laptop","esta es la descripcion"), "Joseph Jimenez"),
-      new Device("Refrigerador", 908635246, "46W", "Sony",false, new DeviceType("Electrodomestico","esta es la descripcion"), ""),
-      new Device("Refrigerador", 342341212, "46W", "Sony",false, new DeviceType("Electrodomestico","esta es la descripcion"), "")];
+      new Device("Iphone 12", 534634631, "450mW", "Apple",true, "SmartPhone","Ignacio Carazo",83726374, 300000),
+      new Device("Mate 20", 3466793, "400mW", "Huawei",false, "SmartPhone", "", 23451346, 150000),
+      new Device("Iphone X", 23466434, "600mW", "Apple",false, "SmartPhone", "", 23451346, 250000),
+      new Device("Macbook Pro", 25364715, "1100mW", "Apple",true, "Laptop", "Joseph Jimenez", 71653621, 750000),
+      new Device("Refrigerador", 908635246, "416W", "Sony",false, "Electrodomestico","", 2325462, 500000),
+      new Device("Refrigerador", 342341212, "46W", "Sony",false, "Electrodomestico", "", 23543245, 70000)];
   devicesChanged = new Subject<Device[]>();
   private devicesByClientRegion: Device[];
 
 
-  constructor() {
+  constructor(private clientService: ClientService,
+              private distributorService: DistributorService) {
 
   }
 
@@ -78,10 +82,28 @@ export class DeviceService {
 
   }
 
+  
+  getDevicesByRegion() {
+    
+    return this.devicesByClientRegion;
+    
 
-  SetDevicesByRegion(devices: Device[]) {
-    console.log(88888);
-    this.devicesByClientRegion = devices;
+  }
+
+  SetDevicesByRegion() {
+    const distributorsByClientRegion = this.distributorService.getDistributorsByRegion();
+    console.log(distributorsByClientRegion)
+    const list = [];
+    for (let device of this.devices) {
+      if (!device.associated) {
+        for (let distributor of distributorsByClientRegion) {
+          if (device.dniDistributor === distributor.dni) {
+            list.push(device);
+          }
+        }
+      }
+    }
+    this.devicesByClientRegion = list;
 
   }
  

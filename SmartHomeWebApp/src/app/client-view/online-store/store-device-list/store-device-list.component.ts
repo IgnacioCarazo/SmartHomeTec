@@ -36,22 +36,18 @@ export class StoreDeviceListComponent implements OnInit {
     this.distributors = this.distributorService.getDistributors();
     this.client = this.clientService.getClient();
     this.devices = this.deviceService.getDevices();
-    this.distributors = this.distributorService.getDistributorsByRegion(this.client);
+    this.distributorService.setDistributorsByRegion(this.client);
+    this.distributors = this.distributorService.getDistributorsByRegion();
+    this.deviceService.SetDevicesByRegion();
     this.getDevices();
+    console.log(this.devicesByClientRegion);
   }
 
   
-
+  
 
   getDevices() {
-    for (let distributor of this.distributors) {    
-      for (let device of distributor.devices) {
-        if (!device.associated) {
-          this.devicesByClientRegion.push(device)
-        }
-      }
-    }
-    this.deviceService.SetDevicesByRegion(this.devicesByClientRegion);
+    this.devicesByClientRegion = this.deviceService.getDevicesByRegion();
   }
 
 

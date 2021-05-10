@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ClientService } from '../client-profile/client.service';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
     constructor(private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
+        private clientService: ClientService
     ) {
     }
 
@@ -28,7 +30,8 @@ export class LoginComponent implements OnInit {
 
     
 
-    onSubmit(form: NgForm) {      
+    onSubmit(form: NgForm) {  
+      this.clientService.login = true;    
       console.log(form.value.email, form.value.password)
       this.router.navigate(['/client/perfil']);
       form.reset();

@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
     this.devices = this.deviceService.getDevices();
     for (var device of this.devices) {
       if (device.associated) {
-        let _device = [device.name,"✓", device.ownerName]
+        let _device = [device.name,"✓", device.ownerEmail]
         this.listaDispositivos.push(_device)
       } else {
         let _device = [device.name,"X", " "]

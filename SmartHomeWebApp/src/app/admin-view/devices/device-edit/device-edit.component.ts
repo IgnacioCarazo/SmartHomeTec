@@ -59,9 +59,9 @@ export class DeviceEditComponent implements OnInit {
       let serialNumber = 0;
       let eConsumption = '';
       let brand = '';
-      let type: DeviceType;
-      let recipeFinishTime = '';
       let deviceTypeName = '';
+      let price = 0;
+      let dniDistributor = 0;
   
       if (this.editMode) {
         const device = this.deviceService.getDevice(this.id);
@@ -69,7 +69,10 @@ export class DeviceEditComponent implements OnInit {
         serialNumber = device.serialNumber;
         eConsumption = device.eConsumption;
         brand = device.brand;
-        deviceTypeName = device.type.name;}
+        price = device.price;
+        deviceTypeName = device.typeName;
+        dniDistributor = device.dniDistributor;}
+       
   
   
   
@@ -81,6 +84,8 @@ export class DeviceEditComponent implements OnInit {
         eConsumption: new FormControl(eConsumption),
         brand: new FormControl(brand, Validators.required),
         type: new FormControl(deviceTypeName, Validators.required),
+        price: new FormControl(price, Validators.required),
+        dniDistributor: new FormControl(dniDistributor, Validators.required)
       });
     }
 

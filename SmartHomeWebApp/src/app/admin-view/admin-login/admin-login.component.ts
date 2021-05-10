@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ClientService } from 'src/app/client-view/client-profile/client.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -17,6 +18,7 @@ export class AdminLoginComponent implements OnInit {
   password: string;
 
   constructor(private router: Router,
+              private clientService: ClientService
   ) {
    
   }
@@ -26,7 +28,8 @@ export class AdminLoginComponent implements OnInit {
 
   
 
-  onSubmit(form: NgForm) {      
+  onSubmit(form: NgForm) {     
+    this.clientService.login = true; 
     console.log(form.value.email, form.value.password)
     this.router.navigate(['/admin/dashboard']);
     form.reset();

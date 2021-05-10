@@ -6,11 +6,11 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li routerLinkActive="active"><a routerLink="/admin/dashboard">Dashboard</a></li>
-                    <li routerLinkActive="active"><a routerLink="/admin/gestion-dispositivos">Gestión de dispositivos</a></li>
-                    <li routerLinkActive="active"><a routerLink="/admin/gestion-tipo-dispositivos">Gestión de tipos dispositivos</a></li>
-                    <li routerLinkActive="active"><a routerLink="/admin/gestion-distribuidores">Gestión de distribuidores</a></li>
-                    <li routerLinkActive="active"><a routerLink="/admin/tienda">Tienda en Linea</a></li>
+                    <li *ngIf="this.clientService.login" routerLinkActive="active"><a routerLink="/admin/dashboard">Dashboard</a></li>
+                    <li *ngIf="this.clientService.login" routerLinkActive="active"><a routerLink="/admin/gestion-dispositivos">Gestión de dispositivos</a></li>
+                    <li *ngIf="this.clientService.login" routerLinkActive="active"><a routerLink="/admin/gestion-tipo-dispositivos">Gestión de tipos dispositivos</a></li>
+                    <li *ngIf="this.clientService.login" routerLinkActive="active"><a routerLink="/admin/gestion-distribuidores">Gestión de distribuidores</a></li>
+                    <li *ngIf="this.clientService.login" routerLinkActive="active"><a routerLink="/admin/tienda">Tienda en Linea</a></li>
 
 
                 </ul>
@@ -18,7 +18,7 @@
                     <li class="dropdown" appDropdown>
                         <a class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a style="cursor: pointer;" (click)="changeView()" >Cambiar a Cliente</a></li>
+                            <li><a *ngIf="!this.clientService.login" style="cursor: pointer;" (click)="changeView()" >Cambiar a Cliente</a></li>
                             <li><a style="cursor: pointer;" (click)="logout()">Logout</a></li>
                         </ul>
                     </li>
@@ -36,15 +36,15 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li routerLinkActive="active"><a routerLink="/client/perfil">Perfil</a></li>
-                    <li routerLinkActive="active"><a routerLink="/client/tienda-en-linea">Tienda en Línea</a></li>
-                    <li routerLinkActive="active"><a routerLink="/client/reportes-cliente">Reportes Dispositivos</a></li>
+                    <li *ngIf="this.clientService.login" routerLinkActive="active"><a routerLink="/client/perfil">Perfil</a></li>
+                    <li *ngIf="this.clientService.login" routerLinkActive="active"><a routerLink="/client/tienda-en-linea">Tienda en Línea</a></li>
+                    <li *ngIf="this.clientService.login" routerLinkActive="active"><a routerLink="/client/reportes-cliente">Reportes Dispositivos</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown" appDropdown>
                         <a class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a style="cursor: pointer;" (click)="changeView()" >Cambiar a Admin</a></li>
+                            <li><a *ngIf="!this.clientService.login" style="cursor: pointer;" (click)="changeView()" >Cambiar a Admin</a></li>
                             <li><a style="cursor: pointer;" (click)="logout()">Logout</a></li>
                         </ul>
                     </li>
