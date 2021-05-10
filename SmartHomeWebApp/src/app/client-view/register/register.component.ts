@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {      
-    console.log(form.value.email, form.value.password);
+    console.log(form.value);
     this.router.navigate(['/client/login']);
 
     form.reset();

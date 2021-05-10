@@ -25,6 +25,12 @@
     
     <hr>
     <div class="row">
+      <div class="col-xs-12">
+        Distribuidor: {{ getDistributor(device.dniDistributor) }}
+      </div>
+    </div>
+    <hr>
+    <div class="row">
         <div class="col-xs-12">
           Region: {{ client.continent }}, {{ client.country }} 
         </div>
@@ -38,7 +44,7 @@
     <hr>
     <div class="row">
       <div class="col-xs-12">
-       Número de Serie: {{ device.serialNumber }} 
+       Precio: {{ device.price }} Colones
       </div>
     </div>
     <hr>
@@ -50,7 +56,7 @@
     <hr>
     <div class="row">
       <div class="col-xs-12">
-       Tipo: {{ device.type.name }} 
+       Tipo: {{ device.typeName }} 
       </div>
     </div>
     <hr>

@@ -6,6 +6,7 @@ import { Client } from 'src/app/models/client.model';
 @Injectable()
 export class ClientService {
   client: Client;
+  login: boolean;
 
   constructor() {
 

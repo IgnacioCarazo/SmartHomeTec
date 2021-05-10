@@ -1,6 +1,7 @@
 import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ClientService } from '../client-view/client-profile/client.service';
 
 @Component({
     selector: 'app-header',
@@ -9,14 +10,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 export class HeaderComponent implements OnInit {
     isAdmin = false;
-    login = true;
+    
     email: string;
     password: string;
     
     /**
     @constructor
     */
-    constructor(private router: Router){
+    constructor(private router: Router,
+                private clientService: ClientService){
     }
 
     ngOnInit() {
@@ -43,7 +45,13 @@ export class HeaderComponent implements OnInit {
     * web link to '/login'.
     */
     logout() {
-        
+        this.clientService.login = false;    
+
+        if (this.isAdmin) {
+            this.router.navigate(['/admin/login']);
+        } else {
+            this.router.navigate(['/client/login']);
+        }
     }
 
     /**
