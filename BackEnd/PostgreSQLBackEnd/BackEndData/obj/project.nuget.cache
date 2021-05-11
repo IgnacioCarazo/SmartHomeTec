@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "odd4bpbfaxVP67abEKemGHzgw6NR7aOZoAqbDjT13YS/w1iK7A3pUF3k4bJbGH9j0ms7BmGncUONlKBWj8m4EA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mario\\Desktop\\BasesDatos\\SmartHomeTec\\BackEnd\\PostgreSQLBackEnd\\BackEndData\\BackEndData.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mario\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
+    "C:\\Users\\mario\\.nuget\\packages\\npgsql\\5.0.4\\npgsql.5.0.4.nupkg.sha512",
+    "C:\\Users\\mario\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.6.0\\system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}
