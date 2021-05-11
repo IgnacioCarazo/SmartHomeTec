@@ -37,6 +37,7 @@ namespace PostgreSQLBackEnd
             services.AddScoped<IDeviceType, DeviceTypeR>();
             services.AddScoped<IDevice, DeviceR>();
             services.AddScoped<IAdmin, AdminR>();
+            services.AddScoped<IOrder, OrderR>();
 
             services.AddControllers();
 

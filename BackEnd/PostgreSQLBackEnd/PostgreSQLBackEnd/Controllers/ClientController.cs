@@ -59,7 +59,7 @@ namespace PostgreSQLBackEnd.Controllers
             }
 
             var insertClient = await _clientI.InsertClient(client);
-            return Ok(client);
+            return Ok(await _clientI.GetAllClients());
         }
 
         [HttpPut]
@@ -75,14 +75,14 @@ namespace PostgreSQLBackEnd.Controllers
             }
 
             await _clientI.UpdateClient(client);
-            return Ok();
+            return Ok(await _clientI.GetAllClients());
         }
 
         [HttpDelete("{email}")]
         public async Task<IActionResult> DltClient(string email)
         {
             await _clientI.DeleteClient(new Client { email = email});
-            return Ok();
+            return Ok(await _clientI.GetAllClients());
         }
     }
 }

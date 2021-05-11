@@ -41,7 +41,7 @@ namespace PostgreSQLBackEnd.Controllers
             }
 
             var insert = await _device.InsertDevice(device);
-            return Ok(device);
+            return Ok(await _device.GetAllDevices());
         }
 
         [HttpPut]
@@ -57,14 +57,14 @@ namespace PostgreSQLBackEnd.Controllers
             }
 
             await _device.UpdateDevice(device);
-            return Ok();
+            return Ok(await _device.GetAllDevices());
         }
 
         [HttpDelete("{_serialNumber}")]
         public async Task<IActionResult> DltDevice(int _serialNumber)
         {
             await _device.DeleteDevice(new Device { serialNumber = _serialNumber });
-            return Ok();
+            return Ok(await _device.GetAllDevices());
         }
     }
 }

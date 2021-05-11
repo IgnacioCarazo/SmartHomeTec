@@ -41,7 +41,7 @@ namespace PostgreSQLBackEnd.Controllers
             }
 
             var insertType = await _deviceType.InsertType(deviceType);
-            return Ok(deviceType);
+            return Ok(await _deviceType.GetAllTypes());
         }
 
         [HttpPut]
@@ -57,14 +57,14 @@ namespace PostgreSQLBackEnd.Controllers
             }
 
             await _deviceType.UpdateType(deviceType);
-            return Ok();
+            return Ok(await _deviceType.GetAllTypes());
         }
 
         [HttpDelete("{name}")]
         public async Task<IActionResult> DltType(string name)
         {
             await _deviceType.DeleteType(new DeviceType { name = name });
-            return Ok();
+            return Ok(await _deviceType.GetAllTypes());
         }
 
     }
