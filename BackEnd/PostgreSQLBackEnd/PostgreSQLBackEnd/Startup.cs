@@ -31,6 +31,7 @@ namespace PostgreSQLBackEnd
         {
 
             var postgreSQLConnectionConfiguration = new PostgreSQLConfiguration(Configuration.GetConnectionString("PostgreSQLConnection"));
+
             services.AddSingleton(postgreSQLConnectionConfiguration);
 
             services.AddScoped<IClient, ClientR>();
@@ -38,6 +39,7 @@ namespace PostgreSQLBackEnd
             services.AddScoped<IDevice, DeviceR>();
             services.AddScoped<IAdmin, AdminR>();
             services.AddScoped<IOrder, OrderR>();
+            services.AddScoped<IDistributor, DistributorR>();
 
             services.AddControllers();
 
