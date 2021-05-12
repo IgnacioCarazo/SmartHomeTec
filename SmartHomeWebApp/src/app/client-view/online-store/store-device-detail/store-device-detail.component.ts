@@ -53,11 +53,12 @@ export class StoreDeviceDetailComponent implements OnInit {
   * @description Orders a device. 
   */
    onOrderDevice() {
-    const hour = this.datePipe.transform(this.myDate, 'h:mm a')
-    const date = this.datePipe.transform(this.myDate, 'dd-MM-yyyy');
+    const hour = this.datePipe.transform(this.myDate, 'HH:mm:ss')
+    const date = this.datePipe.transform(this.myDate, 'dd/MM/yyyy');
     this.order = new Order(this.device.serialNumber, date, hour, this.device.price, this.client.email);
     console.log(this.order);
     console.log(date);
+    console.log(hour);
     console.log(this.myDate);
     console.log("Dispositivo Ordenado")
     //this.dataStorageService.sendOrder(this.order);
