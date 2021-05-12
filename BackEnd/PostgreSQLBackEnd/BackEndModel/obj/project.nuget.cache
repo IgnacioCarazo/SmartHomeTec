@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5OIa6Is9gWWDqcX0RU1iEs1Ht67cITNZOSscGDJ3AcmAWS2UvR6tHbCgIVe8KYAXh1TiKrZn7BLm+IfK1KdvyA==",
+  "dgSpecHash": "TCDon/xD+7m1pXVLQm1/hqAvczbclAIdugjCynXmGGpGMPj1ntxN5t4xY8dTEj9dLNHMd62mH5/cM9Los4t2GA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mario\\Desktop\\BasesDatos\\SmartHomeTec\\BackEnd\\PostgreSQLBackEnd\\BackEndModel\\BackEndModel.csproj",
+  "projectFilePath": "/Users/nachocarazo/Desktop/SmartHomeTec/BackEnd/PostgreSQLBackEnd/BackEndModel/BackEndModel.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mario\\Desktop\\BasesDatos\\SmartHomeTec\\BackEnd\\PostgreSQLBackEnd\\BackEndModel\\BackEndModel.csproj": {}
+    "/Users/nachocarazo/Desktop/SmartHomeTec/BackEnd/PostgreSQLBackEnd/BackEndModel/BackEndModel.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mario\\Desktop\\BasesDatos\\SmartHomeTec\\BackEnd\\PostgreSQLBackEnd\\BackEndModel\\BackEndModel.csproj": {
+    "/Users/nachocarazo/Desktop/SmartHomeTec/BackEnd/PostgreSQLBackEnd/BackEndModel/BackEndModel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mario\\Desktop\\BasesDatos\\SmartHomeTec\\BackEnd\\PostgreSQLBackEnd\\BackEndModel\\BackEndModel.csproj",
+        "projectUniqueName": "/Users/nachocarazo/Desktop/SmartHomeTec/BackEnd/PostgreSQLBackEnd/BackEndModel/BackEndModel.csproj",
         "projectName": "BackEndModel",
-        "projectPath": "C:\\Users\\mario\\Desktop\\BasesDatos\\SmartHomeTec\\BackEnd\\PostgreSQLBackEnd\\BackEndModel\\BackEndModel.csproj",
-        "packagesPath": "C:\\Users\\mario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mario\\Desktop\\BasesDatos\\SmartHomeTec\\BackEnd\\PostgreSQLBackEnd\\BackEndModel\\obj\\",
+        "projectPath": "/Users/nachocarazo/Desktop/SmartHomeTec/BackEnd/PostgreSQLBackEnd/BackEndModel/BackEndModel.csproj",
+        "packagesPath": "/Users/nachocarazo/.nuget/packages/",
+        "outputPath": "/Users/nachocarazo/Desktop/SmartHomeTec/BackEnd/PostgreSQLBackEnd/BackEndModel/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\mario\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/nachocarazo/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -58,7 +52,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.203/RuntimeIdentifierGraph.json"
         }
       }
     }

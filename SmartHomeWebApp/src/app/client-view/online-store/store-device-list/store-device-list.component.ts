@@ -40,7 +40,7 @@ export class StoreDeviceListComponent implements OnInit {
     this.distributors = this.distributorService.getDistributorsByRegion();
     this.deviceService.SetDevicesByRegion();
     this.getDevices();
-    console.log(this.devicesByClientRegion);
+
   }
 
   

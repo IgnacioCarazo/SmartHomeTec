@@ -7,6 +7,7 @@ import { ClientService } from '../../client-profile/client.service';
 import { DatePipe } from '@angular/common';
 import { Order } from 'src/app/models/order.model';
 import { DistributorService } from 'src/app/admin-view/distributor/distributor.service';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 
 @Component({
   selector: 'app-store-device-detail',
@@ -27,7 +28,8 @@ export class StoreDeviceDetailComponent implements OnInit {
     private router: Router,
     private clientService: ClientService,
     private datePipe: DatePipe,
-    private distributorService: DistributorService) { 
+    private distributorService: DistributorService,
+    private dataStorageService: DataStorageService) { 
       
     }
 
@@ -51,11 +53,14 @@ export class StoreDeviceDetailComponent implements OnInit {
   * @description Orders a device. 
   */
    onOrderDevice() {
-    const date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-    this.order = new Order(this.device.serialNumber, date, 5000, this.client.email);
+    const hour = this.datePipe.transform(this.myDate, 'h:mm a')
+    const date = this.datePipe.transform(this.myDate, 'dd-MM-yyyy');
+    this.order = new Order(this.device.serialNumber, date, hour, this.device.price, this.client.email);
     console.log(this.order);
     console.log(date);
+    console.log(this.myDate);
     console.log("Dispositivo Ordenado")
+    //this.dataStorageService.sendOrder(this.order);
   }
 
 

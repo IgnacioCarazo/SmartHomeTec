@@ -3,15 +3,12 @@ import { Subject } from 'rxjs';
 import { DeviceType } from 'src/app/models/device-type.model';
 
 import { Device } from 'src/app/models/device.model';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 
 @Injectable()
 export class DeviceTypeService {
   deviceType: DeviceType;
-  deviceTypes: DeviceType[] = [new DeviceType("SmartPhone","esta es la descripcion"),
-                               new DeviceType("Laptop","esta es la descripcion"),
-                               new DeviceType("PC","esta es la descripcion"),
-                               new DeviceType("Electrodomestico","esta es la descripcion"),
-                               new DeviceType("Audifono","esta es la descripcion")];
+  deviceTypes: DeviceType[] = [];
   deviceTypesChanged = new Subject<DeviceType[]>();
 
 
@@ -46,6 +43,8 @@ getDeviceTypes() {
   return this.deviceTypes.slice();
 }
 
+
+
 /**
 * @name getDeviceType()
 * @description It searches a deviceType by its index
@@ -63,16 +62,39 @@ getActualDeviceType() {
   return this.deviceType;
 }
 
+/**
+  * @name deleteDevice()
+  * @argument {number} index
+  * @description deletes a device by its index from this service devices array.
+  */
+ deleteDeviceType(index: number) {
+  this.deviceTypes.splice(index, 1);
+  this.deviceTypesChanged.next(this.deviceTypes.slice());
+}
 
 
 
 
 
-  
+/**
+  * @name addDeviceType()
+  * @argument {DeviceType} deviceType
+  * @description Adds a recipe type to the array of recipe types of this service.
+  */
+ addDeviceType(deviceType: DeviceType) {
+  this.deviceTypes.push(deviceType);
+  this.deviceTypesChanged.next(this.deviceTypes.slice());
+}
 
-
-
-
-
+/**
+* @name updateDeviceType()
+* @argument {number} index
+* @argument {DeviceType} newDeviceType
+* @description  Updates the value of a recipe type within the recipe types array of this service.
+*/
+updateDeviceType(index: number, newDeviceType: DeviceType) {
+  this.deviceTypes[index] = newDeviceType;
+  this.deviceTypesChanged.next(this.deviceTypes.slice());
+}
 
 }

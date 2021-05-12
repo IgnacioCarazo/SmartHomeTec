@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Distributor } from 'src/app/models/distributor.model';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { DistributorService } from '../distributor.service';
 
 @Component({
@@ -9,12 +11,20 @@ import { DistributorService } from '../distributor.service';
 })
 export class DistributorListComponent implements OnInit {
   distributors: Distributor[];
-  constructor(private distributorService: DistributorService) { }
+  subscription: Subscription;
+  constructor(private distributorService: DistributorService,
+              private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
-    
+    this.subscription = this.distributorService.distributorsChanged
+      .subscribe(
+        (distributors: Distributor[]) => {
+          this.distributors = distributors;
+        }
+      );
     this.distributors = this.distributorService.getDistributors();
-    console.log(this.distributors);
+    this.dataStorageService.fetchDistributors();
+    this.distributors = this.distributorService.getDistributors();
   }
 
 }

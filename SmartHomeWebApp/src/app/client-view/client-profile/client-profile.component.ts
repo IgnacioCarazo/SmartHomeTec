@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ClientService } from './client.service';
 
@@ -23,6 +23,33 @@ export class ClientProfileComponent implements OnInit {
     this.clientForm.reset();
   }
 
+  /**
+  * @name onAddDeliveryAdressess()
+  * @description  Adds a new input for adding ingredients to the recipe
+  */
+   onAddAdress() {
+    (<FormArray>this.clientForm.get('deliveryAdresses')).push(
+      new FormGroup({
+        adress: new FormControl(null, Validators.required)
+      })
+    );
+  }
+
+  get controls() {
+    return (<FormArray>this.clientForm.get('deliveryAdresses')).controls;
+  }
+
+
+   /**
+  * @name onDeleteAddress
+  * @argument {number} index
+  * @description It deletes an ingredient from the recipeform ingredients with an specific index.
+  */
+    onDeleteAdress(index: number) {
+      (<FormArray>this.clientForm.get('deliveryAdresses')).removeAt(index);
+    }
+
+
   ngOnInit(): void {
     this.initForm();
   }
@@ -33,6 +60,8 @@ export class ClientProfileComponent implements OnInit {
   * it will just set thes values 'empty' for the user to fill.
   */
     private initForm() {
+      const client = this.clientService.getClient();
+
       let name = '';
       let primaryLastName = '';
       let secondaryLastName = '';
@@ -40,11 +69,12 @@ export class ClientProfileComponent implements OnInit {
       let password = '';
       let continent = '';
       let country = '';
-      let deliveryAdresses = [];
+      let deliveryAdresses = new FormArray([]);
+
+
+      
   
     
-      const client = this.clientService.getClient();
-      console.log(client);
       name = client.name;
       primaryLastName = client.primaryLastName;
       secondaryLastName = client.secondaryLastName;
@@ -52,9 +82,18 @@ export class ClientProfileComponent implements OnInit {
       password = client.password;
       continent = client.continent;
       country = client.country;
-      deliveryAdresses = client.deliveryAdresses;
+
+      if (client['deliveryAdresses']) {
+        for (let adress of client.deliveryAdresses) {
+          deliveryAdresses.push(
+            new FormGroup({
+              adress: new FormControl(adress, Validators.required)
+            })
+          );
+        }
+      }
   
-  
+      console.log(client);
   
   
   
@@ -62,11 +101,12 @@ export class ClientProfileComponent implements OnInit {
       this.clientForm = new FormGroup({
         name: new FormControl(name, Validators.required),
         primaryLastName: new FormControl(primaryLastName,Validators.required),
-        secondaryLastName: new FormControl(secondaryLastName,),
+        secondaryLastName: new FormControl(secondaryLastName, Validators.required),
         password: new FormControl(password, Validators.required),
         continent: new FormControl(continent, Validators.required),
         country: new FormControl(country, Validators.required),
-        
+        deliveryAdresses: deliveryAdresses
+
       });
     }
 

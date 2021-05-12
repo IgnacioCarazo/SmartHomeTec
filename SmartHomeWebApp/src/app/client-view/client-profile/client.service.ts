@@ -18,10 +18,9 @@ export class ClientService {
   * @description  Sets the actual client connected
   */
   setClient(client: Client) {
+    this.client = client;
+
   }
-
-  
-
 
   /**
   * @name getClient
@@ -29,7 +28,6 @@ export class ClientService {
   * @returns {Cliente} A client
   */
   getClient() {
-     this.client = new Client("Ignacio", "Carazo", "Nieto", "nachocarazo18@gmail.com", "nacho123", "America", "Costa Rica", ["1","2","3"]);
 
     return this.client;
   }

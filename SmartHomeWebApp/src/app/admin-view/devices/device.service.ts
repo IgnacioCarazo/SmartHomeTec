@@ -6,19 +6,14 @@ import { DeviceType } from 'src/app/models/device-type.model';
 
 import { Device } from 'src/app/models/device.model';
 import { Distributor } from 'src/app/models/distributor.model';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { DistributorService } from '../distributor/distributor.service';
 
 @Injectable()
 export class DeviceService {
   device: Device;
   client: Client;
-  private devices: Device[] = [
-      new Device("Iphone 12", 534634631, "450mW", "Apple",true, "SmartPhone","Ignacio Carazo",83726374, 300000),
-      new Device("Mate 20", 3466793, "400mW", "Huawei",false, "SmartPhone", "", 23451346, 150000),
-      new Device("Iphone X", 23466434, "600mW", "Apple",false, "SmartPhone", "", 23451346, 250000),
-      new Device("Macbook Pro", 25364715, "1100mW", "Apple",true, "Laptop", "Joseph Jimenez", 71653621, 750000),
-      new Device("Refrigerador", 908635246, "416W", "Sony",false, "Electrodomestico","", 2325462, 500000),
-      new Device("Refrigerador", 342341212, "46W", "Sony",false, "Electrodomestico", "", 23543245, 70000)];
+  private devices: Device[] = []
   devicesChanged = new Subject<Device[]>();
   private devicesByClientRegion: Device[];
 
@@ -55,6 +50,31 @@ export class DeviceService {
     return this.devices.slice();
   }
 
+  
+
+  /**
+  * @name addDevice()
+  * @argument {Device} device
+  * @argument {string} deviceTypeName
+  * @description  Adds a Recipe to this service array of recipes
+  */
+   addDevice(device: Device, deviceTypeName: string) {
+    this.devices.push(device);
+    this.devicesChanged.next(this.devices.slice());
+  }
+
+  /**
+  * @name updateDevice()
+  * @argument {number} index
+  * @argument {Device} newDevice
+  * @argument {string} deviceTypeName
+  * @description  It updates the value of a device of this service devices array. 
+  */
+  updateDevice(index: number, newDevice: Device, recipeTypeName: string) {
+    this.devices[index] = newDevice;
+    this.devicesChanged.next(this.devices.slice());
+  }
+
   /**
   * @name getDevice()
   * @description It searches a device by its index
@@ -83,16 +103,22 @@ export class DeviceService {
   }
 
   
-  getDevicesByRegion() {
-    
+  getDevicesByRegion() {  
     return this.devicesByClientRegion;
-    
+  }
 
+  /**
+  * @name deleteDevice()
+  * @argument {number} index
+  * @description deletes a device by its index from this service devices array.
+  */
+   deleteDevice(index: number) {
+    this.devices.splice(index, 1);
+    this.devicesChanged.next(this.devices.slice());
   }
 
   SetDevicesByRegion() {
     const distributorsByClientRegion = this.distributorService.getDistributorsByRegion();
-    console.log(distributorsByClientRegion)
     const list = [];
     for (let device of this.devices) {
       if (!device.associated) {
