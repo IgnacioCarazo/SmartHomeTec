@@ -4,12 +4,14 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ClientService } from '../client-profile/client.service';
 import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { Client } from 'src/app/models/client.model';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [DatePipe]
 })
 export class LoginComponent implements OnInit {
     isAdmin: boolean;
@@ -20,10 +22,13 @@ export class LoginComponent implements OnInit {
     email: string;
     password: string;
     client: Client;
+    myDate = new Date();
+
 
     constructor(private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
+        private datePipe: DatePipe,
         private clientService: ClientService,
         private dataStorageService: DataStorageService
     ) {
@@ -45,6 +50,11 @@ export class LoginComponent implements OnInit {
 
                 }  
             });
+
+            const hour = this.datePipe.transform(this.myDate, 'HH:mm:ss')
+            const date = this.datePipe.transform(this.myDate, 'dd/MM/yyyy');
+            console.log(date);
+            console.log(hour);
       form.reset();
     }
 
