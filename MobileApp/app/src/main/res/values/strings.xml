@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">SmartHomeTEC-MobileApp</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="userID">User Email</string>
+    <string name="goMain">Manage devices</string>
+    <string name="profileTitle">USER PROFILE</string>
+    <string name="emailTitle">E-mail</string>
+    <string name="addRoom">Add a Room</string>
+    <string name="addDevice">Add a Device</string>
+    <string name="syncData">Sync On/Off</string>
+    <string name="URL_SOURCE">https://10.0.2.2:5001/</string>
+    <string name="nameRoom">Room Name</string>
+    <string name="registerRoom">Register Room</string>
+    <string name="serialDevice">Serial Number</string>
+    <string name="brandDevice">Brand of Device</string>
+    <string name="typeDevice">Device Type</string>
+    <string name="consumeDevice">Device consumption</string>
+    <string name="descriptionDevice">Description of Device</string>
+    <string name="roomDevice">Device Room</string>
+    <string name="registerDevice">Register Device</string>
+    <string name="nameTitle">Name</string>
+    <string name="fLastNameTitle">First Surname</string>
+    <string name="sLastNameTitle">Second Surname</string>
+    <string name="continentTitle">Continent</string>
+    <string name="countryTitle">Country</string>
+    <string name="addressTitle">Address</string>
+    <string name="TurnDevice">Turn On/Off Device</string>
+    <string name="nameDevice">Device Name</string>
+</resources>
