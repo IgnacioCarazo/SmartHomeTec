@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { DeviceService } from '../../devices/device.service';
 import { DeviceTypeService } from '../device-types.service';
 
@@ -16,7 +17,8 @@ export class DeviceTypeEditComponent implements OnInit {
   deviceTypeForm: FormGroup;
   constructor(private route: ActivatedRoute,
               private deviceTypeService: DeviceTypeService,
-              private router: Router) { }
+              private router: Router,
+              private dataStorageService: DataStorageService) { }
 
  
   ngOnInit() {
@@ -33,9 +35,11 @@ export class DeviceTypeEditComponent implements OnInit {
   */
    onSubmit() {
     if (this.editMode) {
-        console.log("Tipo de Dispositivo modificado")
+      this.deviceTypeService.updateDeviceType(this.id, this.deviceTypeForm.value)
+      this.dataStorageService.storeDeviceTypes();
     } else {
-      console.log("Tipo de Dispositivo agregado")
+      this.deviceTypeService.addDeviceType(this.deviceTypeForm.value)
+      this.dataStorageService.storeDevice(this.deviceTypeForm.value);
     }
     this.onCancel();
   }

@@ -1,97 +1,142 @@
 <h2>Register</h2>
-<form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)"> 
-    <div class="form-group">
-        <label for="name">Nombre</label>
-        <input 
-        style="width: 500px"
-        id="name"
-        class="form-control"
-        ngModel
-        name="name"
-        required
-        >
+<div class="row">
+    <div class="col-xs-12">
+      <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="name">Nombre</label>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                class="form-control"
+                required
+                >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="primaryLastName">Primer Apellido</label>
+              <input
+                type="text"
+                id="primaryLastName"
+                formControlName="primaryLastName"
+                class="form-control"
+                required
+
+                >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="secondaryLastName">Segundo Apellido</label>
+                <input
+                  type="text"
+                  id="secondaryLastName"
+                  formControlName="secondaryLastName"
+                  class="form-control"
+                  required
+                  >
+              </div>
+            </div>
+          </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <label for="continent">Continente</label>
+              <input
+                type="string"
+                id="continent"
+                class="form-control"
+                formControlName="continent"
+                required
+                >
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+              <label for="country">País</label>
+                <input
+                  type="string"
+                  id="country"
+                  class="form-control"
+                  formControlName="country"
+                required
+                >
+            </div>
+          </div>
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input
+                type="string"
+                id="email"
+                class="form-control"
+                formControlName="email"
+                required
+                email
+                >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="string"
+                id="password"
+                class="form-control"
+                formControlName="password"
+                >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12" formArrayName="deliveryAdresses">
+            <div
+              class="row"
+              *ngFor="let dAdressCtrl of controls; let i = index"
+              [formGroupName]="i"
+              style="margin-top: 10px;">
+              <div class="col-xs-8">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="adress">
+              </div>
+              
+              <div class="col-xs-2">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onDeleteAdress(i)">X</button>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-xs-12">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="onAddAdress()">Add Address</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <button class="btn btn-primary">
+                Register
+            </button>
+            <a routerLink="/client/login" class="btn btn-link">Cancel</a>
+        </div>
+      </form>
     </div>
-    <div class="form-group">
-        <label for="primaryLastName">Primer Apellido</label>
-        <input 
-        style="width: 500px"
-        id="primaryLastName"
-        class="form-control"
-        ngModel
-        name="primaryLastName"
-        required
-        >
-    </div>
-    <div class="form-group">
-        <label for="secondaryLastName">Segundo Apellido</label>
-        <input 
-        style="width: 500px"
-        id="secondaryLastName"
-        class="form-control"
-        ngModel
-        name="secondaryLastName"
-        required
-        >
-    </div>
-    <div class="form-group">
-        <label for="continent">Continente</label>
-        <input 
-        style="width: 500px"
-        id="continent"
-        class="form-control"
-        ngModel
-        name="continent"
-        required
-        >
-    </div>
-    <div class="form-group">
-        <label for="country">País</label>
-        <input 
-        style="width: 500px"
-        id="country"
-        class="form-control"
-        ngModel
-        name="country"
-        required
-        >
-    </div>
-    <div class="form-group">
-        <label for="email">E-Mail</label>
-        <input 
-        style="width: 500px"
-        type="email" 
-        id="email"
-        class="form-control"
-        ngModel
-        name="email"
-        required
-        email>
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input 
-        style="width: 500px"
-        id="password"
-        class="form-control"
-        ngModel
-        name="password"
-        required
-        minlength="6">
-    </div>
-    <div class="form-group">
-        <label for="deliveryAdresses">Dirección de Entrega</label>
-        <input 
-        style="width: 500px"
-        id="deliveryAdresses"
-        class="form-control"
-        ngModel
-        name="deliveryAdresses"
-        required>
-    </div>
-    <div class="form-group">
-        <button class="btn btn-primary">
-            Register
-        </button>
-        <a routerLink="/client/login" class="btn btn-link">Cancel</a>
-    </div>
-</form>
+  </div>
+  

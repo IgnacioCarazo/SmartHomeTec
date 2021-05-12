@@ -37,6 +37,9 @@ import { DistributorService } from './admin-view/distributor/distributor.service
 import { StoreDeviceDetailComponent } from './client-view/online-store/store-device-detail/store-device-detail.component';
 import { StoreDeviceListComponent } from './client-view/online-store/store-device-list/store-device-list.component';
 import { StoreDeviceItemComponent } from './client-view/online-store/store-device-list/store-device-item/store-device-item.component';
+import { DataStorageService } from './shared/data-storage.service';
+import { HttpClientModule } from '@angular/common/http';
+import { AvailableRegionsComponent } from './shared/available-regions/available-regions.component';
 
 @NgModule({
   declarations: [
@@ -69,15 +72,17 @@ import { StoreDeviceItemComponent } from './client-view/online-store/store-devic
     DistributorItemComponent,
     StoreDeviceDetailComponent,
     StoreDeviceListComponent,
-    StoreDeviceItemComponent
+    StoreDeviceItemComponent,
+    AvailableRegionsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [ClientService, DeviceService, DeviceTypeService, DistributorService],
+  providers: [ClientService, DeviceService, DeviceTypeService, DistributorService, DataStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

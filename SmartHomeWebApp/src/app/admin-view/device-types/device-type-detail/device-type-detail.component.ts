@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DeviceType } from 'src/app/models/device-type.model';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { DeviceTypeService } from '../device-types.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class DeviceTypeDetailComponent implements OnInit {
 
   constructor(private deviceTypeService: DeviceTypeService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
     this.route.params
@@ -40,7 +42,9 @@ export class DeviceTypeDetailComponent implements OnInit {
   * @description Deletes the current device and sets the link back to '/devices'.
   */
   onDeleteDevice() {
-    console.log("Device Type Deleted")
+    this.dataStorageService.deleteDeviceType(this.deviceType);
+    this.deviceTypeService.deleteDeviceType(this.id);
+
   }
 
 }

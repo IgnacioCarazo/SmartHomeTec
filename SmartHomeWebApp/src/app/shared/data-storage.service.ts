@@ -9,6 +9,9 @@ import { DeviceType } from "../models/device-type.model";
 import { Order } from "../models/order.model";
 import { DeviceService } from "../admin-view/devices/device.service";
 import { DeviceTypeService } from "../admin-view/device-types/device-types.service";
+import { Admin } from "../models/admin.model";
+import { Distributor } from "../models/distributor.model";
+import { DistributorService } from "../admin-view/distributor/distributor.service";
 
 
 
@@ -22,6 +25,7 @@ export class DataStorageService {
                 private clientService: ClientService,
                 private deviceService: DeviceService,
                 private deviceTypeService: DeviceTypeService,
+                private distributorService: DistributorService
                 ) {
 
     }
@@ -33,30 +37,41 @@ export class DataStorageService {
   */
 
   /**
-  * @name sendLoginInfo()
+  * @name sendLoginInfoClient()
   * @argument {string} email
   * @argument {string} password
-  * @argument {boolean} isAdmin
-  * @description  It sends an http get request to the backend wiht the info of the user's email and password. The
-  * link varies dependin of the value of isAdmin.
-  * @returns {Observable<User>} A user observable.
+  * @description  It sends an http get request to the backend wiht the info of the client's email and password. 
+  * @returns {Observable<Client>} A client observable.
   */
-   sendLoginInfo(email: string, password: string, isAdmin: boolean) {
+   sendLoginInfoClient(email: string, password: string): Observable<Client> {
+    return this.http.get<Client>('https://localhost:5001/api/Client/login/'+ email + '/' + password);    
+  }
 
-    if (isAdmin) {
-        
-    } else {
-    }
-      
+
+  /**
+  * @name sendLoginInfoAdmin()
+  * @argument {string} email
+  * @argument {string} password
+  * @description  It sends an http get request to the backend wiht the info of the admin's email and password.
+  * @returns {Observable<Admin>} An admin observable.
+  */
+   sendLoginInfoAdmin(email: string, password: string) {
+      return this.http.get<Admin>('https://localhost:5001/api/Admin/login/'+ email + '/' + password);  
   }
 
   /**
   * @name sendRegisterInfo()
-  * @description  It sends an http get request to the backend wiht the info of the user's registration.
+  * @description  It sends an http get request to the backend wiht the info of the client's registration.
   */
    sendRegisterInfo(client: Client) {
-
-      
+    this.http
+    .post(
+      'https://localhost:5001/api/Client',
+      client, this.httpOptions
+    )
+    .subscribe(response => {
+      console.log(response);
+    });      
   }
 
 /**
@@ -70,7 +85,16 @@ export class DataStorageService {
   * @description It sends an http put request to the backend to store all the devices.
   */
   storeDevices() {
-    
+    const devices = this.deviceService.getDevices();
+    this.http
+      .put(
+        'https://localhost:5001/api/Device',
+        devices
+      )
+      .subscribe(response => {
+        console.log(response);
+      });
+      this.fetchDevices();
   }
 
   /**
@@ -79,6 +103,8 @@ export class DataStorageService {
   * @description Deletes a device from the backend by sending an http delete request with the device serial number.
   */
   deleteDevice(device: Device) {
+    this.http.delete<Device>('https://localhost:5001/api/Device/' + device.serialNumber, this.httpOptions);
+    this.fetchDevices();
   }
 
   /**
@@ -88,7 +114,16 @@ export class DataStorageService {
   * in the database.
   */
   storeDevice(device: Device) {
-    
+    this.http
+      .post(
+        'https://localhost:5001/api/Device',
+        device, this.httpOptions
+      )
+      .subscribe(response => {
+        console.log(response);
+      });
+      this.fetchDevices();
+
   }
 
   /**
@@ -96,7 +131,23 @@ export class DataStorageService {
   * @returns An observable array of devices  
   */
   fetchDevices() {
-    
+    return this.http
+      .get<Device[]>(
+        'https://localhost:5001/api/Device'
+      )
+      .pipe(
+        map(devices => {
+          return devices.map(device => {
+            return {
+              ...device
+            };
+          });
+        }),
+        tap(devices => {
+          console.log(devices);
+          this.deviceService.setDevices(devices);
+        })
+      )
   }
   /**
    * ------------------------------------------------
@@ -109,7 +160,16 @@ export class DataStorageService {
   * @description Sends an http put request to store the device types array in the database
   */
    storeDeviceTypes() {
-     
+    const deviceTypes = this.deviceTypeService.getDeviceTypes();
+    this.http
+      .put(
+        'https://localhost:5001/api/DeviceType',
+        deviceTypes
+      )
+      .subscribe(response => {
+        console.log(response);
+      });
+      this.fetchDeviceTypes(); 
   }
 
   /**
@@ -118,7 +178,15 @@ export class DataStorageService {
   * @description  Sends an http post request to the database to store the deviceType.
   */
    storeDeviceType(deviceType: DeviceType) {
-   
+    this.http
+    .post(
+      'https://localhost:5001/api/DeviceType',
+      deviceType, this.httpOptions
+    )
+    .subscribe(response => {
+      console.log(response);
+    });
+  this.fetchDeviceTypes();
   }
 
   /**
@@ -127,7 +195,33 @@ export class DataStorageService {
   * @returns An observable of an array of device types.
   */
    fetchDeviceTypes() {
-    
+    return this.http
+      .get<DeviceType[]>(
+        'https://localhost:5001/api/DeviceType'
+      )
+      .pipe(
+        map(deviceTypes => {
+          return deviceTypes.map(deviceType => {
+            return {
+              ...deviceType
+            };
+          });
+        }),
+        tap(deviceTypes => {
+          console.log(deviceTypes);
+          this.deviceTypeService.setDeviceTypes(deviceTypes);
+        })
+      )
+  }
+
+  /**
+  * @name deleteDeviceType()
+  * @argument {DeviceType} deviceType
+  * @description Deletes a device type from the backend by sending an http delete request with the device name.
+  */
+   deleteDeviceType(deviceType: DeviceType) {
+    this.http.delete<DeviceType>('https://localhost:5001/api/DeviceType' + deviceType.name, this.httpOptions);
+    this.fetchDeviceTypes();
   }
 
   /**
@@ -140,9 +234,49 @@ export class DataStorageService {
   * @name sendOrder()
   * @description Sends an http get request to send the order to  the database.
   */
-   sendOrder() {
-    
+   sendOrder(order: Order) {
+    this.http
+      .post(
+        'https://localhost:5001/api/Order',
+        order, this.httpOptions
+      )
+      .subscribe(response => {
+        console.log(response);
+      });
+      this.fetchDevices();
+
   } 
+
+  /**
+   * ------------------------------------------------
+  * http requests de distributors
+  * ------------------------------------------------
+  */
+
+  /**
+  * @name fetchDistributors()
+  * @description  Sends an http get request to the backend to fetch the array of distributors.
+  * @returns An observable of an array of distributors.
+  */
+   fetchDistributors() {
+    return this.http
+      .get<Distributor[]>(
+        'https://localhost:5001/api/Distributor'
+      )
+      .pipe(
+        map(distributors => {
+          return distributors.map(distributor => {
+            return {
+              ...distributor
+            };
+          });
+        }),
+        tap(distributors => {
+          console.log(distributors);
+          this.distributorService.setDistributors(distributors);
+        })
+      )
+  }
 
   /**
    * ------------------------------------------------
@@ -155,7 +289,23 @@ export class DataStorageService {
   * @description Sends an http get request to fetch the Dashboard values from the database.
   */
    fetchDashboard() {
-    
+    return this.http
+      .get<Distributor[]>(
+        'https://localhost:5001/api/Dashboard'
+      )
+      .pipe(
+        map(distributors => {
+          return distributors.map(distributor => {
+            return {
+              ...distributor
+            };
+          });
+        }),
+        tap(distributors => {
+          console.log(distributors);
+          this.distributorService.setDistributors(distributors);
+        })
+      )
 } 
   
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DeviceType } from 'src/app/models/device-type.model';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { DeviceService } from '../device.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class DeviceEditComponent implements OnInit {
   deviceTypes = [];
   constructor(private route: ActivatedRoute,
               private deviceService: DeviceService,
-              private router: Router) { }
+              private router: Router,
+              private dataStorageService: DataStorageService) { }
 
  
   ngOnInit() {
@@ -34,9 +36,11 @@ export class DeviceEditComponent implements OnInit {
   */
    onSubmit() {
     if (this.editMode) {
-        console.log("Dispositivo modificado")
+      this.deviceService.updateDevice(this.id, this.deviceForm.value, this.deviceForm.value.typeName)
+      this.dataStorageService.storeDevices();
     } else {
-      console.log("Dispositivo agregado")
+      this.deviceService.addDevice(this.deviceForm.value, this.deviceForm.value.typeName)
+      this.dataStorageService.storeDevice(this.deviceForm.value);
     }
     this.onCancel();
   }
@@ -81,7 +85,7 @@ export class DeviceEditComponent implements OnInit {
       this.deviceForm = new FormGroup({
         name: new FormControl(name, Validators.required),
         serialNumber: new FormControl(serialNumber),
-        eConsumption: new FormControl(eConsumption),
+        eConsumption: new FormControl(eConsumption, Validators.required),
         brand: new FormControl(brand, Validators.required),
         type: new FormControl(deviceTypeName, Validators.required),
         price: new FormControl(price, Validators.required),

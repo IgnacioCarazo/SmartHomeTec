@@ -5,5 +5,6 @@ export class Warranty {
     brand: string;
     purchaseDate: string;
     expireDate: string;
+    deviceTypeName: string;
 
 }

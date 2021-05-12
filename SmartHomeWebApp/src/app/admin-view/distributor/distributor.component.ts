@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 
 @Component({
   selector: 'app-distributor',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DistributorComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataStorageService: DataStorageService) { }
 
   ngOnInit(): void {
+  }
+
+  onRefresh() {
+    this.dataStorageService.fetchDistributors();
   }
 
 }

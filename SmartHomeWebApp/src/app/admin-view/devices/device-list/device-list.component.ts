@@ -26,7 +26,6 @@ export class DeviceListComponent implements OnInit {
         }
       );
     this.devices = this.deviceService.getDevices();
-    console.log(this.devices);
   }
 
   /**
