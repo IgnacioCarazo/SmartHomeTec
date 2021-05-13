@@ -84,12 +84,11 @@ export class DataStorageService {
   * @name storeDevices()
   * @description It sends an http put request to the backend to store all the devices.
   */
-  storeDevices() {
-    const devices = this.deviceService.getDevices();
+  updateDevices(device: Device) {
     this.http
       .put(
         'https://localhost:5001/api/Device',
-        devices
+        device
       )
       .subscribe(response => {
         console.log(response);
@@ -103,7 +102,7 @@ export class DataStorageService {
   * @description Deletes a device from the backend by sending an http delete request with the device serial number.
   */
   deleteDevice(device: Device) {
-    this.http.delete<Device>('https://localhost:5001/api/Device/' + device.serialNumber, this.httpOptions);
+    this.http.delete<Device>('https://localhost:5001/api/Device/' + device.serialNumber, this.httpOptions).subscribe();
     this.fetchDevices();
   }
 
@@ -159,12 +158,11 @@ export class DataStorageService {
   * @name storeDeviceTypes()
   * @description Sends an http put request to store the device types array in the database
   */
-   storeDeviceTypes() {
-    const deviceTypes = this.deviceTypeService.getDeviceTypes();
+   updateDeviceType(deviceType: DeviceType) {
     this.http
       .put(
         'https://localhost:5001/api/DeviceType',
-        deviceTypes
+        deviceType
       )
       .subscribe(response => {
         console.log(response);
@@ -220,7 +218,8 @@ export class DataStorageService {
   * @description Deletes a device type from the backend by sending an http delete request with the device name.
   */
    deleteDeviceType(deviceType: DeviceType) {
-    this.http.delete<DeviceType>('https://localhost:5001/api/DeviceType' + deviceType.name, this.httpOptions);
+    console.log(deviceType.name);
+    this.http.delete<DeviceType>('https://localhost:5001/api/DeviceType/' + deviceType.name, this.httpOptions).subscribe();
     this.fetchDeviceTypes();
   }
 

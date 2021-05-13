@@ -75,7 +75,7 @@ namespace BackEndData.Repositories
                             ""warrantyTime"" = @warrantyTime
                         WHERE name = @name";
 
-            var result = await db.ExecuteAsync(sql, new
+            var result = await db.ExecuteAsync(sql, new 
             {
                 type.name,
                 type.description,

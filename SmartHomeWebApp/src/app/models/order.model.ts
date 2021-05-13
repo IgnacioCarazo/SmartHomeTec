@@ -12,13 +12,14 @@ export class Order {
     deviceOwner: string;
     orderID: number;
 
-    constructor(deviceSerialNumber: number, date: string, hour: string, price: number, deviceOwner: string) {
+    constructor(deviceSerialNumber: number, date: string, hour: string, price: number, deviceOwner: string, brand: string) {
         this.consecutiveNumberOrder = 0;
         this.deviceSerialNumber = deviceSerialNumber;
         this.date = date;
         this.hour = hour;
         this.price = price;
         this.deviceOwner = deviceOwner;
+        this.brand = brand;
     }
     
 }

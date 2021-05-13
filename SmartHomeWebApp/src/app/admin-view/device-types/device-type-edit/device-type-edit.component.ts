@@ -36,10 +36,10 @@ export class DeviceTypeEditComponent implements OnInit {
    onSubmit() {
     if (this.editMode) {
       this.deviceTypeService.updateDeviceType(this.id, this.deviceTypeForm.value)
-      this.dataStorageService.storeDeviceTypes();
+      this.dataStorageService.updateDeviceType(this.deviceTypeForm.value);
     } else {
       this.deviceTypeService.addDeviceType(this.deviceTypeForm.value)
-      this.dataStorageService.storeDevice(this.deviceTypeForm.value);
+      this.dataStorageService.storeDeviceType(this.deviceTypeForm.value);
     }
     this.onCancel();
   }

@@ -55,16 +55,19 @@ export class StoreDeviceDetailComponent implements OnInit {
    onOrderDevice() {
     const hour = this.datePipe.transform(this.myDate, 'HH:mm:ss')
     const date = this.datePipe.transform(this.myDate, 'dd/MM/yyyy');
-    this.order = new Order(this.device.serialNumber, date, hour, this.device.price, this.client.email);
-    console.log(this.order);
-    console.log(date);
-    console.log(hour);
-    console.log(this.myDate);
-    console.log("Dispositivo Ordenado")
-    //this.dataStorageService.sendOrder(this.order);
+    this.order = new Order(this.device.serialNumber, date, hour, this.device.price, this.client.email, this.device.brand);
+    this.device.associated = true;
+    this.device.ownerEmail = this.client.email;
+    this.deviceService.updateDevice(this.id, this.device, "");
+    this.dataStorageService.updateDevices(this.device);
+    this.dataStorageService.sendOrder(this.order);
   }
 
 
+  /**
+  * @name getDistributor()
+  * @description returns a distributor name according to the region of the client. 
+  */
   getDistributor(dni: number) {
     const distributors = this.distributorService.getDistributorsByRegion();
     for (let distributor of distributors) {

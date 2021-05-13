@@ -37,7 +37,7 @@ export class DeviceEditComponent implements OnInit {
    onSubmit() {
     if (this.editMode) {
       this.deviceService.updateDevice(this.id, this.deviceForm.value, this.deviceForm.value.typeName)
-      this.dataStorageService.storeDevices();
+      this.dataStorageService.updateDevices(this.deviceForm.value);
     } else {
       this.deviceService.addDevice(this.deviceForm.value, this.deviceForm.value.typeName)
       this.dataStorageService.storeDevice(this.deviceForm.value);
@@ -87,9 +87,10 @@ export class DeviceEditComponent implements OnInit {
         serialNumber: new FormControl(serialNumber),
         eConsumption: new FormControl(eConsumption, Validators.required),
         brand: new FormControl(brand, Validators.required),
-        type: new FormControl(deviceTypeName, Validators.required),
+        typeName: new FormControl(deviceTypeName, Validators.required),
         price: new FormControl(price, Validators.required),
-        dniDistributor: new FormControl(dniDistributor, Validators.required)
+        dniDistributor: new FormControl(dniDistributor, Validators.required),
+        ownerEmail: new FormControl('')
       });
     }
 

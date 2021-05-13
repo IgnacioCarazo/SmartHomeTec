@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
   onSubmit() {      
     console.log(this.clientForm.value);
     this.client = this.clientForm.value;
-    //this.dataStorageService.sendRegisterInfo(this.client);
+    this.dataStorageService.sendRegisterInfo(this.client);
     this.router.navigate(['/client/login']);
 
     this.clientForm.reset();
