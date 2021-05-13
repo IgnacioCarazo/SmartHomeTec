@@ -1,6 +1,7 @@
 ﻿using BackEndData.InterfaceRepositories;
 using BackEndModel;
 using Microsoft.AspNetCore.Mvc;
+using PostgreSQLBackEnd.DataManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,30 @@ namespace PostgreSQLBackEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var insertOr = await _orderI.InsertOrder(order);
+
+            int insertOrID = await _orderI.InsertOrder(order);
+
+            order.orderID = insertOrID;
+
+
+            InvoiceReport invoiceReport = new InvoiceReport();
+
+            Device orderDevice = await _orderI.GetDevice(order);
+
+            string ownerName = await _orderI.GetOwnerName(order.deviceOwner);
+
+            int warrantyTime = await _orderI.GetDeviceWarranty(orderDevice.typeName);
+
+            Invoice invoicepdf = invoiceReport.generateInvoice(order,orderDevice.typeName);
+
+            Warranty warrantypdf = invoiceReport.generateWarranty(order,ownerName,orderDevice,warrantyTime);
+
+            await _orderI.InsertInvoice(invoicepdf);
+            await _orderI.InsertWarranty(warrantypdf);
+
+            invoiceReport.sendPDF(invoicepdf,order.deviceOwner,warrantypdf);
+
+           
             return Ok(await _orderI.GetAllOrder());
         }
 

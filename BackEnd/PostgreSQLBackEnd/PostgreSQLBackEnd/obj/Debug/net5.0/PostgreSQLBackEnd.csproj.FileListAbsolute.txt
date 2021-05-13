@@ -68,3 +68,5 @@ C:\Users\mario\Desktop\BasesDatos\SmartHomeTec\BackEnd\PostgreSQLBackEnd\Postgre
 C:\Users\mario\Desktop\BasesDatos\SmartHomeTec\BackEnd\PostgreSQLBackEnd\PostgreSQLBackEnd\obj\Debug\net5.0\PostgreSQLBackEnd.RazorTargetAssemblyInfo.cache
 C:\Users\mario\Desktop\BasesDatos\SmartHomeTec\BackEnd\PostgreSQLBackEnd\PostgreSQLBackEnd\obj\Debug\net5.0\PostgreSQLBackEnd.csproj.CopyComplete
 C:\Users\mario\Desktop\BasesDatos\SmartHomeTec\BackEnd\PostgreSQLBackEnd\PostgreSQLBackEnd\obj\Debug\net5.0\PostgreSQLBackEnd.genruntimeconfig.cache
+C:\Users\mario\Desktop\BasesDatos\SmartHomeTec\BackEnd\PostgreSQLBackEnd\PostgreSQLBackEnd\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\Users\mario\Desktop\BasesDatos\SmartHomeTec\BackEnd\PostgreSQLBackEnd\PostgreSQLBackEnd\bin\Debug\net5.0\itextsharp.dll

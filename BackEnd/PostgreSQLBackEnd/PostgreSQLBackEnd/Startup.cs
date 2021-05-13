@@ -30,6 +30,9 @@ namespace PostgreSQLBackEnd
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddCors(options => options.AddDefaultPolicy(
+                builder => builder.AllowAnyOrigin()));
+
             var postgreSQLConnectionConfiguration = new PostgreSQLConfiguration(Configuration.GetConnectionString("PostgreSQLConnection"));
 
             services.AddSingleton(postgreSQLConnectionConfiguration);
@@ -40,11 +43,11 @@ namespace PostgreSQLBackEnd
             services.AddScoped<IAdmin, AdminR>();
             services.AddScoped<IOrder, OrderR>();
             services.AddScoped<IDistributor, DistributorR>();
+            services.AddScoped<IInvoice, InvoiceR>();
 
             services.AddControllers();
 
-            services.AddCors(options => options.AddDefaultPolicy(
-                builder => builder.AllowAnyOrigin()));
+            
 
             services.AddSwaggerGen(c =>
             {
