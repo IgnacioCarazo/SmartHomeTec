@@ -72,7 +72,7 @@ namespace BackEndData.Repositories
                         UPDATE public.""DeviceType"" 
                         SET name = @name, 
                             description = @description,
-                            ""warrantyTime"" = @warrantyType
+                            ""warrantyTime"" = @warrantyTime
                         WHERE name = @name";
 
             var result = await db.ExecuteAsync(sql, new
