@@ -34,7 +34,7 @@ public class RegisterRoom extends AppCompatActivity {
     }
     //Añade el cuarto a la base de datos
     public void registerRoom(Room newRoom){
-        dbHelper.addRoom(this,newRoom.getName(),newRoom.getUserEmail(),newRoom.isOccupied());
+        dbHelper.insertRoom(this,newRoom.getName(),newRoom.getUserEmail());
         Intent manageDevices = new Intent(RegisterRoom.this, ManageDevices.class);
         RegisterRoom.this.startActivity(manageDevices);
         RegisterRoom.this.finish();

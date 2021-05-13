@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.smarthometec.mobileapp.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,7 +54,6 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.tvSerialNumber.setText(String.valueOf(serialNumber.get(position)));
         holder.tvTypeDevice.setText(String.valueOf(deviceType.get(position)));
-        holder.tvNameDevice.setText(String.valueOf(nameDevice.get(position)));
         holder.tvConsume.setText(String.valueOf(consume.get(position)));
         holder.tvTimeLeft.setText(String.valueOf(timeLeft.get(position)));
         turnOnData.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +76,8 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat objSDF = new SimpleDateFormat(strDateFormat);
                         String serialText = String.valueOf(serialNumber.get(position));
                         int serialNumber = Integer.parseInt(serialText);
-                        dbHelper.addControl(context,serialNumber,objSDF.format(objDate),time);
+                        dbHelper.insertControl(context,serialNumber,objSDF.format(objDate),time);
+                        System.out.println("Added register of Device On");
                     }
                 }
             }
@@ -86,14 +88,12 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
     class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvSerialNumber;
         private final TextView tvTypeDevice;
-        private final TextView tvNameDevice;
         private final TextView tvConsume;
         private final TextView tvTimeLeft;
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSerialNumber = itemView.findViewById(R.id.tvserialNumber);
             tvTypeDevice = itemView.findViewById(R.id.tvTypeDevice);
-            tvNameDevice = itemView.findViewById(R.id.tvNameDevice);
             tvConsume = itemView.findViewById(R.id.tvConsume);
             tvTimeLeft = itemView.findViewById(R.id.tvTimeLeft);
             turnOnData = itemView.findViewById(R.id.TurnOnSwitch);

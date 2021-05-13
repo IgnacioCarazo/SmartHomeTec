@@ -15,15 +15,12 @@ import static com.smarthometec.mobileapp.Login.dbHelper;
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.MyViewHolder> {
     private Context context;
     private Activity activity;
-    private DevicesAdapter devicesAdapter;
     private ArrayList nameRoom;
     private ArrayList<Integer> serialNumber;
     private ArrayList<String> deviceType ;
     private ArrayList<String> nameDevice;
     private ArrayList<String> consume ;
     private ArrayList<String> timeLeft;
-
-
     public RoomAdapter(Activity activity, Context context, ArrayList nameRoom) {
         this.activity = activity;
         this.context = context;
@@ -45,11 +42,11 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.MyViewHolder> 
         return nameRoom.size();
     }
     private void storeDataArray() {
-        serialNumber = new ArrayList<Integer>() ;
-        deviceType = new ArrayList<String> ();
-        nameDevice = new ArrayList<String>() ;
-        consume = new ArrayList<String> ();
-        timeLeft = new ArrayList<String>() ;
+        serialNumber = new ArrayList<>() ;
+        deviceType = new ArrayList<> ();
+        nameDevice = new ArrayList<>() ;
+        consume = new ArrayList<> ();
+        timeLeft = new ArrayList<>() ;
 
         Cursor cursor = dbHelper.readAllData("TABLE_DEVICE");
         if (cursor.getCount() == 0) {
@@ -59,21 +56,20 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.MyViewHolder> 
                 serialNumber.add(cursor.getInt(0));
                 nameDevice.add(cursor.getString(1));
                 consume.add(cursor.getString(2));
-                deviceType.add(cursor.getString(3));
-                timeLeft.add(cursor.getString(11));
+                deviceType.add(cursor.getString(4));
+                timeLeft.add(cursor.getString(6));
             }
         }
     }
     class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView tvRoomName;
         public RecyclerView recyclerViewDevices;
-
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvRoomName = itemView.findViewById(R.id.tvRoomName);
             recyclerViewDevices = itemView.findViewById(R.id.recyclerViewDevices);
             storeDataArray();
-            devicesAdapter = new DevicesAdapter(activity, context, serialNumber, deviceType,nameDevice,consume,timeLeft);
+            DevicesAdapter devicesAdapter = new DevicesAdapter(activity, context, serialNumber, deviceType, nameDevice, consume, timeLeft);
             recyclerViewDevices.setAdapter(devicesAdapter);
             recyclerViewDevices.setLayoutManager(new LinearLayoutManager(activity));
         }
