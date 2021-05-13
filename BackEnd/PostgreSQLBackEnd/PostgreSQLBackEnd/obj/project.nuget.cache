@@ -1,15 +1,12 @@
 {
   "version": 2,
-<<<<<<< HEAD
-  "dgSpecHash": "vp00YZ1S5qT7s3aXYzil6GPjF4TVVeYb6Ug5oZTv4De1+ANh2aWG/uzppWpqi0O9wayWxsGmymg2GsR7IakU3g==",
-=======
-  "dgSpecHash": "EBNN4+8h2VmX6Io8vOxO2TAquH+jodsaHwCcqmODw/jORXQSvMJ+bG4dVBCsl8MSHj4bGteibW80/mH17fs9+w==",
->>>>>>> BackEnd
+  "dgSpecHash": "zV5mgITORu+BGa80aH6DnKDtFMc3mxiwjrLM3e2F5ij+7tFb4ZPJxqtASBqDKE6t/98d0qJpNXZO3cv06oOs3w==",
   "success": true,
   "projectFilePath": "/Users/nachocarazo/Desktop/SmartHomeTec/BackEnd/PostgreSQLBackEnd/PostgreSQLBackEnd/PostgreSQLBackEnd.csproj",
   "expectedPackageFiles": [
-<<<<<<< HEAD
+    "/Users/nachocarazo/.nuget/packages/bouncycastle/1.8.6.1/bouncycastle.1.8.6.1.nupkg.sha512",
     "/Users/nachocarazo/.nuget/packages/dapper/2.0.90/dapper.2.0.90.nupkg.sha512",
+    "/Users/nachocarazo/.nuget/packages/itextsharp/5.5.13.2/itextsharp.5.5.13.2.nupkg.sha512",
     "/Users/nachocarazo/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "/Users/nachocarazo/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
     "/Users/nachocarazo/.nuget/packages/npgsql/5.0.4/npgsql.5.0.4.nupkg.sha512",
@@ -18,21 +15,14 @@
     "/Users/nachocarazo/.nuget/packages/swashbuckle.aspnetcore.swaggergen/5.6.3/swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
     "/Users/nachocarazo/.nuget/packages/swashbuckle.aspnetcore.swaggerui/5.6.3/swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512",
     "/Users/nachocarazo/.nuget/packages/system.runtime.compilerservices.unsafe/4.6.0/system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512"
-=======
-    "C:\\Users\\mario\\.nuget\\packages\\bouncycastle\\1.8.6.1\\bouncycastle.1.8.6.1.nupkg.sha512",
-    "C:\\Users\\mario\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
-    "C:\\Users\\mario\\.nuget\\packages\\itextsharp\\5.5.13.2\\itextsharp.5.5.13.2.nupkg.sha512",
-    "C:\\Users\\mario\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
-    "C:\\Users\\mario\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
-    "C:\\Users\\mario\\.nuget\\packages\\npgsql\\5.0.4\\npgsql.5.0.4.nupkg.sha512",
-    "C:\\Users\\mario\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
-    "C:\\Users\\mario\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
-    "C:\\Users\\mario\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
-    "C:\\Users\\mario\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512",
-    "C:\\Users\\mario\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.6.0\\system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512"
->>>>>>> BackEnd
   ],
   "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file /Users/nachocarazo/Desktop/SmartHomeTec/BackEnd/PostgreSQLBackEnd/PostgreSQLBackEnd/obj/project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
     {
       "code": "NU1701",
       "level": "Warning",
