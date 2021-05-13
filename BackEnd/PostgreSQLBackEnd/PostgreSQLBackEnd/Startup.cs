@@ -44,6 +44,7 @@ namespace PostgreSQLBackEnd
             services.AddScoped<IOrder, OrderR>();
             services.AddScoped<IDistributor, DistributorR>();
             services.AddScoped<IInvoice, InvoiceR>();
+            services.AddScoped<IRoom, RoomR>();
 
             services.AddControllers();
 
