@@ -43,7 +43,7 @@ namespace BackEndData.Repositories
             return await db.QueryFirstOrDefaultAsync<Order>(sql, new { orderID = id });
         }
 
-        public async Task<bool> InsertOrder(Order order)
+        public async Task<int> InsertOrder(Order order)
         {
             var db = dbConnection();
 
@@ -81,7 +81,11 @@ namespace BackEndData.Repositories
                 order.orderID
             });
 
-            return result > 0;
+            var orderQuery = @"SELECT * FROM public.""Order"" ORDER BY ""orderID"" DESC LIMIT 1";
+
+            Order getOrder = await db.QueryFirstOrDefaultAsync<Order>(orderQuery, new {});
+            int id = getOrder.orderID;
+            return id;
         }
 
         public async Task<bool> UpdateOrder(Order order)
@@ -136,6 +140,89 @@ namespace BackEndData.Repositories
             });
 
             return result > 0;
+        }
+
+        public async Task<bool> InsertInvoice(Invoice invoice)
+        {
+            var db = dbConnection();
+
+            var sql = @"
+                        INSERT INTO  public.""Invoice"" (""invoiceNumber"", ""deviceTypeName"", price, date)
+                        VALUES (@invoiceNumber, @deviceTypeName, @price, @date) ";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                invoice.invoiceNumber,
+                invoice.deviceTypeName,
+                invoice.price,
+                invoice.date
+            });
+
+            return result > 0;
+        }
+
+        public async Task<Device> GetDevice(Order order) {
+
+            var db = dbConnection();
+
+            int _serialNumber = order.deviceSerialNumber;
+
+            var sql = @"
+                        SELECT name, ""serialNumber"", ""eConsumption"", brand, associated, ""typeName"", ""ownerEmail"", ""dniDistributor"", price
+                        FROM public.""Device"" 
+                        WHERE ""serialNumber"" = "+_serialNumber+" ";
+
+            Device _device  = await db.QueryFirstOrDefaultAsync<Device>(sql, new { serialNumber = _serialNumber });
+            return _device;
+        }
+        public async Task<int> GetDeviceWarranty(string name)
+        {
+
+            var db = dbConnection();
+            var sql = @"
+                        SELECT *
+                        FROM public.""DeviceType"" 
+                        WHERE name = @name ";
+
+            DeviceType _deviceType = await db.QueryFirstOrDefaultAsync<DeviceType>(sql, new { name = name });
+            int warranty = _deviceType.warrantyTime;
+            return warranty;
+        }
+
+        public async Task<bool> InsertWarranty(Warranty warranty)
+        {
+            var db = dbConnection();
+
+            var sql = @"
+                        INSERT INTO  public.""Warranty"" (""clientName"",""deviceSerialNumber"", brand, ""purchaseDate"", ""expireDate"", ""deviceTypeName"")
+                        VALUES (@clientName, @deviceSerialNumber, @brand, @purchaseDate, @expireDate, @deviceTypeName) ";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                warranty.clientName,
+                warranty.deviceSerialNumber,
+                warranty.brand,
+                warranty.purchaseDate,
+                warranty.expireDate,
+                warranty.deviceTypeName
+            });
+
+            return result > 0;
+        }
+
+        public async Task<string> GetOwnerName(string email)
+        {
+            var db = dbConnection();
+           
+            var sql = @"
+                        SELECT *
+                        FROM public.""Client"" 
+                        WHERE email = @email ";
+
+
+            Client _client = await db.QueryFirstOrDefaultAsync<Client>(sql, new { email = email});
+
+            return _client.name;
         }
     }
 }
