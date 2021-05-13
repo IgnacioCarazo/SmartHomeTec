@@ -7,7 +7,6 @@ package com.smarthometec.mobileapp.models;
 public class Room {
     private String name;
     private String userEmail;
-    private boolean occupied;
     public Room(String name, String userEmail) {
         this.name = name;
         this.userEmail = userEmail;
@@ -16,6 +15,4 @@ public class Room {
     public void setName(String name) { this.name = name; }
     public String getUserEmail() { return userEmail; }
     public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
-    public boolean isOccupied() { return occupied; }
-    public void setOccupied(boolean occupied) { this.occupied = occupied; }
 }
