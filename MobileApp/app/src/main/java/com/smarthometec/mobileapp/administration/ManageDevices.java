@@ -2,6 +2,8 @@ package com.smarthometec.mobileapp.administration;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,9 +11,23 @@ import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.smarthometec.mobileapp.R;
+import com.smarthometec.mobileapp.database.DatabaseHelper;
 import com.smarthometec.mobileapp.helpers.RoomAdapter;
+import com.smarthometec.mobileapp.helpers.Time;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import static com.smarthometec.mobileapp.Login.dbHelper;
  /**
  * @class ManageDevices
@@ -33,14 +49,23 @@ public class ManageDevices extends AppCompatActivity {
         TextView addRoom = (TextView)findViewById(R.id.addRoom);
         TextView addDevice = (TextView)findViewById(R.id.addDevice);
         Switch syncData = (Switch) findViewById(R.id.syncSwitch);
+        syncData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean switchState = syncData.isChecked();
+                if (switchState) {
+                    updateDatabaseDevice();
+                }else{
 
+                }
+            }
+        });
         addRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getTableControl();
                 Intent registerRoom = new Intent(ManageDevices.this, RegisterRoom.class);
                 dbHelper.getReadableDatabase();
-
                 registerRoom.putExtra("email",email);
                 ManageDevices.this.startActivity(registerRoom);
                 ManageDevices.this.finish();
@@ -65,11 +90,12 @@ public class ManageDevices extends AppCompatActivity {
         Cursor cursor = dbHelper.readAllData("TABLE_ROOM");
         if(cursor.getCount() != 0){
             while(cursor.moveToNext()){
-                nameRoom.add(cursor.getString(1));
+                nameRoom.add(cursor.getString(0));
             }
         }else{
             Toast.makeText(this, "No data at room table, ", Toast.LENGTH_SHORT).show();
         }
+        cursor.close();
     }
      //Llena las listas que mostraran los titulos de los devices
      private void getTableControl(){
@@ -88,9 +114,30 @@ public class ManageDevices extends AppCompatActivity {
          }else{
              Toast.makeText(this, "No data at room table, ", Toast.LENGTH_SHORT).show();
          }
+         cursor.close();
          System.out.println(id.toString());
          System.out.println(serialNumber.toString());
          System.out.println(date.toString());
          System.out.println(time.toString());
+     }
+
+     private void updateDatabaseDevice(){
+         StringRequest stringRequest = new StringRequest(Request.Method.GET, DatabaseHelper.SERVER_URL, new Response.Listener<String>() {
+             @Override
+             public void onResponse(String response) {
+                 try {
+                     JSONObject jsonObject = new JSONObject(response);
+                     //dbHelper.addDevice();
+                 } catch (JSONException e) {
+                     e.printStackTrace();
+                 }
+
+             }
+         }, new Response.ErrorListener() {
+             @Override
+             public void onErrorResponse(VolleyError error) {
+                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+             }
+         });
      }
 }

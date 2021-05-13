@@ -1,33 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".administration.RegisterDevice">
 
-    <TextView
-        android:id="@+id/deviceTName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/nameDevice"
-        android:textSize="20dp" />
-
-    <EditText
-        android:id="@+id/deviceName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
-        android:hint="@string/nameDevice"
-        android:textAlignment="center"
-        android:textSize="10dp" />
 
     <TextView
         android:id="@+id/deviceTSerial"
@@ -35,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="10dp"
         android:text="@string/serialDevice"
         android:textSize="20dp" />
@@ -159,6 +138,6 @@
         android:id="@+id/addDeviceBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:text="@string/registerDevice" />
 </LinearLayout>
