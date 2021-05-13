@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     this.dataStorageService.sendLoginInfoClient(form.value.email,form.value.password).
             subscribe( client => {
                 this.client = client;
-                if (this.client.email !== "") {
+                if (this.client.name !== "") {
                   this.clientService.setClient(this.client);
                   this.clientService.login = true; 
                   this.router.navigate(['/client/perfil']);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { ClientService } from './client.service';
 
 @Component({
@@ -14,12 +15,13 @@ export class ClientProfileComponent implements OnInit {
 
 
   constructor(private router: Router,
-    private clientService: ClientService) { }
+    private clientService: ClientService,
+    private dataStorageService: DataStorageService) { }
 
 
   onSubmit() {      
-    console.log(this.clientForm.value);
-
+    this.clientService.client = this.clientForm.value;
+    this.dataStorageService.updateClient(this.clientForm.value);
     this.clientForm.reset();
   }
 
@@ -82,6 +84,7 @@ export class ClientProfileComponent implements OnInit {
       password = client.password;
       continent = client.continent;
       country = client.country;
+      
 
       if (client['deliveryAdresses']) {
         for (let adress of client.deliveryAdresses) {
@@ -102,6 +105,7 @@ export class ClientProfileComponent implements OnInit {
         name: new FormControl(name, Validators.required),
         primaryLastName: new FormControl(primaryLastName,Validators.required),
         secondaryLastName: new FormControl(secondaryLastName, Validators.required),
+        email: new FormControl(email),
         password: new FormControl(password, Validators.required),
         continent: new FormControl(continent, Validators.required),
         country: new FormControl(country, Validators.required),
