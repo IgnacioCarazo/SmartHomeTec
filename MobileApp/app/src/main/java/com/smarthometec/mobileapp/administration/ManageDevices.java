@@ -90,7 +90,7 @@ public class ManageDevices extends AppCompatActivity {
         Cursor cursor = dbHelper.readAllData("TABLE_ROOM");
         if(cursor.getCount() != 0){
             while(cursor.moveToNext()){
-                nameRoom.add(cursor.getString(1));
+                nameRoom.add(cursor.getString(0));
             }
         }else{
             Toast.makeText(this, "No data at room table, ", Toast.LENGTH_SHORT).show();

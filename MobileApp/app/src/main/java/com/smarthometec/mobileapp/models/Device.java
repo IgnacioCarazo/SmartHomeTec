@@ -16,7 +16,6 @@ public class Device {
         this.room = room;
         this.date_created =date_created;
     }
-
     public int getSerialNumber() { return serialNumber; }
     public String getDescription(){return  description;}
     public String getConsumption() { return consumption; }

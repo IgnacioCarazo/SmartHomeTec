@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_DEVICE_BRAND = "brand";
     private static final String COLUMN_DEVICE_TYPE = "type";
     private static final String COLUMN_DEVICE_CREATION = "createdDate";
-    // DEVICE TYPE Table - column names
+    // Control Table - column names
     private static final String COLUMN_CONTROL_DATE = "date";
     private static final String COLUMN_CONTROL_TOTAL_TIME = "time";
     private static final String COLUMN_CONTROL_ID_DATE = "id";
@@ -53,16 +53,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_CLIENT_COUNTRY + " TEXT," + COLUMN_CLIENT_DELIVERY + " TEXT" + ")";
     // ROOM table create statement
     private static final String CREATE_TABLE_ROOM = "CREATE TABLE " + TABLE_ROOM
-            + "(" + KEY_EMAIL + " TEXT ," + KEY_ROOM_NAME + " TEXT PRIMARY KEY" + ")";
+            + "(" + KEY_ROOM_NAME + " TEXT PRIMARY KEY ," + KEY_EMAIL + " TEXT, "
+            + " FOREIGN KEY (" +KEY_EMAIL+ ") REFERENCES "+TABLE_CLIENT+"("+KEY_EMAIL+"));";
     // DEVICE table create statement
     private static final String CREATE_TABLE_DEVICE = "CREATE TABLE " + TABLE_DEVICE
             + "(" + KEY_DEVICE_SERIALNUMBER + " INTEGER PRIMARY KEY,"+  COLUMN_DEVICE_DESCRIPTION + " TEXT,"  +  COLUMN_DEVICE_CONSUMPTION + " TEXT,"
-            + COLUMN_DEVICE_BRAND + " TEXT," + COLUMN_DEVICE_TYPE + " TEXT,"
-            + KEY_ROOM_NAME + " TEXT," + COLUMN_DEVICE_CREATION+ " TEXT" + ")";
+            + COLUMN_DEVICE_BRAND + " TEXT," + COLUMN_DEVICE_TYPE + " TEXT,"+ COLUMN_DEVICE_CREATION+ " TEXT,"
+            + KEY_ROOM_NAME + " TEXT,"
+            + " FOREIGN KEY (" +KEY_ROOM_NAME+ ") REFERENCES "+TABLE_ROOM+"("+KEY_ROOM_NAME+"));";
     // CONTROL table create statement
     private static final String CREATE_TABLE_CONTROL = "CREATE TABLE " + TABLE_CONTROL
-            + "(" +COLUMN_CONTROL_ID_DATE+ " INTEGER PRIMARY KEY AUTOINCREMENT ," + KEY_DEVICE_SERIALNUMBER + " INTEGER, "+ COLUMN_CONTROL_DATE + " TEXT ,"
-            + COLUMN_CONTROL_TOTAL_TIME + " INTEGER" + ")";
+            + "(" +COLUMN_CONTROL_ID_DATE+ " INTEGER PRIMARY KEY AUTOINCREMENT ," + COLUMN_CONTROL_TOTAL_TIME + " INTEGER, "+ COLUMN_CONTROL_DATE + " TEXT ,"
+            + KEY_DEVICE_SERIALNUMBER + " INTEGER,"
+            + " FOREIGN KEY (" +KEY_DEVICE_SERIALNUMBER+ ") REFERENCES "+TABLE_DEVICE+"("+KEY_DEVICE_SERIALNUMBER+"));";
     public DatabaseHelper(@Nullable Context context) {
         super(context,DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -83,11 +86,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "values('admin@admin','DefaulRoom')");
         //populated first data DEVICE table
         db.execSQL("INSERT INTO " +TABLE_DEVICE+ "(" +KEY_DEVICE_SERIALNUMBER+ "," +COLUMN_DEVICE_DESCRIPTION+ "," +COLUMN_DEVICE_CONSUMPTION
-                +"," +COLUMN_DEVICE_BRAND+ "," +COLUMN_DEVICE_TYPE+ ","  +KEY_ROOM_NAME + "," + COLUMN_DEVICE_CREATION+ ")" +
-                "values(0000000,'defaultDescript','0W','DefaultBrand','DefaultType','DefaulRoom','DefaultDate')");
+                +"," +COLUMN_DEVICE_BRAND+ "," +COLUMN_DEVICE_TYPE+ "," + COLUMN_DEVICE_CREATION+ ","  +KEY_ROOM_NAME +  ")" +
+                "values(0000000,'defaultDescript','0W','DefaultBrand','DefaultType','DefaultDate','DefaulRoom')");
         //populated first data CONTROL table
-        db.execSQL("INSERT INTO " +TABLE_CONTROL+ "(" +COLUMN_CONTROL_ID_DATE+ ","  +KEY_DEVICE_SERIALNUMBER+ "," +COLUMN_CONTROL_DATE+ "," +COLUMN_CONTROL_TOTAL_TIME+ ")" +
-                "values(0,0000000,'HOY',0)");
+        db.execSQL("INSERT INTO " +TABLE_CONTROL+ "(" +COLUMN_CONTROL_ID_DATE+ ","  +COLUMN_CONTROL_TOTAL_TIME+ "," +COLUMN_CONTROL_DATE+ "," +KEY_DEVICE_SERIALNUMBER+ ")" +
+                "values(0,0,'HOY',0000000)");
+
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -166,8 +170,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_DEVICE_CONSUMPTION,consume);
         cv.put(COLUMN_DEVICE_BRAND,brand);
         cv.put(COLUMN_DEVICE_TYPE, type);
-        cv.put(KEY_ROOM_NAME,room);
         cv.put(COLUMN_DEVICE_CREATION,date_created);
+        cv.put(KEY_ROOM_NAME,room);
         long result = db.insert(TABLE_DEVICE,null,cv);
         if(result == -1){
             Toast.makeText(context, "Failed adding a Device in LocalDatabase", Toast.LENGTH_SHORT).show();
