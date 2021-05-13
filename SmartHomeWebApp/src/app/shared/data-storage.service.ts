@@ -74,6 +74,23 @@ export class DataStorageService {
     });      
   }
 
+   /**
+  * @name updateClient()
+  * @description It sends an http put request to the backend to store all the devices.
+  */
+    updateClient(client: Client) {
+      console.log("client", client);
+      this.http
+        .put(
+          'https://localhost:5001/api/Client/',
+          client
+        )
+        .subscribe(response => {
+          console.log(response);
+        });
+        
+    }
+
 /**
  * ------------------------------------------------
   * http requests de dispositivos
