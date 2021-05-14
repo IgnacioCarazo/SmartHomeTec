@@ -8,7 +8,6 @@ export class Client {
     public continent: string;
     public country: string;
     public deliveryAdresses: string[];
-    public rooms: string[]; // lista con los nombres de los rooms
   
       constructor(name: string, primaryLastName: string, secondaryLastName: string,
                   email: string, password: string, continent: string, country: string, deliveryAdresses: string[]) {
@@ -20,7 +19,6 @@ export class Client {
           this.continent = continent;
           this.country = country;
           this.deliveryAdresses = deliveryAdresses;
-          this.rooms = ["Dormitorio", "Cocina", "Sala", "Comedor"];
      }
     }
     
