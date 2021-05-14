@@ -15,5 +15,7 @@ namespace BackEndModel
         public string type { get; set;}
         public string room { get; set; }
         public string createdDate { get; set; }
+        public string emailOwner { get; set; }
+        public bool active { get; set; }
     }
 }

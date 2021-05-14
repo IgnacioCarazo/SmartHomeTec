@@ -26,7 +26,7 @@ namespace BackEndData.Repositories
             var db = dbConnection();
 
             var sql = @"
-                        SELECT ""serialNumber"", description, consumption, brand, type, room, ""createdDate"" 
+                        SELECT ""serialNumber"", description, consumption, brand, type, room, ""createdDate"", ""emailOwner"", active
                         FROM public.""RegisteredDevice"" ";
 
             return await db.QueryAsync<AppDevice>(sql, new { });
@@ -37,7 +37,7 @@ namespace BackEndData.Repositories
             var db = dbConnection();
 
             var sql = @"
-                        SELECT ""serialNumber"", description, consumption, brand, type, room, ""createdDate""
+                        SELECT ""serialNumber"", description, consumption, brand, type, room, ""createdDate"", ""ownerEmail"", active
                         FROM public.""RegisteredDevice"" 
                         WHERE ""serialNumber"" = @serialNumber ";
 
@@ -48,9 +48,42 @@ namespace BackEndData.Repositories
         {
             var db = dbConnection();
 
+
+
+            var query = @"
+                        SELECT COUNT(*)
+                        FROM public.""RegisteredDevice"" 
+                        WHERE ""serialNumber"" = @serialNumber ";
+
+            
+            int cantDevices = db.ExecuteScalar<int>(query, new {
+            
+                device.serialNumber,
+                device.description,
+                device.consumption,
+                device.brand,
+                device.type,
+                device.room,
+                device.createdDate
+            });
+
+            if (cantDevices > 0) { 
+            
+                var sqlupdate = @"
+                            UPDATE public.""RegisteredDevice"" 
+                            SET active = false
+                            WHERE ""serialNumber"" = @serialNumber AND active = true";
+
+                await db.ExecuteAsync(sqlupdate, new
+                {
+                    
+                    device.serialNumber
+                });
+            }
+            
             var sql = @"
-                        INSERT INTO  public.""RegisteredDevice"" (""serialNumber"", description, consumption, brand, type, room, ""createdDate"")
-                        VALUES (@serialNumber, @description, @consumption, @brand, @type, @room, @createdDate) ";
+                        INSERT INTO  public.""RegisteredDevice"" (""serialNumber"", description, consumption, brand, type, room, ""createdDate"", ""emailOwner"", active)
+                        VALUES (@serialNumber, @description, @consumption, @brand, @type, @room, @createdDate, @emailOwner, @active) ";
 
             var result = await db.ExecuteAsync(sql, new
             {
@@ -60,7 +93,9 @@ namespace BackEndData.Repositories
                 device.brand,
                 device.type,
                 device.room,
-                device.createdDate
+                device.createdDate,
+                device.emailOwner,
+                device.active
             });
 
             return result > 0;
