@@ -37,7 +37,7 @@ namespace BackEndData.Repositories
                         COPY (SELECT ds.name AS ""Distributor"", dv.name AS ""Product"", ds.continent AS ""Continent"", ds.country AS ""Country""
                         FROM public.""Distributor"" ds 
                         INNER JOIN public.""Device"" dv ON ds.dni = dv.""dniDistributor""
-                        GROUP BY ""Distributor"",""Product"", ""Continent"",""Country"") TO 'C:\Users\mario\Desktop\excel\distributorDevice.csv' DELIMITER ',' CSV HEADER ";
+                        GROUP BY ""Distributor"",""Product"", ""Continent"",""Country"") TO '/Users/nachocarazo/Desktop/Excel/distributorDevice.csv' DELIMITER ',' CSV HEADER ";
             db.Query(sql);
             
         }

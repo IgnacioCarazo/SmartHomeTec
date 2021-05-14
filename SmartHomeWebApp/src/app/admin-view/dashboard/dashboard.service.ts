@@ -18,12 +18,16 @@ export class DashboardService {
         return this._dispRegiones;
     }
     setDispRegiones(value) {
+        console.log(value);
+        let dispRegiones = [];
         for (let region of value) {
             let lista = [];
             lista.push(region.Region);
             lista.push(region.Cantidad);
-            this._dispRegiones.push(lista);
+            dispRegiones.push(lista);
         }
+        console.log(dispRegiones)
+        this._dispRegiones = dispRegiones;
     }
 
     getAverageDevices(): number {

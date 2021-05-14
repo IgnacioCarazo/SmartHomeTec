@@ -1,15 +1,7 @@
 <div class="row">
     <div class="col-xs-12">
       <form [formGroup]="deviceForm" (ngSubmit)="onSubmit()">
-        <div class="row">
-          <div class="col-xs-12">
-            <button
-              type="submit"
-              class="btn btn-success"
-              [disabled]="!deviceForm.valid">Guardar</button>
-            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancelar</button>
-          </div>
-        </div>
+        
         <hr>
         <div class="row">
           <div class="col-xs-12">
@@ -40,7 +32,7 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="form-group">
-              <label for="dniDistributor">DNI Distribuidor</label>
+              <label for="dniDistributor">Cedula Juridica Distribuidor</label>
               <input
                 type="text"
                 id="dniDistributor"
@@ -89,6 +81,15 @@
             </div>
           </div>
         
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <button
+              type="submit"
+              class="btn btn-success"
+              [disabled]="!deviceForm.valid">Guardar</button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancelar</button>
+          </div>
         </div>
       </form>
     </div>

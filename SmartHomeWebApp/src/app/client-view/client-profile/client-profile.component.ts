@@ -21,6 +21,11 @@ export class ClientProfileComponent implements OnInit {
 
   onSubmit() {      
     this.clientService.client = this.clientForm.value;
+    let dA = [];
+    for (let dAdd of this.clientForm.value.deliveryAdresses) {
+      dA.push(dAdd.adress);
+    }
+    this.clientForm.value.deliveryAdresses = dA;
     this.dataStorageService.updateClient(this.clientForm.value);
     this.clientForm.reset();
   }
@@ -97,9 +102,8 @@ export class ClientProfileComponent implements OnInit {
       }
   
       console.log(client);
-  
-  
-  
+      let adressssss = deliveryAdresses.value;
+      console.log(adressssss)
   
       this.clientForm = new FormGroup({
         name: new FormControl(name, Validators.required),
