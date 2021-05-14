@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ClientService } from 'src/app/client-view/client-profile/client.service';
+import { AppDevice } from 'src/app/models/app-device.model';
 import { Client } from 'src/app/models/client.model';
 import { DeviceType } from 'src/app/models/device-type.model';
 
@@ -13,8 +14,11 @@ import { DistributorService } from '../distributor/distributor.service';
 export class DeviceService {
   device: Device;
   client: Client;
-  private devices: Device[] = []
+  private devices: Device[] = [];
+  private appDevices: AppDevice[] = [];
   devicesChanged = new Subject<Device[]>();
+  appDevicesChanged = new Subject<AppDevice[]>();
+
   private devicesByClientRegion: Device[];
 
 
@@ -34,6 +38,24 @@ export class DeviceService {
   }
 
   /**
+  * @name setAppDevices()
+  * @argument {AppDevice[]} app devices
+  * @description  It set this service appDevices with the value of the devices argument.
+  */
+   setAppDevices(appDevices: AppDevice[]) {
+    this.appDevices = appDevices;
+    this.appDevicesChanged.next(this.appDevices.slice());
+  }
+
+  /**
+  * @name getAppDevices()
+  * @returns The array of app devices of this service.  
+  */
+   getAppDevices() {
+    return this.appDevices.slice();
+  }
+
+  /**
   * @name setDevice()
   * @argument {Device} device
   * @description  It sets the value of this service device with the device from the argument.
@@ -47,6 +69,7 @@ export class DeviceService {
   * @returns The array of devices of this service.  
   */
   getDevices() {
+    console.log(this.devices);
     return this.devices.slice();
   }
 

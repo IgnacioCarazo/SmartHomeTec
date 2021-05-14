@@ -45,7 +45,8 @@ const appRoutes: Routes = [
   
   //admin paths
   { path: 'admin/login', component: AdminLoginComponent },
-  { path: 'admin/dashboard', component: DashboardComponent },
+  { path: 'admin/dashboard', component: DashboardComponent ,
+  resolve: [DeviceResolverService]},
   { path: 'admin/gestion-dispositivos', component: DevicesComponent,
   resolve: [DeviceResolverService],
    children: [

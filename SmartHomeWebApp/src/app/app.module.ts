@@ -40,6 +40,7 @@ import { StoreDeviceItemComponent } from './client-view/online-store/store-devic
 import { DataStorageService } from './shared/data-storage.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AvailableRegionsComponent } from './shared/available-regions/available-regions.component';
+import { DashboardService } from './admin-view/dashboard/dashboard.service';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { AvailableRegionsComponent } from './shared/available-regions/available-
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ClientService, DeviceService, DeviceTypeService, DistributorService, DataStorageService],
+  providers: [ClientService, DeviceService, DeviceTypeService, DistributorService, DataStorageService,
+              DashboardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,6 +12,8 @@ import { DeviceTypeService } from "../admin-view/device-types/device-types.servi
 import { Admin } from "../models/admin.model";
 import { Distributor } from "../models/distributor.model";
 import { DistributorService } from "../admin-view/distributor/distributor.service";
+import { DashboardService } from "../admin-view/dashboard/dashboard.service";
+import { AppDevice } from "../models/app-device.model";
 
 
 
@@ -25,7 +27,8 @@ export class DataStorageService {
                 private clientService: ClientService,
                 private deviceService: DeviceService,
                 private deviceTypeService: DeviceTypeService,
-                private distributorService: DistributorService
+                private distributorService: DistributorService,
+                private dashboardService: DashboardService
                 ) {
 
     }
@@ -165,6 +168,30 @@ export class DataStorageService {
         })
       )
   }
+
+  /**
+  * @name fetchAppDevices()
+  * @returns An observable array of app devices  
+  */
+   fetchAppDevices() {
+    return this.http
+      .get<AppDevice[]>(
+        'https://localhost:5001/api/AppDevice'
+      )
+      .pipe(
+        map(appDevices => {
+          return appDevices.map(appDevice => {
+            return {
+              ...appDevice
+            };
+          });
+        }),
+        tap(appDevices => {
+          console.log(appDevices);
+          this.deviceService.setAppDevices(appDevices);
+        })
+      )
+  }
   /**
    * ------------------------------------------------
   * http requests de tipo de dispositivos
@@ -293,6 +320,15 @@ export class DataStorageService {
         })
       )
   }
+  /**
+  * @name getExcel()
+  * @description  It sends an http get request to the backend to generate the excel file. 
+
+  */
+   getExcel() {
+     console.log("EXCEL");
+    return this.http.get('https://localhost:5001/api/Distributor/excel').subscribe();    
+  }
 
   /**
    * ------------------------------------------------
@@ -301,27 +337,21 @@ export class DataStorageService {
   */
 
   /**
-  * @name fetchDashboard()
+  * @name fetchDevicesAverage()
   * @description Sends an http get request to fetch the Dashboard values from the database.
   */
-   fetchDashboard() {
-    return this.http
-      .get<Distributor[]>(
-        'https://localhost:5001/api/Dashboard'
-      )
-      .pipe(
-        map(distributors => {
-          return distributors.map(distributor => {
-            return {
-              ...distributor
-            };
-          });
-        }),
-        tap(distributors => {
-          console.log(distributors);
-          this.distributorService.setDistributors(distributors);
-        })
-      )
+   fetchDevicesAverage() {
+    return this.http.get<number>('https://localhost:5001/api/Device/average')  
 } 
+
+/**
+  * @name fetchDevicesRegion()
+  * @description  Sends an http get request to the backend to fetch the array of distributors.
+  * @returns An observable of an array of distributors.
+  */
+ fetchDevicesRegion() {
+  return this.http.get('https://localhost:5001/api/Distributor/region')
+}
+
   
 }
