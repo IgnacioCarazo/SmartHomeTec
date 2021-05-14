@@ -16,6 +16,8 @@ export class StoreComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+
   loadExcelFile(event: any) {
     const target : DataTransfer =  <DataTransfer>(event.target);
     
@@ -37,7 +39,8 @@ export class StoreComponent implements OnInit {
       console.log(workSheet);
 
       this.data = (XLSX.utils.sheet_to_json(workSheet, { header: 1 }));
-
+      console.log(this.data.slice(1));
+      this.data = this.data.slice(1);
       console.log(this.data);
 
     };
