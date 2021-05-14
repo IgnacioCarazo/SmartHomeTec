@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace BackEndData.InterfaceRepositories
 {
-    public interface IDistributor
+    public interface IAppDevice
     {
-        public Task<IEnumerable<Distributor>> GetDistributors();
-        public void GetExcel();
-        public IEnumerable<dynamic> GetDeviceRegion();
+        Task<IEnumerable<AppDevice>> GetAllAppDevices();
+        Task<AppDevice> GetAppDevice(int serialNumber);
+        Task<bool> InsertAppDevice(AppDevice device);
     }
 }

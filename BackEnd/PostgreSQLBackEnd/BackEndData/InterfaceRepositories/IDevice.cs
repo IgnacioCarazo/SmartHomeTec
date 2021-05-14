@@ -14,5 +14,6 @@ namespace BackEndData.InterfaceRepositories
         Task<bool> InsertDevice(Device device);
         Task<bool> UpdateDevice(Device device);
         Task<bool> DeleteDevice(Device device);
+        Task<int> DeviceAVG();
     }
 }

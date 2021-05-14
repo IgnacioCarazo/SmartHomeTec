@@ -276,7 +276,7 @@ namespace PostgreSQLBackEnd.DataManagement
             newWarranty.brand = device.brand;
             newWarranty.deviceTypeName = device.typeName;
             newWarranty.purchaseDate = order.date;
-            DateTime orderDate = DateTime.ParseExact(order.date, "dd/MM/yyyy", null);
+            DateTime orderDate = DateTime.ParseExact(order.date,"dd/MM/yyyy",null);
             DateTime warrantyTime = orderDate.AddMonths(warranty);
             newWarranty.expireDate = warrantyTime.ToString("dd/MM/yyyy");
             return newWarranty;
