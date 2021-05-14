@@ -10,5 +10,6 @@ namespace BackEndData.InterfaceRepositories
     public interface IDistributor
     {
         public Task<IEnumerable<Distributor>> GetDistributors();
+        public void GetExcel();
     }
 }
