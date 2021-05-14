@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataStorageService } from 'src/app/shared/data-storage.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -10,10 +11,11 @@ export class StoreComponent implements OnInit {
 
   data: [][];
   flag = false;
-  constructor() { }
+  constructor(private dataStorageService: DataStorageService) { }
 
 
   ngOnInit(): void {
+    this.dataStorageService.getExcel();
   }
 
 

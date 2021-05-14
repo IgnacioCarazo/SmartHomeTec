@@ -1,4 +1,4 @@
-﻿using BackEndData.InterfaceRepositories;
+using BackEndData.InterfaceRepositories;
 using BackEndModel;
 using Dapper;
 using Npgsql;

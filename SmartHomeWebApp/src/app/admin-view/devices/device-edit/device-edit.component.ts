@@ -87,6 +87,7 @@ export class DeviceEditComponent implements OnInit {
         serialNumber: new FormControl(serialNumber),
         eConsumption: new FormControl(eConsumption, Validators.required),
         brand: new FormControl(brand, Validators.required),
+        associated: new FormControl(false),
         typeName: new FormControl(deviceTypeName, Validators.required),
         price: new FormControl(price, Validators.required),
         dniDistributor: new FormControl(dniDistributor, Validators.required),
