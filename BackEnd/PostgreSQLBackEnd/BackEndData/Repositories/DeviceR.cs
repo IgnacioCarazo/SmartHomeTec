@@ -123,5 +123,32 @@ namespace BackEndData.Repositories
 
             return result > 0;
         }
+
+        public async Task<int> DeviceAVG()
+        {
+            var db = dbConnection();
+
+            var query = @"
+                        SELECT COUNT(DISTINCT ""ownerEmail"")
+                        FROM public.""Device"" 
+                        WHERE associated = true ";
+
+            
+            int users = db.ExecuteScalar<int>(query, new{});
+
+            var query2 = @"
+                        SELECT COUNT(""serialNumber"")
+                        FROM public.""Device"" 
+                        WHERE associated = true";
+            int devices = db.ExecuteScalar<int>(query2, new { });
+
+            if (users == 0)
+            {
+                return 0;
+            }
+            int average = (int)Math.Round((double)devices / users);
+            return average;
+            
+        }
     }
 }

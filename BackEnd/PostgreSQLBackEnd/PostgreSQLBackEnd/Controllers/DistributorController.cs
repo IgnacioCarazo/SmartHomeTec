@@ -16,9 +16,24 @@ namespace PostgreSQLBackEnd.Controllers
         public DistributorController(IDistributor distributorI) => _distributorI = distributorI;
 
         [HttpGet]
-        public async Task<IActionResult> GetAllClients()
+        public async Task<IActionResult> GetAllDistributors()
         {
+            
             return Ok(await _distributorI.GetDistributors());
+        }
+
+        [HttpGet("excel")]
+        public IActionResult GetEx()
+        {
+            _distributorI.GetExcel();
+
+            return Ok("Generated");
+        }
+
+        [HttpGet("region")]
+        public IActionResult GetReg()
+        {
+            return Ok(_distributorI.GetDeviceRegion());
         }
     }
 }

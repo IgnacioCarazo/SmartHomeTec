@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace BackEndData.InterfaceRepositories
 {
-    public interface IDistributor
+    public interface IControl
     {
-        public Task<IEnumerable<Distributor>> GetDistributors();
-        public void GetExcel();
-        public IEnumerable<dynamic> GetDeviceRegion();
+        Task<IEnumerable<Control>> GetAll();
+        Task<bool> InsertControl(Control control);
     }
 }

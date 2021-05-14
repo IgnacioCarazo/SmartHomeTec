@@ -8,8 +8,12 @@ namespace BackEndModel
 {
     public class AppDevice
     {
-        public string name { get; set; }
+        public int serialNumber { get; set; }
         public string description { get; set; }
         public string consumption { get; set; }
+        public string brand { get; set; }
+        public string type { get; set;}
+        public string room { get; set; }
+        public string createdDate { get; set; }
     }
 }
