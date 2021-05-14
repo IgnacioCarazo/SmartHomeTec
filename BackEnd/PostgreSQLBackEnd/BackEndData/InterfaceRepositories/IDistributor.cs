@@ -11,5 +11,6 @@ namespace BackEndData.InterfaceRepositories
     {
         public Task<IEnumerable<Distributor>> GetDistributors();
         public void GetExcel();
+        public IEnumerable<dynamic> GetDeviceRegion();
     }
 }

@@ -18,6 +18,7 @@ namespace PostgreSQLBackEnd.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDistributors()
         {
+            
             return Ok(await _distributorI.GetDistributors());
         }
 
@@ -27,6 +28,12 @@ namespace PostgreSQLBackEnd.Controllers
             _distributorI.GetExcel();
 
             return Ok("Generated");
+        }
+
+        [HttpGet("region")]
+        public IActionResult GetReg()
+        {
+            return Ok(_distributorI.GetDeviceRegion());
         }
     }
 }

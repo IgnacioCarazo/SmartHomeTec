@@ -19,6 +19,7 @@ namespace PostgreSQLBackEnd.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDevice()
         {
+            await _device.DeviceAVG();
             return Ok(await _device.GetAllDevices());
         }
 
@@ -65,6 +66,12 @@ namespace PostgreSQLBackEnd.Controllers
         {
             await _device.DeleteDevice(new Device { serialNumber = _serialNumber });
             return Ok(await _device.GetAllDevices());
+        }
+
+        [HttpGet("average")]
+        public async Task<IActionResult> GetAVG()
+        {
+            return Ok(await _device.DeviceAVG());
         }
     }
 }
