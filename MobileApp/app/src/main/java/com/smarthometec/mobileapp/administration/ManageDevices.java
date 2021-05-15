@@ -3,7 +3,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,21 +11,24 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.smarthometec.mobileapp.R;
 import com.smarthometec.mobileapp.database.DatabaseHelper;
 import com.smarthometec.mobileapp.helpers.RoomAdapter;
-import com.smarthometec.mobileapp.helpers.Time;
+import com.smarthometec.mobileapp.models.Control;
+import com.smarthometec.mobileapp.models.Device;
+import com.smarthometec.mobileapp.models.Room;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static com.smarthometec.mobileapp.Login.dbHelper;
  /**
@@ -38,25 +40,40 @@ public class ManageDevices extends AppCompatActivity {
     private RoomAdapter roomAdapter;
     private RecyclerView recyclerView;
     private ArrayList<String> nameRoom;
+    private ArrayList<ArrayList> serialNumber;
+    private ArrayList<ArrayList> deviceType;
+    private ArrayList<ArrayList> brand;
+    private ArrayList<ArrayList> description;
+    private ArrayList<ArrayList> consume;
+    private ArrayList<ArrayList> timeLeft;
     private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_devices);
         email = getIntent().getStringExtra("email");
-
         recyclerView = findViewById(R.id.recyclerView);
-        TextView addRoom = (TextView)findViewById(R.id.addRoom);
-        TextView addDevice = (TextView)findViewById(R.id.addDevice);
-        Switch syncData = (Switch) findViewById(R.id.syncSwitch);
+        TextView addRoom = findViewById(R.id.addRoom);
+        TextView addDevice = findViewById(R.id.addDevice);
+        Switch syncData = findViewById(R.id.syncSwitch);
         syncData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean switchState = syncData.isChecked();
                 if (switchState) {
+                    Cursor cursor = dbHelper.deleteAllData("TABLE_ROOM");
+                    cursor.close();
+                    Cursor cursor2 = dbHelper.deleteAllData("TABLE_DEVICE");
+                    cursor2.close();
+                    Cursor cursor3 = dbHelper.deleteAllData("TABLE_CONTROL");
+                    cursor3.close();
+                    updateDatabaseRoom();
                     updateDatabaseDevice();
+                    updateDatabaseControl();
                 }else{
-
+                    Intent manage = new Intent(ManageDevices.this, ManageDevices.class);
+                    ManageDevices.this.startActivity(manage);
+                    ManageDevices.this.finish();
                 }
             }
         });
@@ -65,7 +82,6 @@ public class ManageDevices extends AppCompatActivity {
             public void onClick(View v) {
                 getTableControl();
                 Intent registerRoom = new Intent(ManageDevices.this, RegisterRoom.class);
-                dbHelper.getReadableDatabase();
                 registerRoom.putExtra("email",email);
                 ManageDevices.this.startActivity(registerRoom);
                 ManageDevices.this.finish();
@@ -80,8 +96,14 @@ public class ManageDevices extends AppCompatActivity {
             }
         });
         nameRoom = new ArrayList<>();
+        serialNumber = new ArrayList<ArrayList>();
+        deviceType = new ArrayList<>();
+        brand = new ArrayList<>();
+        description = new ArrayList<>();
+        consume = new ArrayList<>();
+        timeLeft = new ArrayList<>();
         storeDataArray();
-        roomAdapter = new RoomAdapter(ManageDevices.this,this,nameRoom);
+        roomAdapter = new RoomAdapter(ManageDevices.this,this,nameRoom,serialNumber,description,deviceType,brand,consume,timeLeft);
         recyclerView.setAdapter(roomAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(ManageDevices.this));
     }
@@ -91,6 +113,31 @@ public class ManageDevices extends AppCompatActivity {
         if(cursor.getCount() != 0){
             while(cursor.moveToNext()){
                 nameRoom.add(cursor.getString(0));
+                ArrayList<Integer> serialNumber_sub = new ArrayList<>();
+                ArrayList<String> deviceType_sub = new ArrayList<>();
+                ArrayList<String>  description_sub = new ArrayList<>();
+                ArrayList<String>  consume_sub = new ArrayList<>();
+                ArrayList<String>  timeLeft_sub = new ArrayList<>();
+                ArrayList<String>  brand_sub = new ArrayList<>();
+                Cursor cursor2 = dbHelper.getDeviceDataOfRoom(cursor.getString(0));
+                if (cursor2.getCount() == 0) {
+                    System.out.println("No data for this"+cursor.getString(0)+" room");
+                } else {
+                    while (cursor2.moveToNext()) {
+                        serialNumber_sub.add(cursor2.getInt(0));
+                        description_sub.add(cursor2.getString(1));
+                        consume_sub.add(cursor2.getString(3));
+                        deviceType_sub.add(cursor2.getString(2));
+                        timeLeft_sub.add(cursor2.getString(5));
+                        brand_sub.add(cursor2.getString(4));
+                    }
+                }
+                serialNumber.add(serialNumber_sub);
+                deviceType.add(description_sub);
+                description.add(consume_sub);
+                consume.add(deviceType_sub);
+                timeLeft.add(timeLeft_sub);
+                brand.add(brand_sub);
             }
         }else{
             Toast.makeText(this, "No data at room table, ", Toast.LENGTH_SHORT).show();
@@ -99,10 +146,10 @@ public class ManageDevices extends AppCompatActivity {
     }
      //Llena las listas que mostraran los titulos de los devices
      private void getTableControl(){
-        ArrayList<String> id = new ArrayList<String>();
-        ArrayList<String> serialNumber = new ArrayList<String>();
-        ArrayList<String> date = new ArrayList<String>();
-        ArrayList<String> time = new ArrayList<String>();
+        ArrayList<String> id = new ArrayList<>();
+        ArrayList<String> serialNumber = new ArrayList<>();
+        ArrayList<String> date = new ArrayList<>();
+        ArrayList<String> time = new ArrayList<>();
          Cursor cursor = dbHelper.readAllData("TABLE_CONTROL");
          if(cursor.getCount() != 0){
              while(cursor.moveToNext()){
@@ -115,29 +162,115 @@ public class ManageDevices extends AppCompatActivity {
              Toast.makeText(this, "No data at room table, ", Toast.LENGTH_SHORT).show();
          }
          cursor.close();
-         System.out.println(id.toString());
-         System.out.println(serialNumber.toString());
-         System.out.println(date.toString());
-         System.out.println(time.toString());
      }
-
+     //Funcion que Actualiza la base de datos interna DEVICE
      private void updateDatabaseDevice(){
-         StringRequest stringRequest = new StringRequest(Request.Method.GET, DatabaseHelper.SERVER_URL, new Response.Listener<String>() {
-             @Override
-             public void onResponse(String response) {
-                 try {
-                     JSONObject jsonObject = new JSONObject(response);
-                     //dbHelper.addDevice();
-                 } catch (JSONException e) {
-                     e.printStackTrace();
-                 }
-
-             }
-         }, new Response.ErrorListener() {
+         String getURL = DatabaseHelper.SERVER_URL + "api/Device";
+         RequestQueue requestQueue = Volley.newRequestQueue(this);
+         JsonArrayRequest arrayReq = new JsonArrayRequest(getURL,
+                 new Response.Listener<JSONArray>() {
+                     @Override
+                     public void onResponse(JSONArray response) {
+                         try {
+                             JSONArray allDevices = response;
+                             for (int i = 0; i <allDevices.length(); i++) {
+                                 JSONObject device = allDevices.getJSONObject(i);
+                                 int device_SerialNumber = device.getInt("serialNumber");
+                                 String device_Description = device.getString("description");
+                                 String device_consumption = device.getString("consumption");
+                                 String device_brand = device.getString("brand");
+                                 String device_type = device.getString("type");
+                                 String device_room= device.getString("room_name");
+                                 String device_createdDate = device.getString("createdDate");
+                                 Device addDevice = new Device();
+                                 addDevice.setSerialNumber(device_SerialNumber);
+                                 addDevice.setDescription(device_Description);
+                                 addDevice.setConsumption(device_consumption);
+                                 addDevice.setBrand(device_brand);
+                                 addDevice.setType(device_type);
+                                 addDevice.setRoom(device_room);
+                                 addDevice.setDate_created(device_createdDate);
+                                 addDevice.setUserEmail(email);
+                                 dbHelper.insertDevice(ManageDevices.this,addDevice.getSerialNumber(),addDevice.getDescription(),addDevice.getConsumption(),addDevice.getBrand(),addDevice.getType(),addDevice.getDate_created(),addDevice.getRoom(),addDevice.getUserEmail(),addDevice.isActive());
+                             }
+                         } catch (JSONException e) {
+                             System.out.println("JSON ERROR getting Device info"+e);
+                         }
+                     }
+                 }, new Response.ErrorListener() {
              @Override
              public void onErrorResponse(VolleyError error) {
-                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                 error.printStackTrace();
              }
          });
+         arrayReq.setRetryPolicy(new RetryPolicy() { @Override public int getCurrentTimeout() { return 50000; } @Override public int getCurrentRetryCount() { return 50000; } @Override public void retry(VolleyError error) throws VolleyError { } });
+         requestQueue.add(arrayReq);
+     }
+     //Funcion que Actualiza la base de datos interna ROOM
+     private void updateDatabaseRoom(){
+         String getURL = DatabaseHelper.SERVER_URL + "api/Room";
+         RequestQueue requestQueue = Volley.newRequestQueue(this);
+         JsonArrayRequest arrayReq = new JsonArrayRequest( getURL,
+                 new Response.Listener<JSONArray>() {
+                     @Override
+                     public void onResponse(JSONArray response) {
+                         System.out.println(response.toString());
+                         try {
+                             JSONArray allRooms = response;
+                             for (int i = 0; i <allRooms.length(); i++) {
+                                 JSONObject room = allRooms.getJSONObject(i);
+                                 String room_Name = room.getString("name");
+                                 String room_UserEmail = room.getString("userEmail");
+                                 Room addRoom = new Room();
+                                 addRoom.setName(room_Name);
+                                 addRoom.setUserEmail(room_UserEmail);
+                                 dbHelper.insertRoom(ManageDevices.this,addRoom.getName(),addRoom.getUserEmail());
+                             }
+                         } catch (JSONException e) {
+                             System.out.println("JSON ERROR getting Room info"+e);
+                         }
+                     }
+                 }, new Response.ErrorListener() {
+             @Override
+             public void onErrorResponse(VolleyError error) {
+                 error.printStackTrace();
+             }
+         });
+         arrayReq.setRetryPolicy(new RetryPolicy() { @Override public int getCurrentTimeout() { return 50000; } @Override public int getCurrentRetryCount() { return 50000; } @Override public void retry(VolleyError error) throws VolleyError { } });
+         requestQueue.add(arrayReq);
+     }
+     //Funcion que Actualiza la base de datos interna CONTROL
+     private void updateDatabaseControl(){
+         String getURL = DatabaseHelper.SERVER_URL + "api/Control";
+         RequestQueue requestQueue = Volley.newRequestQueue(this);
+         JsonArrayRequest arrayReq = new JsonArrayRequest( getURL,
+                 new Response.Listener<JSONArray>() {
+                     @Override
+                     public void onResponse(JSONArray response) {
+                         try {
+                             JSONArray allRegister = response;
+                             for (int i = 0; i <allRegister.length(); i++) {
+                                 JSONObject device = allRegister.getJSONObject(i);
+                                 int device_serial = device.getInt("serialNumber");
+                                 String device_date = device.getString("date");
+                                 int device_time = device.getInt("time");
+                                 Control addControl = new Control();
+                                 addControl.setSerialNumber(device_serial);
+                                 addControl.setDate(device_date);
+                                 addControl.setTime(device_time);
+                                 dbHelper.insertControl(ManageDevices.this,addControl.getSerialNumber(),addControl.getDate(),addControl.getTime());
+                             }
+                         } catch (JSONException e) {
+                             System.out.println("JSON ERROR getting Control info"+e);
+                         }
+                     }
+                 }, new Response.ErrorListener() {
+             @Override
+             public void onErrorResponse(VolleyError error) {
+                 error.printStackTrace();
+             }
+         });
+         arrayReq.setRetryPolicy(new RetryPolicy() { @Override public int getCurrentTimeout() { return 50000; } @Override public int getCurrentRetryCount() { return 50000; } @Override public void retry(VolleyError error) throws VolleyError { } });
+         requestQueue.add(arrayReq);
      }
 }

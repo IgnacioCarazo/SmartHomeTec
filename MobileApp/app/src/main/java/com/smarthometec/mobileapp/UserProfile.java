@@ -13,6 +13,8 @@ import com.smarthometec.mobileapp.administration.ManageDevices;
 import com.smarthometec.mobileapp.models.Client;
 
 import static com.smarthometec.mobileapp.Login.db;
+import static com.smarthometec.mobileapp.Login.dbHelper;
+
 /**
  * @class UserProfile
  * Se obtiene los datos perfil del Usuario
@@ -42,7 +44,7 @@ public class UserProfile extends AppCompatActivity {
         tvCountry = findViewById(R.id.profileCountry);
         tvAddress = findViewById(R.id.profileAddress);
 
-        clientInfo = getUserInformation();
+        clientInfo = getUserInformation(email);
 
         tvUserName.setText(clientInfo.getName());
         tvFLastName.setText(clientInfo.getPrimaryLastName());
@@ -60,14 +62,16 @@ public class UserProfile extends AppCompatActivity {
                 manageDevices.putExtra("email",email);
                 UserProfile.this.startActivity(manageDevices);
                 UserProfile.this.finish();
+                Cursor cursor = dbHelper.deleteAllData("TABLE_CLIENT");
+                cursor.close();
             }
         });
     }
     /**
      * Se obtiene los datos perfil del Usuario consultando a la base de datos interna
      */
-    private Client getUserInformation(){
-        @SuppressLint("Recycle") Cursor row = db.rawQuery("select name,primaryLastName,secondaryLastName,continent,country,deliveryAddress from TABLE_CLIENT ", null);
+    private Client getUserInformation(String email){
+        @SuppressLint("Recycle") Cursor row = db.rawQuery("select name,primaryLastName,secondaryLastName,continent,country,deliveryAddress from TABLE_CLIENT where userEmail = '"+ email+ "'", null);
         Client user = new Client();
         try {
             if(row.moveToFirst()){
