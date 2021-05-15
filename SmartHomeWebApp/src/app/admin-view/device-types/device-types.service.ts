@@ -29,7 +29,7 @@ export class DeviceTypeService {
 /**
 * @name setDeviceType()
 * @argument {DeviceType} deviceType
-* @description  It sets the value of this service device with the device from the argument.
+* @description  It sets the value of this service device type with the device type from the argument.
 */
 setDeviceType(deviceType: DeviceType) {
   this.deviceType = deviceType;
@@ -63,9 +63,9 @@ getActualDeviceType() {
 }
 
 /**
-  * @name deleteDevice()
+  * @name deleteDeviceType()
   * @argument {number} index
-  * @description deletes a device by its index from this service devices array.
+  * @description deletes a device type by its index from this service devices array.
   */
  deleteDeviceType(index: number) {
   this.deviceTypes.splice(index, 1);

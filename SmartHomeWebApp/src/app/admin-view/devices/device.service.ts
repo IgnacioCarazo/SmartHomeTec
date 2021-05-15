@@ -79,7 +79,7 @@ export class DeviceService {
   * @name addDevice()
   * @argument {Device} device
   * @argument {string} deviceTypeName
-  * @description  Adds a Recipe to this service array of recipes
+  * @description  Adds a device to this service array of devices
   */
    addDevice(device: Device, deviceTypeName: string) {
     this.devices.push(device);
@@ -93,7 +93,7 @@ export class DeviceService {
   * @argument {string} deviceTypeName
   * @description  It updates the value of a device of this service devices array. 
   */
-  updateDevice(index: number, newDevice: Device, recipeTypeName: string) {
+  updateDevice(index: number, newDevice: Device, deviceTypeName: string) {
     this.devices[index] = newDevice;
     this.devicesChanged.next(this.devices.slice());
   }
@@ -109,7 +109,7 @@ export class DeviceService {
 
   /**
   * @name getActualDevice()
-  * @returns This service recipe  
+  * @returns This service device  
   */
   getActualDevice() {
     return this.device;

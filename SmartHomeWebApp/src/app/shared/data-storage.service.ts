@@ -338,7 +338,7 @@ export class DataStorageService {
 
   /**
   * @name fetchDevicesAverage()
-  * @description Sends an http get request to fetch the Dashboard values from the database.
+  * @description Sends an http get request to fetch the Dashboard average value from the database.
   */
    fetchDevicesAverage() {
     return this.http.get<number>('https://localhost:5001/api/Device/average')  
@@ -346,8 +346,7 @@ export class DataStorageService {
 
 /**
   * @name fetchDevicesRegion()
-  * @description  Sends an http get request to the backend to fetch the array of distributors.
-  * @returns An observable of an array of distributors.
+  * @description  Sends an http get request to fetch the Dashboard devicesByRegion value from the database..
   */
  fetchDevicesRegion() {
   return this.http.get('https://localhost:5001/api/Distributor/region')

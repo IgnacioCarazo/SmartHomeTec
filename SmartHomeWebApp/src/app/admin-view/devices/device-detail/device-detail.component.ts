@@ -44,7 +44,6 @@ export class DeviceDetailComponent implements OnInit {
   onDeleteDevice() {
     this.dataStorageService.deleteDevice(this.device);
     this.deviceService.deleteDevice(this.id);
-    console.log("Device Deleted")
   }
 
 }
