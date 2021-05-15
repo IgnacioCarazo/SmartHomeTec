@@ -9,7 +9,6 @@
     <string name="addRoom">Add a Room</string>
     <string name="addDevice">Add a Device</string>
     <string name="syncData">Sync On/Off</string>
-    <string name="URL_SOURCE">https://10.0.2.2:5001/</string>
     <string name="nameRoom">Room Name</string>
     <string name="registerRoom">Register Room</string>
     <string name="serialDevice">Serial Number</string>
@@ -27,4 +26,5 @@
     <string name="addressTitle">Address</string>
     <string name="TurnDevice">Turn On/Off Device</string>
     <string name="nameDevice">Device Name</string>
+    <string name="SERVER_URL">https://10.0.2.2:5001:44322</string>
 </resources>

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.smarthometec.mobileapp">
-
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
+        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MobileApp">
-        <activity android:name=".helpers.RoomAdapter"></activity>
-        <activity android:name=".helpers.DevicesAdapter" />
+        android:theme="@style/Theme.MobileApp"
+        tools:targetApi="n">
+        <activity android:name=".helpers.RoomAdapter"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".helpers.DevicesAdapter"
+            tools:ignore="Instantiatable" />
         <activity android:name=".administration.RegisterDevice" />
         <activity android:name=".administration.RegisterRoom" />
         <activity android:name=".administration.ManageDevices" />

@@ -11,16 +11,28 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.smarthometec.mobileapp.R;
+import com.smarthometec.mobileapp.database.DatabaseHelper;
 import com.smarthometec.mobileapp.models.Device;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 import static com.smarthometec.mobileapp.Login.dbHelper;
+import static com.smarthometec.mobileapp.administration.ManageDevices.email;
 /**
  * @class RegisterDevice
  * Permite agregar un dispositivo de forma manual al usuario
@@ -38,6 +50,7 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("Aquiiiiiii333333" + email);
         setContentView(R.layout.activity_register_device);
         deviceSerialText =  findViewById(R.id.deviceSerial);
         deviceBrandText = findViewById(R.id.deviceBrand);
@@ -63,17 +76,43 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 Date date = new Date();
                 if(roomDevice!=null){
-                    Device device = new Device(valueSerialDevice,descriptionDevice,consumeDevice,brandDevice,typeDevice,roomDevice,dateFormat.format(date));
+                    Device device = new Device(valueSerialDevice,descriptionDevice,consumeDevice,brandDevice,typeDevice,roomDevice,dateFormat.format(date),email);
                     saveDevice(device);
                 }
             }
         });
     }
-    //Guarda el device y deviceType Insertado
+    /**
+     * Funcion que guarda el dispositivo en la base de datos local y REST
+     * @param addingDevice
+     */
     private void saveDevice(Device addingDevice){
-        dbHelper.insertDevice(this,addingDevice.getSerialNumber(),addingDevice.getDescription(),addingDevice.getConsumption(),addingDevice.getBrand(), addingDevice.getType(), addingDevice.getRoom(),addingDevice.getDate_created());
-        /*
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, DatabaseHelper.SERVER_URL, new Response.Listener<String>() {
+        dbHelper.insertDevice(this,addingDevice.getSerialNumber(),addingDevice.getDescription(),addingDevice.getConsumption(),addingDevice.getBrand(), addingDevice.getType(),addingDevice.getDate_created(),addingDevice.getRoom(),addingDevice.getUserEmail(),addingDevice.isActive());
+        String postURL = DatabaseHelper.SERVER_URL + "api/AppDevice";
+        JSONObject jsonObject = new JSONObject();
+        final String mRequestBody = jsonObject.toString();
+        try {
+            System.out.println("1 "+addingDevice.getSerialNumber());
+            System.out.println("2 "+addingDevice.getConsumption());
+            System.out.println("3 "+addingDevice.getBrand());
+            System.out.println("4 "+addingDevice.getType());
+            System.out.println("5 "+addingDevice.getRoom());
+            System.out.println("6 "+addingDevice.getDate_created());
+            System.out.println("7 "+addingDevice.getUserEmail());
+            System.out.println("8 "+addingDevice.isActive());
+            jsonObject.put("serialNumber",addingDevice.getSerialNumber());
+            jsonObject.put("econsumption",addingDevice.getConsumption());
+            jsonObject.put("brand",addingDevice.getBrand());
+            jsonObject.put("type",addingDevice.getType());
+            jsonObject.put("room",addingDevice.getRoom());
+            jsonObject.put("date_created",addingDevice.getDate_created());
+            jsonObject.put("userEmail",addingDevice.getUserEmail());
+            jsonObject.put("active",addingDevice.isActive());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, postURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -91,16 +130,25 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                error.printStackTrace();
             }
-        });
-
-         */
-        Intent manageDevices = new Intent(RegisterDevice.this, ManageDevices.class);
-        RegisterDevice.this.startActivity(manageDevices);
-        RegisterDevice.this.finish();
+        }){
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    return null;
+                }
+            }
+        };
+        requestQueue.add(stringRequest);
     }
-    //Carga la data para elegir de cuartos en registro de dispositivo
+    //Carga los titulos de los cuartos en registro de dispositivos
     private void loadRoomData() {
         rooms = new ArrayList<>();
         Cursor cursor = dbHelper.readAllData("TABLE_ROOM");
@@ -108,8 +156,6 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
             while(cursor.moveToNext()){
                 rooms.add(cursor.getString(1));
             }
-        }else{
-            Toast.makeText(this, "No data at room table, ", Toast.LENGTH_SHORT).show();
         }
         cursor.close();
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, rooms);

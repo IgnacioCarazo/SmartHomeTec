@@ -8,20 +8,38 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.smarthometec.mobileapp.database.DatabaseHelper;
 import com.smarthometec.mobileapp.helpers.HttpsTrustManager;
+import com.smarthometec.mobileapp.models.Client;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 /**
  * @class Login
  * Clase obtiene valores de la vista login y envia los datos para su procesamiento
@@ -34,14 +52,11 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         EditText userText = findViewById(R.id.loginUserID);
         EditText passwordText = findViewById(R.id.loginPassword);
-
         dbHelper= new DatabaseHelper(this);
         db=dbHelper.getWritableDatabase();
-        //updateDatabaseLogin();
-
+        updateDatabaseLogin();
         Button btnLogin =  findViewById(R.id.loginButton);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +64,7 @@ public class Login extends AppCompatActivity {
                 String user = userText.getText().toString();
                 String password = passwordText.getText().toString();
                 getCredentials(user,password);
+
             }
         });
     }
@@ -58,7 +74,7 @@ public class Login extends AppCompatActivity {
      * @param UserPassword ccmpara con el password de la db
      */
     private void getCredentials(String EmailUser,String UserPassword){
-        @SuppressLint("Recycle") Cursor row = db.rawQuery("SELECT email_user,password_user FROM TABLE_CLIENT WHERE email_user ='" + EmailUser + "' AND password_user='" + UserPassword + "'", null);
+        @SuppressLint("Recycle") Cursor row = db.rawQuery("SELECT userEmail,password FROM TABLE_CLIENT WHERE userEmail ='" + EmailUser + "' AND password='" + UserPassword + "'", null);
         try {
             if(row.moveToFirst()){
                 String userEmail= row.getString(0);
@@ -77,24 +93,48 @@ public class Login extends AppCompatActivity {
             Toast.makeText(this,"Error" + e.getMessage(),Toast.LENGTH_LONG).show();
         }
     }
-
     private void updateDatabaseLogin(){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, DatabaseHelper.SERVER_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    //dbHelper.addClient();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
+        String getURL = DatabaseHelper.SERVER_URL + "api/Client";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest arrayReq = new JsonArrayRequest(Request.Method.GET, getURL,null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                    try {
+                        JSONArray allCLients = response;
+                            for (int i = 0; i <allCLients.length(); i++) {
+                                JSONObject client = allCLients.getJSONObject(i);
+                                String client_name = client.getString("name");
+                                String client_FLastName = client.getString("primaryLastName");
+                                String client_SLastName = client.getString("secondaryLastName");
+                                String client_email = client.getString("email");
+                                String client_password = client.getString("password");
+                                String client_continent = client.getString("continent");
+                                String client_country = client.getString("country");
+                                String client_address = client.getJSONArray("deliveryAdresses").getString(0);
+                                Client addClient = new Client();
+                                addClient.setName(client_name);
+                                addClient.setPrimaryLastName(client_FLastName);
+                                addClient.setSecondaryName(client_SLastName);
+                                addClient.setEmail(client_email);
+                                addClient.setPassword(client_password);
+                                addClient.setContinent(client_continent);
+                                addClient.setCountry(client_country);
+                                addClient.setDeliveryAddress(client_address);
+                                dbHelper.insertClient(Login.this,addClient.getEmail(),addClient.getName(),addClient.getPrimaryLastName(),addClient.getSecondaryName(),addClient.getPassword(),addClient.getContinent(),addClient.getCountry(),addClient.getDeliveryAddress());
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("JSON ERROR getting Client info"+e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                error.printStackTrace();
             }
         });
+        arrayReq.setRetryPolicy(new RetryPolicy() { @Override public int getCurrentTimeout() { return 50000; } @Override public int getCurrentRetryCount() { return 50000; } @Override public void retry(VolleyError error) throws VolleyError { } });
+        HttpsTrustManager.allowAllSSL();
+        requestQueue.add(arrayReq);
     }
 }
