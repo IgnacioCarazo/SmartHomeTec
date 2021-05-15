@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.smarthometec.mobileapp.Login.dbHelper;
+import static com.smarthometec.mobileapp.administration.ManageDevices.email;
 /**
  * @class RegisterDevice
  * Permite agregar un dispositivo de forma manual al usuario
@@ -46,12 +47,11 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
     private Spinner deviceRoomText;
     private String roomDevice = null;
     private ArrayList<String> rooms;
-    private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("Aquiiiiiii333333" + email);
         setContentView(R.layout.activity_register_device);
-        email = getIntent().getStringExtra("email");
         deviceSerialText =  findViewById(R.id.deviceSerial);
         deviceBrandText = findViewById(R.id.deviceBrand);
         deviceTypeText =  findViewById(R.id.deviceType);
@@ -88,10 +88,18 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
      */
     private void saveDevice(Device addingDevice){
         dbHelper.insertDevice(this,addingDevice.getSerialNumber(),addingDevice.getDescription(),addingDevice.getConsumption(),addingDevice.getBrand(), addingDevice.getType(),addingDevice.getDate_created(),addingDevice.getRoom(),addingDevice.getUserEmail(),addingDevice.isActive());
-        String postURL = DatabaseHelper.SERVER_URL + "api/Device";
+        String postURL = DatabaseHelper.SERVER_URL + "api/AppDevice";
         JSONObject jsonObject = new JSONObject();
         final String mRequestBody = jsonObject.toString();
         try {
+            System.out.println("1 "+addingDevice.getSerialNumber());
+            System.out.println("2 "+addingDevice.getConsumption());
+            System.out.println("3 "+addingDevice.getBrand());
+            System.out.println("4 "+addingDevice.getType());
+            System.out.println("5 "+addingDevice.getRoom());
+            System.out.println("6 "+addingDevice.getDate_created());
+            System.out.println("7 "+addingDevice.getUserEmail());
+            System.out.println("8 "+addingDevice.isActive());
             jsonObject.put("serialNumber",addingDevice.getSerialNumber());
             jsonObject.put("econsumption",addingDevice.getConsumption());
             jsonObject.put("brand",addingDevice.getBrand());

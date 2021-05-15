@@ -46,7 +46,7 @@ public class ManageDevices extends AppCompatActivity {
     private ArrayList<ArrayList> description;
     private ArrayList<ArrayList> consume;
     private ArrayList<ArrayList> timeLeft;
-    private String email;
+    public static String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +82,6 @@ public class ManageDevices extends AppCompatActivity {
             public void onClick(View v) {
                 getTableControl();
                 Intent registerRoom = new Intent(ManageDevices.this, RegisterRoom.class);
-                registerRoom.putExtra("email",email);
                 ManageDevices.this.startActivity(registerRoom);
                 ManageDevices.this.finish();
             }
@@ -96,7 +95,7 @@ public class ManageDevices extends AppCompatActivity {
             }
         });
         nameRoom = new ArrayList<>();
-        serialNumber = new ArrayList<ArrayList>();
+        serialNumber = new ArrayList<>();
         deviceType = new ArrayList<>();
         brand = new ArrayList<>();
         description = new ArrayList<>();
@@ -221,9 +220,7 @@ public class ManageDevices extends AppCompatActivity {
                                  JSONObject room = allRooms.getJSONObject(i);
                                  String room_Name = room.getString("name");
                                  String room_UserEmail = room.getString("userEmail");
-                                 Room addRoom = new Room();
-                                 addRoom.setName(room_Name);
-                                 addRoom.setUserEmail(room_UserEmail);
+                                 Room addRoom = new Room(room_Name,room_UserEmail);
                                  dbHelper.insertRoom(ManageDevices.this,addRoom.getName(),addRoom.getUserEmail());
                              }
                          } catch (JSONException e) {

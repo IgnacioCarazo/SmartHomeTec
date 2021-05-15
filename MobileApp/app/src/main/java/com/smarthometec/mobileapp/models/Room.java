@@ -11,10 +11,6 @@ public class Room {
         this.name = name;
         this.userEmail = userEmail;
     }
-    public Room() {
-        this.name = null;
-        this.userEmail = null;
-    }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public String getUserEmail() { return userEmail; }
