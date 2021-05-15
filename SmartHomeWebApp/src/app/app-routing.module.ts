@@ -13,6 +13,7 @@ import { DevicesComponent } from './admin-view/devices/devices.component';
 import { DistributorDetailComponent } from './admin-view/distributor/distributor-detail/distributor-detail.component';
 import { DistributorResolverService } from './admin-view/distributor/distributor-resolver.service';
 import { DistributorComponent } from './admin-view/distributor/distributor.component';
+import { DistributorService } from './admin-view/distributor/distributor.service';
 import { StoreComponent } from './admin-view/store/store.component';
 import { ClientProfileComponent } from './client-view/client-profile/client-profile.component';
 import { ClientReportsComponent } from './client-view/client-reports/client-reports.component';
@@ -48,7 +49,7 @@ const appRoutes: Routes = [
   { path: 'admin/dashboard', component: DashboardComponent ,
   resolve: [DeviceResolverService]},
   { path: 'admin/gestion-dispositivos', component: DevicesComponent,
-  resolve: [DeviceResolverService],
+  resolve: [DeviceResolverService, DistributorResolverService],
    children: [
     {
       path: 'new',

@@ -1,10 +1,9 @@
 <a
   style="cursor: pointer;"
-  [routerLink]="[index]"
-  routerLinkActive="active"
   class="list-group-item clearfix">
   <div class="pull-left">
     <h4 class="list-group-item-heading">{{ distributor.name }}</h4>
     <h5 >{{ distributor.country }}, {{distributor.continent}}</h5>
+    <h5> Cedula Juridica: {{ distributor.dni }}</h5>
   </div>
 </a>

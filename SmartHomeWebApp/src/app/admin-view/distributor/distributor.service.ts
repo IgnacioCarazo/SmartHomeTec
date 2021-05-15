@@ -34,6 +34,11 @@ export class DistributorService {
     return this.distributors[index];
   }
 
+  /**
+  * @name isWithinRegion()
+  * @description It searches a distributor by its dni to check if its in this client region
+  * @returns {boolean} true or false
+  */
   isWithinRegion(dni: number) {
     for (let distributor of this.distributorsByClientRegion) {
       if (distributor.dni === dni) {
@@ -43,10 +48,18 @@ export class DistributorService {
     return false;
   }
 
+  /**
+  * @name setDistributor()
+  * @description sets the distributors
+  */
   setDistributors(distributors: Distributor[]) {
     this.distributors = distributors;
   }
 
+  /**
+  * @name   setDistributorsByRegion()
+  * @description sets the distributors by region
+  */
   setDistributorsByRegion(client: Client) {
     const list = [];
     for (let distributor of this.distributors) {
@@ -61,6 +74,11 @@ export class DistributorService {
     
   }
 
+  /**
+  * @name getDistributorsByRegion()
+  * @description It returns the distributors by client region array
+  * @returns {Distributor[]} A distributor array
+  */
   getDistributorsByRegion() {
     return this.distributorsByClientRegion;
   }

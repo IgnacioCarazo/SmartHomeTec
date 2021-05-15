@@ -28,19 +28,17 @@ export class ClientService {
   * @returns {Cliente} A client
   */
   getClient() {
-
     return this.client;
   }
 
 
   /**
-  * @name updateRecipe()
+  * @name updateClient()
   * @argument {number} index
-  * @argument {Recipe} newRecipe
-  * @argument {string} recipeTypeName
-  * @description  It updates the value of a recipe of this service recipes array. 
+  * @argument {Client} client
+  * @description  It updates the value of the client of this service. 
   */
-  updateRecipe(client: Client) {
+  updateClient(client: Client) {
       this.client = client;
   }
 

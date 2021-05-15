@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
     });
     this.dataStorageService.fetchDevicesRegion().
     subscribe( dispRegiones => {
+      console.log(dispRegiones);
       this.dashboardService.setDispRegiones(dispRegiones);
     });
     this.dataStorageService.fetchDevices();

@@ -17,13 +17,7 @@ export class DistributorDetailComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.route.params
-      .subscribe(
-        (params: Params) => {
-          this.id = +params['id'];
-          this.distributor = this.distributorService.getDistributor(this.id);
-        }
-      );
+ 
   }
 
 
