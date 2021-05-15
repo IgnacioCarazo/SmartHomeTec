@@ -136,5 +136,6 @@ public class Login extends AppCompatActivity {
         arrayReq.setRetryPolicy(new RetryPolicy() { @Override public int getCurrentTimeout() { return 50000; } @Override public int getCurrentRetryCount() { return 50000; } @Override public void retry(VolleyError error) throws VolleyError { } });
         HttpsTrustManager.allowAllSSL();
         requestQueue.add(arrayReq);
+        requestQueue.getCache().clear();
     }
 }
