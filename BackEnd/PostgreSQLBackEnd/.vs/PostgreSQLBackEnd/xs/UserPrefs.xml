@@ -1,20 +1,20 @@
 ﻿<Properties StartupConfiguration="{FF6FA142-C5E9-4587-AB8F-91E8DF5B1502}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="BackEndData/InterfaceRepositories/IAdmin.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BackEndModel/Room.cs">
     <Files>
       <File FileName="PostgreSQLBackEnd/Startup.cs" Line="81" Column="1" />
-      <File FileName="BackEndModel/Admin.cs" />
+      <File FileName="BackEndModel/Admin.cs" Line="1" Column="1" />
       <File FileName="PostgreSQLBackEnd/Controllers/AdminController.cs" />
       <File FileName="PostgreSQLBackEnd/Controllers/DeviceController.cs" />
       <File FileName="PostgreSQLBackEnd/Controllers/ClientController.cs" Line="1" Column="1" />
-      <File FileName="BackEndModel/Client.cs" />
+      <File FileName="BackEndModel/Client.cs" Line="1" Column="1" />
       <File FileName="PostgreSQLBackEnd/appsettings.json" />
       <File FileName="PostgreSQLBackEnd/Controllers/OrderController.cs" />
       <File FileName="PostgreSQLBackEnd/DataManagement/ClientManager.cs" Line="1" Column="1" />
       <File FileName="BackEndData/Repositories/OrderR.cs" />
       <File FileName="BackEndData/InterfaceRepositories/IOrder.cs" />
       <File FileName="PostgreSQLBackEnd/Program.cs" />
-      <File FileName="BackEndModel/Warranty.cs" />
-      <File FileName="BackEndModel/DeviceType.cs" />
+      <File FileName="BackEndModel/Warranty.cs" Line="1" Column="1" />
+      <File FileName="BackEndModel/DeviceType.cs" Line="1" Column="1" />
       <File FileName="PostgreSQLBackEnd/Controllers/DeviceTypeController.cs" />
       <File FileName="BackEndData/InterfaceRepositories/IDeviceType.cs" />
       <File FileName="BackEndData/Repositories/DeviceTypeR.cs" />
@@ -23,24 +23,29 @@
       <File FileName="PostgreSQLBackEnd/DataManagement/AdminManager.cs" Line="1" Column="1" />
       <File FileName="PostgreSQLBackEnd/Controllers/DistributorController.cs" Line="1" Column="1" />
       <File FileName="BackEndModel/Distributor.cs" Line="1" Column="1" />
-      <File FileName="BackEndData/Repositories/DistributorR.cs" Line="33" Column="31" />
+      <File FileName="BackEndData/Repositories/DistributorR.cs" Line="28" Column="61" />
       <File FileName="PostgreSQLBackEnd/appsettings.Development.json" Line="1" Column="1" />
       <File FileName="PostgreSQLBackEnd/Properties/launchSettings.json" Line="1" Column="1" />
       <File FileName="BackEndData/InterfaceRepositories/IAppDevice.cs" Line="1" Column="1" />
-      <File FileName="BackEndModel/Order.cs" Line="1" Column="1" />
+      <File FileName="BackEndModel/Order.cs" Line="2" Column="1" />
       <File FileName="BackEndData/InterfaceRepositories/IAdmin.cs" Line="1" Column="1" />
+      <File FileName="BackEndModel/AppDevice.cs" Line="1" Column="1" />
+      <File FileName="BackEndModel/Device.cs" Line="1" Column="2" />
+      <File FileName="BackEndModel/Control.cs" Line="1" Column="1" />
+      <File FileName="BackEndModel/Invoice.cs" Line="1" Column="2" />
+      <File FileName="BackEndModel/Room.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="PostgreSQLBackEnd" expanded="True">
             <Node name="BackEndData" expanded="True">
-              <Node name="InterfaceRepositories" expanded="True">
-                <Node name="IAdmin.cs" selected="True" />
-              </Node>
+              <Node name="InterfaceRepositories" expanded="True" />
               <Node name="Repositories" expanded="True" />
             </Node>
-            <Node name="BackEndModel" expanded="True" />
+            <Node name="BackEndModel" expanded="True">
+              <Node name="Room.cs" selected="True" />
+            </Node>
             <Node name="PostgreSQLBackEnd" expanded="True">
               <Node name="Controllers" expanded="True" />
               <Node name="DataManagement" expanded="True" />
