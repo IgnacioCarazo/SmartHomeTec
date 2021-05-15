@@ -9,6 +9,12 @@ public class Control {
     private int time;
     private String date;
     private int SerialNumber;
+    public Control() {
+        this.id = 0;
+        this.time = 0;
+        this.date = null;
+        SerialNumber = 0;
+    }
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public int getTime() { return time; }
