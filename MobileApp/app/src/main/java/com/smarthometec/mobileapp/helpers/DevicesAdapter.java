@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -18,6 +20,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.smarthometec.mobileapp.R;
@@ -27,6 +32,7 @@ import com.smarthometec.mobileapp.database.DatabaseHelper;
 import com.smarthometec.mobileapp.models.Control;
 import com.smarthometec.mobileapp.models.Room;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,14 +52,14 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch turnOnData ;
     private Context context;
-    private final ArrayList<ArrayList> serialNumber;
-    private final ArrayList<ArrayList> deviceType;
-    private final ArrayList<ArrayList> description;
-    private final ArrayList<ArrayList> brand;
-    private final ArrayList<ArrayList> consume;
-    private final ArrayList<ArrayList> timeLeft;
+    private final ArrayList<Integer> serialNumber;
+    private final ArrayList<String> deviceType;
+    private final ArrayList<String> description;
+    private final ArrayList<String> brand;
+    private final ArrayList<String> consume;
+    private final ArrayList<String> timeLeft;
     public static int time ;
-    public DevicesAdapter(Activity activity, Context context, ArrayList<ArrayList>  serialNumber, ArrayList<ArrayList> description, ArrayList<ArrayList> deviceType, ArrayList<ArrayList> brand , ArrayList<ArrayList> consume, ArrayList<ArrayList> timeLeft){
+    public DevicesAdapter(Activity activity, Context context, ArrayList<Integer>  serialNumber, ArrayList<String> description, ArrayList<String> deviceType, ArrayList<String> brand , ArrayList<String> consume, ArrayList<String> timeLeft){
         this.activity = activity;
         this.context = context;
         this.serialNumber = serialNumber;
@@ -72,10 +78,10 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
     }
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        holder.tvSerialNumber.setText(String.valueOf(serialNumber.get(position).get(0)));
-        holder.tvTypeDevice.setText(String.valueOf(deviceType.get(position).get(0)));
-        holder.tvConsume.setText(String.valueOf(consume.get(position).get(0)));
-        holder.tvTimeLeft.setText(String.valueOf(timeLeft.get(position).get(0)));
+        holder.tvSerialNumber.setText(String.valueOf(serialNumber.get(position)));
+        holder.tvTypeDevice.setText(String.valueOf(deviceType.get(position)));
+        holder.tvConsume.setText(String.valueOf(consume.get(position)));
+        holder.tvTimeLeft.setText(String.valueOf(timeLeft.get(position)));
         turnOnData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +101,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
                     if(time>0){
                         String strDateFormat = "hh: mm: ss a dd-MMM-aaaa";
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat objSDF = new SimpleDateFormat(strDateFormat);
-                        String serialText = String.valueOf(serialNumber.get(position).get(0));
+                        String serialText = String.valueOf(serialNumber.get(position));
                         int serialNumber = Integer.parseInt(serialText);
                         control.setTime(time);
                         control.setDate(objSDF.format(objDate));
@@ -130,42 +136,34 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
         JSONObject jsonObject = new JSONObject();
         final String mRequestBody = jsonObject.toString();
         try {
-            jsonObject.put("time",control.getTime());
-            jsonObject.put("date",control.getDate());
-            jsonObject.put("serialNumber",control.getSerialNumber());
+            jsonObject.put("time", control.getTime());
+            jsonObject.put("date", control.getDate());
+            jsonObject.put("serialNumber", control.getSerialNumber());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        dbHelper.insertControl(context, control.getSerialNumber(), control.getDate(),control.getTime());
+        dbHelper.insertControl(context, control.getSerialNumber(), control.getDate(), control.getTime());
         String postURL = DatabaseHelper.SERVER_URL + "api/Control";
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, postURL, new Response.Listener<String>() {
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("time", control.getTime());
+            postData.put("date", control.getDate());
+            postData.put("serialNumber", control.getSerialNumber());
+
+        } catch (JSONException e) {
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postURL, postData, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
-                String answer = response;
-                if (answer.equals("OK")) {
-                    System.out.println("Sended control time device sucessfully");
-                }
+            public void onResponse(JSONObject response) {
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        }) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    return null;
-                }
-            }
-        };
-        requestQueue.add(stringRequest);
+        });
+        HttpsTrustManager.allowAllSSL();
+        requestQueue.add(jsonObjectRequest);
     }
 }

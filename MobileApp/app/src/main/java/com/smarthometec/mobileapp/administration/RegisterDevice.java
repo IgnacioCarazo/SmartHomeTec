@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -27,6 +28,7 @@ import com.smarthometec.mobileapp.helpers.HttpsTrustManager;
 import com.smarthometec.mobileapp.models.Device;
 import com.smarthometec.mobileapp.models.Room;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,12 +47,14 @@ import static com.smarthometec.mobileapp.administration.ManageDevices.email;
 public class RegisterDevice extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText deviceSerialText;
     private EditText deviceBrandText;
-    private EditText deviceTypeText;
+    private Spinner deviceTypeText;
     private EditText deviceConsumeText;
     private EditText deviceDescriptionText;
     private Spinner deviceRoomText;
     private String roomDevice = null;
+    private String typeDevice = null;
     private ArrayList<String> rooms;
+    private ArrayList<String> typeArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +67,9 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
         deviceRoomText = findViewById(R.id.spinnerRoom);
         Button deviceRegisterBut = findViewById(R.id.addDeviceBottom);
         deviceRoomText.setOnItemSelectedListener(this);
+        deviceTypeText.setOnItemSelectedListener(this);
         loadRoomData();
+        loadType();
         deviceRegisterBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,15 +79,18 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
                     valueSerialDevice = Integer.parseInt(serialDevice);
                 }
                 String brandDevice = deviceBrandText.getText().toString();
-                String typeDevice = deviceTypeText.getText().toString();
                 String consumeDevice = deviceConsumeText.getText().toString();
                 String descriptionDevice = deviceDescriptionText.getText().toString();
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 Date date = new Date();
-                if (roomDevice != null) {
+                if (roomDevice != null ) {
                     Device device = new Device(valueSerialDevice, descriptionDevice, consumeDevice, brandDevice, typeDevice, roomDevice, dateFormat.format(date), email);
                     saveDevice(device);
+
                 }
+                Intent manageDevices = new Intent(RegisterDevice.this, ManageDevices.class);
+                RegisterDevice.this.startActivity(manageDevices);
+                RegisterDevice.this.finish();
             }
         });
     }
@@ -135,10 +144,50 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deviceRoomText.setAdapter(dataAdapter);
     }
+    //Carga los titulos de los cuartos en registro de dispositivos
+    private void loadType() {
+        typeArray = new ArrayList<>();
+        String getURL = DatabaseHelper.SERVER_URL + "api/DeviceType";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest arrayreq = new JsonArrayRequest(getURL,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            JSONArray deviceType = response;
+                            for (int i = 0; i <deviceType.length(); i++) {
+                                JSONObject oneDevice = deviceType.getJSONObject(i);
+                                String deviceTypeName = oneDevice.getString("name");
+                                typeArray.add(deviceTypeName);
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("ERROR gettin type om register device"+e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, typeArray);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        deviceTypeText.setAdapter(dataAdapter);
+        requestQueue.add(arrayreq);
+    }
     //Asigana el cuarto para el dispositivo
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        roomDevice= parent.getItemAtPosition(position).toString();
+        if(parent.getId() == R.id.deviceType)
+        {
+            roomDevice= parent.getItemAtPosition(position).toString();
+
+        }
+        else if(parent.getId() == R.id.spinnerRoom)
+        {
+            typeDevice= parent.getItemAtPosition(position).toString();
+
+        }
     }
     @Override
     public void onNothingSelected(AdapterView<?> parent) {

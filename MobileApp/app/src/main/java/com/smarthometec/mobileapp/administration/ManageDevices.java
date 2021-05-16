@@ -40,12 +40,6 @@ public class ManageDevices extends AppCompatActivity {
     private RoomAdapter roomAdapter;
     private RecyclerView recyclerView;
     private ArrayList<String> nameRoom;
-    private ArrayList<ArrayList> serialNumber;
-    private ArrayList<ArrayList> deviceType;
-    private ArrayList<ArrayList> brand;
-    private ArrayList<ArrayList> description;
-    private ArrayList<ArrayList> consume;
-    private ArrayList<ArrayList> timeLeft;
     public static String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,48 +89,17 @@ public class ManageDevices extends AppCompatActivity {
             }
         });
         nameRoom = new ArrayList<>();
-        serialNumber = new ArrayList<>();
-        deviceType = new ArrayList<>();
-        brand = new ArrayList<>();
-        description = new ArrayList<>();
-        consume = new ArrayList<>();
-        timeLeft = new ArrayList<>();
-        storeDataArray();
-        roomAdapter = new RoomAdapter(ManageDevices.this,this,nameRoom,serialNumber,description,deviceType,brand,consume,timeLeft);
+        storeDataRoom();
+        roomAdapter = new RoomAdapter(ManageDevices.this,this,nameRoom);
         recyclerView.setAdapter(roomAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(ManageDevices.this));
     }
     //Llena la lista que mostrara los titulos de los cuartos y lo pasa al adapter
-    private void storeDataArray(){
+    private void storeDataRoom(){
         Cursor cursor = dbHelper.readAllData("TABLE_ROOM");
         if(cursor.getCount() != 0){
             while(cursor.moveToNext()){
                 nameRoom.add(cursor.getString(0));
-                ArrayList<Integer> serialNumber_sub = new ArrayList<>();
-                ArrayList<String> deviceType_sub = new ArrayList<>();
-                ArrayList<String>  description_sub = new ArrayList<>();
-                ArrayList<String>  consume_sub = new ArrayList<>();
-                ArrayList<String>  timeLeft_sub = new ArrayList<>();
-                ArrayList<String>  brand_sub = new ArrayList<>();
-                Cursor cursor2 = dbHelper.getDeviceDataOfRoom(cursor.getString(0));
-                if (cursor2.getCount() == 0) {
-                    System.out.println("No data for this"+cursor.getString(0)+" room");
-                } else {
-                    while (cursor2.moveToNext()) {
-                        serialNumber_sub.add(cursor2.getInt(0));
-                        description_sub.add(cursor2.getString(1));
-                        consume_sub.add(cursor2.getString(3));
-                        deviceType_sub.add(cursor2.getString(2));
-                        timeLeft_sub.add(cursor2.getString(5));
-                        brand_sub.add(cursor2.getString(4));
-                    }
-                }
-                serialNumber.add(serialNumber_sub);
-                deviceType.add(description_sub);
-                description.add(consume_sub);
-                consume.add(deviceType_sub);
-                timeLeft.add(timeLeft_sub);
-                brand.add(brand_sub);
             }
         }else{
             Toast.makeText(this, "No data at room table, ", Toast.LENGTH_SHORT).show();
