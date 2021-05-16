@@ -10,17 +10,32 @@ using System.Threading.Tasks;
 
 namespace BackEndData.Repositories
 {
+    /// <summary>
+    /// clase para implementar metodos de la interfaz del modelo Distributor
+    /// </summary>
     public class DistributorR : IDistributor
     {
         private PostgreSQLConfiguration _connectionString;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="connectionString">string para conectar como db</param>
         public DistributorR(PostgreSQLConfiguration connectionString) => _connectionString = connectionString;
 
+        /// <summary>
+        /// metodo de conexion db
+        /// </summary>
+        /// <returns>conexion db</returns>
         protected NpgsqlConnection dbConnection()
         {
             return new NpgsqlConnection(_connectionString.ConnectionString);
         }
 
+        /// <summary>
+        /// metodo para obtener los distributor de la db
+        /// </summary>
+        /// <returns>lista de distributor</returns>
         public async Task<IEnumerable<Distributor>> GetDistributors()
         {
             var db = dbConnection();
@@ -30,6 +45,9 @@ namespace BackEndData.Repositories
             return await db.QueryAsync<Distributor>(sql, new { });
         }
 
+        /// <summary>
+        /// metodo para generar excel de dispositovos por distribuidor
+        /// </summary>
         public void GetExcel()
         {
             var db = dbConnection();
@@ -42,6 +60,10 @@ namespace BackEndData.Repositories
             
         }
 
+        /// <summary>
+        /// metodo para obtener tabla sobre cantidad de dispositovos por region
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<dynamic> GetDeviceRegion()
         {
             var db = dbConnection();
