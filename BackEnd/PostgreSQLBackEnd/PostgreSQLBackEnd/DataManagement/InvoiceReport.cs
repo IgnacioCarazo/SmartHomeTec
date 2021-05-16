@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace PostgreSQLBackEnd.DataManagement
 {
+    /// <summary>
+    /// clase para genenerar pdf de factura y garantia
+    /// </summary>
     public class InvoiceReport
     {
         #region Declaration
@@ -31,7 +34,11 @@ namespace PostgreSQLBackEnd.DataManagement
         Warranty _deviceWaranty = new Warranty();
         #endregion
 
-
+        /// <summary>
+        /// prepara el pdf
+        /// </summary>
+        /// <param name="invoice">invoice a enviar</param>
+        /// <returns>array de bite</returns>
         public byte[] PrepareReport(Invoice invoice)
         {
             _invoice = invoice;
@@ -56,6 +63,9 @@ namespace PostgreSQLBackEnd.DataManagement
             return _memoryStream.ToArray();
         }
 
+        /// <summary>
+        /// metodo para estableces headers del documento
+        /// </summary>
         private void ReportHeader()
         {
             _fontStyle = FontFactory.GetFont("Tahoma", 22f, 1);
@@ -80,6 +90,9 @@ namespace PostgreSQLBackEnd.DataManagement
             _pdfTable.CompleteRow();
         }
 
+        /// <summary>
+        /// cuerpo del pdf de invoice
+        /// </summary>
         private void ReportBody()
         {
             _fontStyle = FontFactory.GetFont("Tahoma", 18f, 1);
@@ -90,6 +103,10 @@ namespace PostgreSQLBackEnd.DataManagement
             _pdfTable.CompleteRow();
         }
 
+        /// <summary>
+        /// define headers del pdf invoice
+        /// </summary>
+        /// <returns></returns>
         private PdfPTable InvoiceHeaders()
         {
             PdfPTable oPdfPTable = new PdfPTable(2);
@@ -136,6 +153,11 @@ namespace PostgreSQLBackEnd.DataManagement
             return oPdfPTable;
         }
 
+        /// <summary>
+        /// genera el pdf de warranty
+        /// </summary>
+        /// <param name="warranty">garantia a enviar</param>
+        /// <returns>array byte con informacion del pdf</returns>
         public byte[] PrepareReportW(Warranty warranty)
         {
             _deviceWaranty = warranty;
@@ -160,6 +182,9 @@ namespace PostgreSQLBackEnd.DataManagement
             return _memoryStreamw.ToArray();
         }
 
+        /// <summary>
+        /// header del documento
+        /// </summary>
         private void ReportHeaderW()
         {
             _fontStylew = FontFactory.GetFont("Times New Roman", 22f, 1);
@@ -184,6 +209,9 @@ namespace PostgreSQLBackEnd.DataManagement
             _pdfTablew.CompleteRow();
         }
 
+        /// <summary>
+        /// formato del documento
+        /// </summary>
         private void ReportBodyW()
         {
             _fontStylew = FontFactory.GetFont("Times New Roman", 18f, 1);
@@ -194,6 +222,10 @@ namespace PostgreSQLBackEnd.DataManagement
             _pdfTablew.CompleteRow();
         }
 
+        /// <summary>
+        /// headers del pdf warranty
+        /// </summary>
+        /// <returns></returns>
         private PdfPTable WarrantyHeaders()
         {
             PdfPTable oPdfPTablew = new PdfPTable(2);
@@ -258,6 +290,12 @@ namespace PostgreSQLBackEnd.DataManagement
             return oPdfPTablew;
         }
 
+        /// <summary>
+        /// metodo para generar objeto invoice a enviar
+        /// </summary>
+        /// <param name="order">order de la cual se genera invoice</param>
+        /// <param name="typeName">tipo de device en invoice</param>
+        /// <returns>invoice</returns>
         public Invoice generateInvoice(Order order, string typeName)
         {
             Invoice newInvoice = new Invoice();
@@ -268,6 +306,14 @@ namespace PostgreSQLBackEnd.DataManagement
             return newInvoice;
         }
 
+        /// <summary>
+        /// metodo para generar warranty apartir de una order
+        /// </summary>
+        /// <param name="order">order</param>
+        /// <param name="ownerName">nombre del comprador</param>
+        /// <param name="device">device de la garantia</param>
+        /// <param name="warranty">garantia</param>
+        /// <returns>warranty</returns>
         public Warranty generateWarranty(Order order, string ownerName, Device device, int warranty)
         {
             Warranty newWarranty = new Warranty();
@@ -282,6 +328,12 @@ namespace PostgreSQLBackEnd.DataManagement
             return newWarranty;
         }
 
+        /// <summary>
+        /// metodo para enviar por email los pdf invoice y warranty
+        /// </summary>
+        /// <param name="invoice">invoice a enviar</param>
+        /// <param name="deviceOwner">email del client</param>
+        /// <param name="warranty">warranty a enviar</param>
         public void sendPDF(Invoice invoice, string deviceOwner, Warranty warranty)
         {
             byte[] ibytes = this.PrepareReport(invoice);
@@ -290,7 +342,7 @@ namespace PostgreSQLBackEnd.DataManagement
             string from = "mariohaziel@hotmail.com";
             string to = deviceOwner;
             MailMessage mm = new MailMessage(from, to);
-            mm.Subject = "SmartHome Invoice";
+            mm.Subject = "SmartHome Invoice And Warranty";
             mm.Body = "Purchase PDF Attachment";
             mm.Attachments.Add(new Attachment(new MemoryStream(ibytes), "Invoice.pdf"));
             mm.Attachments.Add(new Attachment(new MemoryStream(wbytes), "Warranty.pdf"));
