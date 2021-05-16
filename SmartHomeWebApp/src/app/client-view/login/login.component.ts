@@ -51,10 +51,8 @@ export class LoginComponent implements OnInit {
                 }  
             });
 
-            const hour = this.datePipe.transform(this.myDate, 'HH:mm:ss')
-            const date = this.datePipe.transform(this.myDate, 'dd/MM/yyyy');
-            console.log(date);
-            console.log(hour);
+      const hour = this.datePipe.transform(this.myDate, 'HH:mm:ss')
+      const date = this.datePipe.transform(this.myDate, 'dd/MM/yyyy');
       form.reset();
     }
 

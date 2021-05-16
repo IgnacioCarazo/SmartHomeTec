@@ -1,0 +1,225 @@
+CREATE DATABASE "SmartHomeDB"
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Spanish_Latin America.1252'
+    LC_CTYPE = 'Spanish_Latin America.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+CREATE SCHEMA public
+    AUTHORIZATION postgres;
+
+COMMENT ON SCHEMA public
+    IS 'standard public schema';
+
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+GRANT ALL ON SCHEMA public TO postgres;
+
+
+CREATE TABLE public."Admin"
+(
+    email text COLLATE pg_catalog."default" NOT NULL,
+    password text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Admin_pkey" PRIMARY KEY (email)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."Admin"
+    OWNER to postgres;
+
+CREATE TABLE public."Client"
+(
+    name text COLLATE pg_catalog."default" NOT NULL,
+    "primaryLastName" text COLLATE pg_catalog."default" NOT NULL,
+    "secondaryLastName" text COLLATE pg_catalog."default" NOT NULL,
+    email text COLLATE pg_catalog."default" NOT NULL,
+    password text COLLATE pg_catalog."default" NOT NULL,
+    continent text COLLATE pg_catalog."default" NOT NULL,
+    country text COLLATE pg_catalog."default" NOT NULL,
+    "deliveryAdresses" text[] COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Client_pkey" PRIMARY KEY (email)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."Client"
+    OWNER to postgres;
+
+CREATE TABLE public."Control"
+(
+    id integer NOT NULL,
+    "time" integer NOT NULL,
+    date text COLLATE pg_catalog."default" NOT NULL,
+    "SerialNumber" integer NOT NULL,
+    CONSTRAINT "Control_pkey" PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."Control"
+    OWNER to postgres;
+
+CREATE TABLE public."Device"
+(
+    name text COLLATE pg_catalog."default" NOT NULL,
+    "serialNumber" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 27 START 1199 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "eConsumption" text COLLATE pg_catalog."default" NOT NULL,
+    brand text COLLATE pg_catalog."default" NOT NULL,
+    associated boolean NOT NULL,
+    "typeName" text COLLATE pg_catalog."default" NOT NULL,
+    "ownerEmail" text COLLATE pg_catalog."default",
+    "dniDistributor" integer NOT NULL,
+    price integer NOT NULL,
+    CONSTRAINT "Device_pkey" PRIMARY KEY ("serialNumber"),
+    CONSTRAINT "dniDistributor" FOREIGN KEY ("dniDistributor")
+        REFERENCES public."Distributor" (dni) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT "typeName" FOREIGN KEY ("typeName")
+        REFERENCES public."DeviceType" (name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."Device"
+    OWNER to postgres;
+
+CREATE TABLE public."DeviceType"
+(
+    name text COLLATE pg_catalog."default" NOT NULL,
+    description text COLLATE pg_catalog."default" NOT NULL,
+    "warrantyTime" integer NOT NULL,
+    CONSTRAINT "DeviceType_pkey" PRIMARY KEY (name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."DeviceType"
+    OWNER to postgres;
+
+CREATE TABLE public."Distributor"
+(
+    dni integer NOT NULL,
+    name text COLLATE pg_catalog."default" NOT NULL,
+    continent text COLLATE pg_catalog."default" NOT NULL,
+    country text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Distributor_pkey" PRIMARY KEY (dni)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."Distributor"
+    OWNER to postgres;
+
+
+CREATE TABLE public."Invoice"
+(
+    "invoiceNumber" integer NOT NULL,
+    "deviceTypeName" text COLLATE pg_catalog."default" NOT NULL,
+    price integer NOT NULL,
+    date text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Invoice_pkey" PRIMARY KEY ("invoiceNumber"),
+    CONSTRAINT "deviceTypeName" FOREIGN KEY ("deviceTypeName")
+        REFERENCES public."DeviceType" (name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "invoiceNumber" FOREIGN KEY ("invoiceNumber")
+        REFERENCES public."Order" ("orderID") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."Invoice"
+    OWNER to postgres;
+
+CREATE TABLE public."Order"
+(
+    "consecutiveNumberOrder" integer NOT NULL,
+    "deviceSerialNumber" integer NOT NULL,
+    date text COLLATE pg_catalog."default" NOT NULL,
+    hour text COLLATE pg_catalog."default" NOT NULL,
+    brand text COLLATE pg_catalog."default" NOT NULL,
+    price integer NOT NULL,
+    "deviceOwner" text COLLATE pg_catalog."default" NOT NULL,
+    "orderID" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 11 START 2799 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    CONSTRAINT "Order_pkey" PRIMARY KEY ("orderID"),
+    CONSTRAINT "deviceOwner" FOREIGN KEY ("deviceOwner")
+        REFERENCES public."Client" (email) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT "deviceSerialNumber" FOREIGN KEY ("deviceSerialNumber")
+        REFERENCES public."Device" ("serialNumber") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."Order"
+    OWNER to postgres;
+
+CREATE TABLE public."RegisteredDevice"
+(
+    description text COLLATE pg_catalog."default" NOT NULL,
+    consumption text COLLATE pg_catalog."default" NOT NULL,
+    brand text COLLATE pg_catalog."default" NOT NULL,
+    type text COLLATE pg_catalog."default" NOT NULL,
+    "createdDate" text COLLATE pg_catalog."default" NOT NULL,
+    room text COLLATE pg_catalog."default" NOT NULL,
+    "serialNumber" integer NOT NULL,
+    "emailOwner" text COLLATE pg_catalog."default" NOT NULL,
+    active boolean NOT NULL
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."RegisteredDevice"
+    OWNER to postgres;
+
+CREATE TABLE public."Room"
+(
+    name text COLLATE pg_catalog."default" NOT NULL,
+    "userEmail" text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Room_pkey" PRIMARY KEY (name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."Room"
+    OWNER to postgres;
+
+CREATE TABLE public."Warranty"
+(
+    "clientName" text COLLATE pg_catalog."default" NOT NULL,
+    "deviceSerialNumber" integer NOT NULL,
+    brand text COLLATE pg_catalog."default" NOT NULL,
+    "purchaseDate" text COLLATE pg_catalog."default" NOT NULL,
+    "expireDate" text COLLATE pg_catalog."default" NOT NULL,
+    "deviceTypeName" text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Warranty_pkey" PRIMARY KEY ("deviceSerialNumber"),
+    CONSTRAINT "deviceSerialNumber" FOREIGN KEY ("deviceSerialNumber")
+        REFERENCES public."Device" ("serialNumber") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "deviceTypeName" FOREIGN KEY ("deviceTypeName")
+        REFERENCES public."DeviceType" (name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."Warranty"
+    OWNER to postgres;
+
