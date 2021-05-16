@@ -89,6 +89,11 @@ namespace PostgreSQLBackEnd.Controllers
             return Ok(await _clientI.GetAllClients());
         }
 
+        /// <summary>
+        /// metodo para update a un client
+        /// </summary>
+        /// <param name="client">cliente a update</param>
+        /// <returns>new client</returns>
         [HttpPut]
         public async Task<IActionResult> UpdtClient([FromBody] Client client)
         {
@@ -105,6 +110,11 @@ namespace PostgreSQLBackEnd.Controllers
             return Ok(await _clientI.GetAllClients());
         }
 
+        /// <summary>
+        /// metodo para eliminar un client
+        /// </summary>
+        /// <param name="email">email del client</param>
+        /// <returns>lista client</returns>
         [HttpDelete("{email}")]
         public async Task<IActionResult> DltClient(string email)
         {
