@@ -38,12 +38,9 @@ export class StoreComponent implements OnInit {
 
       const workSheet: XLSX.WorkSheet = workBook.Sheets[workSheetName];
 
-      console.log(workSheet);
 
       this.data = (XLSX.utils.sheet_to_json(workSheet, { header: 1 }));
-      console.log(this.data.slice(1));
       this.data = this.data.slice(1);
-      console.log(this.data);
 
     };
 

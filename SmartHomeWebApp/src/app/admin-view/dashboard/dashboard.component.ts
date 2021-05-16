@@ -12,9 +12,11 @@ import { DashboardService } from './dashboard.service';
 export class DashboardComponent implements OnInit {
 
   devices: Device[];
-  usuarios = [["Daniel", 5],["Marco", 7],["Jesus", 3],["Francisco", 2]];
+  appDevices = [];
   dispRegiones = [];
   average = 0;
+  cantActivos = 0;
+
   listaDispositivos = [];
   check = '✓';
 
@@ -22,37 +24,68 @@ export class DashboardComponent implements OnInit {
               private dataStorageService: DataStorageService,
               private dashboardService: DashboardService) { }
 
+
+  getAppDevice(serialNumber : number) {
+    for (let appDevice of this.appDevices) {
+      if (appDevice.serialNumber === serialNumber)
+        return true;
+    }
+    return false;
+  }
+
   ngOnInit(): void {
+    // Recupera los datos necesarios para mostrar lo solicitado en el dashboard
+    this.dataStorageService.fetchActiveDevices().
+    subscribe( cantActivos => {
+      this.dashboardService.setActivos(cantActivos);
+      this.cantActivos = cantActivos;
+    });
     this.dataStorageService.fetchDevicesAverage().
     subscribe( average => {
       this.dashboardService.setAverageDevices(average);
       this.average = average;
     });
+
     this.dataStorageService.fetchDevicesRegion().
     subscribe( dispRegiones => {
-      console.log(dispRegiones);
       this.dashboardService.setDispRegiones(dispRegiones);
     });
+
+    this.dataStorageService.fetchAppDevices().
+    subscribe( appDevices => {
+      this.deviceService.setAppDevices(appDevices)
+      this.appDevices = appDevices;
+      for (var device of this.devices) { 
+         if (device.associated) {
+          let flag = this.getAppDevice(device.serialNumber)
+
+          if (flag) {
+            let _device = [device.name,"✓", device.ownerEmail]
+            this.listaDispositivos.push(_device)
+
+          } else {
+            let _device = [device.name,"X", device.ownerEmail]
+            this.listaDispositivos.push(_device)
+
+          }
+          
+        } else {
+          let _device = [device.name,"X", " "]
+          this.listaDispositivos.push(_device)
+        }
+      }
+
+    });
+
     this.dataStorageService.fetchDevices();
     this.devices = this.deviceService.getDevices();
     this.dispRegiones = this.dashboardService.getDispRegiones();
     this.average = this.dashboardService.getAverageDevices();
+    this.appDevices = this.deviceService.getAppDevices();
+
+    
    
     
-
-    
-    for (var device of this.devices) {
-      console.log(12334);
-      if (device.associated) {
-        let _device = [device.name,"✓", device.ownerEmail]
-        this.listaDispositivos.push(_device)
-      } else {
-        let _device = [device.name,"X", " "]
-
-        this.listaDispositivos.push(_device)
-      }
-    }
-    console.log(this.devices);
 
   }
 

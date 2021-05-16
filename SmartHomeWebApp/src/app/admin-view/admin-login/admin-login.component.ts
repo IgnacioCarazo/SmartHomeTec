@@ -33,7 +33,6 @@ export class AdminLoginComponent implements OnInit {
   
 
   onSubmit(form: NgForm) {     
-    console.log(form.value.email, form.value.password)
     this.dataStorageService.sendLoginInfoAdmin(form.value.email,form.value.password).
             subscribe( admin => {
                 this.admin = admin;

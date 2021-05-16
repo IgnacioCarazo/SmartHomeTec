@@ -34,15 +34,11 @@ export class StoreDeviceDetailComponent implements OnInit {
     }
 
   ngOnInit() {
-    console.log(11111111111);
-
     this.route.params
       .subscribe(
         (params: Params) => {
           this.id = +params['id'];
           this.device = this.deviceService.getDeviceByRegion(this.id);
-          console.log(11111111111);
-          console.log(this.device);
         }
       );
       this.client = this.clientService.getClient();

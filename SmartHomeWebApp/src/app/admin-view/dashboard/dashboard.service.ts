@@ -5,6 +5,8 @@ export class DashboardService {
   private _dispRegiones = [];
     
   private _averageDevices: number;
+
+  private activos: number;
     
   
 
@@ -18,7 +20,6 @@ export class DashboardService {
         return this._dispRegiones;
     }
     setDispRegiones(value) {
-        console.log(value);
         let dispRegiones = [];
         for (let region of value) {
             let lista = [];
@@ -26,7 +27,6 @@ export class DashboardService {
             lista.push(region.Cantidad);
             dispRegiones.push(lista);
         }
-        console.log(dispRegiones)
         this._dispRegiones = dispRegiones;
     }
 
@@ -35,5 +35,11 @@ export class DashboardService {
     }
     setAverageDevices(value: number) {
         this._averageDevices = value;
+    }
+    getActivos(): number {
+        return this.activos;
+    }
+    setActivos(value: number) {
+        this.activos = value;
     }
 }
