@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -18,6 +20,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.smarthometec.mobileapp.R;
@@ -27,6 +32,7 @@ import com.smarthometec.mobileapp.database.DatabaseHelper;
 import com.smarthometec.mobileapp.models.Control;
 import com.smarthometec.mobileapp.models.Room;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -139,33 +145,24 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
         dbHelper.insertControl(context, control.getSerialNumber(), control.getDate(),control.getTime());
         String postURL = DatabaseHelper.SERVER_URL + "api/Control";
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, postURL, new Response.Listener<String>() {
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("time", control.getTime());
+            postData.put("date", control.getDate());
+            postData.put("serialNumber", control.getSerialNumber());
+
+        } catch (JSONException e) {
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postURL, postData, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
-                String answer = response;
-                if (answer.equals("Inserted")) {
-                    System.out.println("Sended control time device sucessfully");
-                }
+            public void onResponse(JSONObject response) {
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        }) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    return null;
-                }
-            }
-        };
-        requestQueue.add(stringRequest);
-    }
+        });
+        HttpsTrustManager.allowAllSSL();
+        requestQueue.add(jsonObjectRequest);
 }
