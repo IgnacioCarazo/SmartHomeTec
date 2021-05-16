@@ -3,16 +3,13 @@
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
-          <th scope="col">Usuario</th>
-          <th scope="col">Promedio</th>
+          <th style="text-align:center" scope="col">Cantidad total</th>
         </tr>
       </thead>
     <tbody>
-        <tr *ngFor="let row of usuarios">
-            <td *ngFor="let cell of row">
-                {{ cell }}
-            </td>
-        </tr>
+        <td style="text-align:center">
+            {{ average }}
+        </td>
     </tbody>
 </table>
 <hr>
@@ -21,11 +18,11 @@
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
-          <th scope="col">Cantidad total</th>
+          <th style="text-align:center" scope="col">Cantidad total</th>
         </tr>
       </thead>
     <tbody>
-        <td>
+        <td style="text-align:center">
             {{ average }}
         </td>
     </tbody>
