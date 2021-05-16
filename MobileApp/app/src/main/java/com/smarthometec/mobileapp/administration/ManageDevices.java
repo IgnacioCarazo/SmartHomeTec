@@ -204,6 +204,7 @@ public class ManageDevices extends AppCompatActivity {
          });
          arrayReq.setRetryPolicy(new RetryPolicy() { @Override public int getCurrentTimeout() { return 50000; } @Override public int getCurrentRetryCount() { return 50000; } @Override public void retry(VolleyError error) throws VolleyError { } });
          requestQueue.add(arrayReq);
+         requestQueue.getCache().clear();
      }
      //Funcion que Actualiza la base de datos interna ROOM
      private void updateDatabaseRoom(){
@@ -235,6 +236,7 @@ public class ManageDevices extends AppCompatActivity {
          });
          arrayReq.setRetryPolicy(new RetryPolicy() { @Override public int getCurrentTimeout() { return 50000; } @Override public int getCurrentRetryCount() { return 50000; } @Override public void retry(VolleyError error) throws VolleyError { } });
          requestQueue.add(arrayReq);
+         requestQueue.getCache().clear();
      }
      //Funcion que Actualiza la base de datos interna CONTROL
      private void updateDatabaseControl(){
@@ -269,5 +271,6 @@ public class ManageDevices extends AppCompatActivity {
          });
          arrayReq.setRetryPolicy(new RetryPolicy() { @Override public int getCurrentTimeout() { return 50000; } @Override public int getCurrentRetryCount() { return 50000; } @Override public void retry(VolleyError error) throws VolleyError { } });
          requestQueue.add(arrayReq);
+         requestQueue.getCache().clear();
      }
 }

@@ -11,17 +11,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.smarthometec.mobileapp.R;
 import com.smarthometec.mobileapp.database.DatabaseHelper;
+import com.smarthometec.mobileapp.helpers.HttpsTrustManager;
 import com.smarthometec.mobileapp.models.Device;
+import com.smarthometec.mobileapp.models.Room;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,14 +54,13 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("Aquiiiiiii333333" + email);
         setContentView(R.layout.activity_register_device);
-        deviceSerialText =  findViewById(R.id.deviceSerial);
+        deviceSerialText = findViewById(R.id.deviceSerial);
         deviceBrandText = findViewById(R.id.deviceBrand);
-        deviceTypeText =  findViewById(R.id.deviceType);
-        deviceConsumeText =  findViewById(R.id.deviceConsume);
-        deviceDescriptionText =  findViewById(R.id.deviceDescription);
-        deviceRoomText =  findViewById(R.id.spinnerRoom);
+        deviceTypeText = findViewById(R.id.deviceType);
+        deviceConsumeText = findViewById(R.id.deviceConsume);
+        deviceDescriptionText = findViewById(R.id.deviceDescription);
+        deviceRoomText = findViewById(R.id.spinnerRoom);
         Button deviceRegisterBut = findViewById(R.id.addDeviceBottom);
         deviceRoomText.setOnItemSelectedListener(this);
         loadRoomData();
@@ -65,9 +68,9 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View v) {
                 String serialDevice = deviceSerialText.getText().toString();
-                int valueSerialDevice=0;
-                if (!"".equals(serialDevice)){
-                    valueSerialDevice=Integer.parseInt(serialDevice);
+                int valueSerialDevice = 0;
+                if (!"".equals(serialDevice)) {
+                    valueSerialDevice = Integer.parseInt(serialDevice);
                 }
                 String brandDevice = deviceBrandText.getText().toString();
                 String typeDevice = deviceTypeText.getText().toString();
@@ -75,8 +78,8 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
                 String descriptionDevice = deviceDescriptionText.getText().toString();
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 Date date = new Date();
-                if(roomDevice!=null){
-                    Device device = new Device(valueSerialDevice,descriptionDevice,consumeDevice,brandDevice,typeDevice,roomDevice,dateFormat.format(date),email);
+                if (roomDevice != null) {
+                    Device device = new Device(valueSerialDevice, descriptionDevice, consumeDevice, brandDevice, typeDevice, roomDevice, dateFormat.format(date), email);
                     saveDevice(device);
                 }
             }
@@ -84,69 +87,39 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
     }
     /**
      * Funcion que guarda el dispositivo en la base de datos local y REST
+     *
      * @param addingDevice
      */
-    private void saveDevice(Device addingDevice){
-        dbHelper.insertDevice(this,addingDevice.getSerialNumber(),addingDevice.getDescription(),addingDevice.getConsumption(),addingDevice.getBrand(), addingDevice.getType(),addingDevice.getDate_created(),addingDevice.getRoom(),addingDevice.getUserEmail(),addingDevice.isActive());
-        String postURL = DatabaseHelper.SERVER_URL + "api/AppDevice";
-        JSONObject jsonObject = new JSONObject();
-        final String mRequestBody = jsonObject.toString();
-        try {
-            System.out.println("1 "+addingDevice.getSerialNumber());
-            System.out.println("2 "+addingDevice.getConsumption());
-            System.out.println("3 "+addingDevice.getBrand());
-            System.out.println("4 "+addingDevice.getType());
-            System.out.println("5 "+addingDevice.getRoom());
-            System.out.println("6 "+addingDevice.getDate_created());
-            System.out.println("7 "+addingDevice.getUserEmail());
-            System.out.println("8 "+addingDevice.isActive());
-            jsonObject.put("serialNumber",addingDevice.getSerialNumber());
-            jsonObject.put("econsumption",addingDevice.getConsumption());
-            jsonObject.put("brand",addingDevice.getBrand());
-            jsonObject.put("type",addingDevice.getType());
-            jsonObject.put("room",addingDevice.getRoom());
-            jsonObject.put("date_created",addingDevice.getDate_created());
-            jsonObject.put("userEmail",addingDevice.getUserEmail());
-            jsonObject.put("active",addingDevice.isActive());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private void saveDevice(Device addingDevice) {
+        String postUrl = DatabaseHelper.SERVER_URL + "api/AppDevice";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, postURL, new Response.Listener<String>() {
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("serialNumber", addingDevice.getSerialNumber());
+            postData.put("description", addingDevice.getDescription());
+            postData.put("consumption", addingDevice.getConsumption());
+            postData.put("brand", addingDevice.getBrand());
+            postData.put("type", addingDevice.getType());
+            postData.put("room", addingDevice.getRoom());
+            postData.put("createdDate", addingDevice.getDate_created());
+            postData.put("emailOwner", addingDevice.getUserEmail());
+            postData.put("active", addingDevice.isActive());
+
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String answer = jsonObject.getString("response");
-                    if(answer.equals("OK")){
-                        Intent manageDevices = new Intent(RegisterDevice.this, ManageDevices.class);
-                        RegisterDevice.this.startActivity(manageDevices);
-                        RegisterDevice.this.finish();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            public void onResponse(JSONObject response) {
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        }){
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    return null;
-                }
-            }
-        };
-        requestQueue.add(stringRequest);
+        });
+        HttpsTrustManager.allowAllSSL();
+        requestQueue.add(jsonObjectRequest);
     }
     //Carga los titulos de los cuartos en registro de dispositivos
     private void loadRoomData() {
@@ -154,7 +127,7 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
         Cursor cursor = dbHelper.readAllData("TABLE_ROOM");
         if(cursor.getCount() != 0){
             while(cursor.moveToNext()){
-                rooms.add(cursor.getString(1));
+                rooms.add(cursor.getString(0));
             }
         }
         cursor.close();
@@ -170,4 +143,5 @@ public class RegisterDevice extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
+
 }

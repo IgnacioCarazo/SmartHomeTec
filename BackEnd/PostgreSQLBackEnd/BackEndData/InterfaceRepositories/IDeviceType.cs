@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BackEndData.InterfaceRepositories
 {
+    /// <summary>
+    /// Interfaz para implementar operaciones sql del modelo DeviceType
+    /// </summary>
     public interface IDeviceType
     {
         Task<IEnumerable<DeviceType>> GetAllTypes();

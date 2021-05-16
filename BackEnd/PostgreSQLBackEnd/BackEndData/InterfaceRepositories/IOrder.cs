@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BackEndData.InterfaceRepositories
 {
+    /// <summary>
+    /// Interfaz para implementar operaciones sql del modelo Order
+    /// </summary>
     public interface IOrder
     {
         Task<IEnumerable<Order>> GetAllOrder();

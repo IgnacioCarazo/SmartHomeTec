@@ -14,14 +14,14 @@ public class Client {
     private String country;
     private String deliveryAddress;
     public Client() {
-        this.name = "";
-        this.primaryLastName = "";
-        this.secondaryName = "";
-        this.email = "";
-        this.password = "";
-        this.continent = "";
-        this.country = "";
-        this.deliveryAddress = "";
+        this.name = null;
+        this.primaryLastName = null;
+        this.secondaryName = null;
+        this.email = null;
+        this.password = null;
+        this.continent = null;
+        this.country = null;
+        this.deliveryAddress = null;
     }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

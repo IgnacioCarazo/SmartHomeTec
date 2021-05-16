@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -12,16 +13,21 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.smarthometec.mobileapp.R;
 import com.smarthometec.mobileapp.database.DatabaseHelper;
+import com.smarthometec.mobileapp.helpers.HttpsTrustManager;
 import com.smarthometec.mobileapp.models.Room;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.smarthometec.mobileapp.Login.dbHelper;
 import static com.smarthometec.mobileapp.administration.ManageDevices.email;
@@ -53,52 +59,27 @@ public class RegisterRoom extends AppCompatActivity {
      * Metodo que guarda en localdatabase y en la base de datos REST
      * @param room es el cuarto por guardar
      */
-    private void saveRoom(Room room) {
-        System.out.println("1 "+room.getName());
-        System.out.println("2 "+ room.getUserEmail());
-        JSONObject jsonObject = new JSONObject();
-        final String mRequestBody = jsonObject.toString();
-        try {
-            jsonObject.put("name",room.getName());
-            jsonObject.put("userEmail",room.getUserEmail());
-            System.out.println(jsonObject.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        dbHelper.insertRoom(this, room.getName(), room.getUserEmail());
-        String postURL = DatabaseHelper.SERVER_URL + "api/Room";
+    private void saveRoom(Room room){
+        String postUrl = DatabaseHelper.SERVER_URL + "api/Room";;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, postURL, new Response.Listener<String>() {
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("name",room.getName());
+            postData.put("userEmail",room.getUserEmail());
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
-                String answer = response;
-                if (answer.equals("Inserted")) {
-                    Intent manageDevices = new Intent(RegisterRoom.this, ManageDevices.class);
-                    RegisterRoom.this.startActivity(manageDevices);
-                    RegisterRoom.this.finish();
-                }
+            public void onResponse(JSONObject response) {
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
-        }) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    return null;
-                }
-            }
-        };
-        stringRequest.setRetryPolicy(new RetryPolicy() { @Override public int getCurrentTimeout() { return 50000; } @Override public int getCurrentRetryCount() { return 50000; } @Override public void retry(VolleyError error) throws VolleyError { } });
-        requestQueue.add(stringRequest);
+        });
+        HttpsTrustManager.allowAllSSL();
+        requestQueue.add(jsonObjectRequest);
     }
 }

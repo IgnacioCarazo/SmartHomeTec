@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BackEndData.InterfaceRepositories
 {
+    /// <summary>
+    /// Interfaz para modelo Control
+    /// </summary>
     public interface IControl
     {
         Task<IEnumerable<Control>> GetAll();

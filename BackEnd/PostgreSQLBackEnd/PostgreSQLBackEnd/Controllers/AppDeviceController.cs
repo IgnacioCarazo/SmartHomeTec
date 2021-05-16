@@ -43,5 +43,11 @@ namespace PostgreSQLBackEnd.Controllers
             var insertType = await _appDevice.InsertAppDevice(device);
             return Ok("Inserted");
         }
+
+        [HttpGet("active")]
+        public IActionResult GetActive()
+        {
+            return Ok(_appDevice.GetActiveDevice());
+        }
     }
 }

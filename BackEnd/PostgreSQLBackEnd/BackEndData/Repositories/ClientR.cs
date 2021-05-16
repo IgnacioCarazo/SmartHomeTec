@@ -10,17 +10,32 @@ using System.Threading.Tasks;
 
 namespace BackEndData.Repositories
 {
+    /// <summary>
+    /// clase para implementar metodos de la interfaz del modelo Client
+    /// </summary>
     public class ClientR : IClient
     {
         private PostgreSQLConfiguration _connectionString;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="connectionString">string para conectar como db</param>
         public ClientR(PostgreSQLConfiguration connectionString) => _connectionString = connectionString;
-        
+
+        /// <summary>
+        /// metodo de conexion db
+        /// </summary>
+        /// <returns>conexion db</returns>
         protected NpgsqlConnection dbConnection()
         {
             return new NpgsqlConnection(_connectionString.ConnectionString);
         }
         
+        /// <summary>
+        /// metodo para obtener todos los clientes de la db
+        /// </summary>
+        /// <returns>lista de client</returns>
         public async Task<IEnumerable<Client>> GetAllClients()
         {
             var db = dbConnection();
@@ -32,6 +47,11 @@ namespace BackEndData.Repositories
             return await db.QueryAsync<Client>(sql, new { });
         }
 
+        /// <summary>
+        /// metodo para obtener un cliente especifico
+        /// </summary>
+        /// <param name="email">email del cliente a obtener</param>
+        /// <returns>client</returns>
         public async Task<Client> GetClient(string email)
         {
             var db = dbConnection();
@@ -44,6 +64,11 @@ namespace BackEndData.Repositories
             return await db.QueryFirstOrDefaultAsync<Client>(sql, new { email = email});
         }
 
+        /// <summary>
+        /// metodo para insertar nuevo cliente en la db
+        /// </summary>
+        /// <param name="client">client a insertar</param>
+        /// <returns>bool</returns>
         public async Task<bool> InsertClient(Client client)
         {
             var db = dbConnection();
@@ -58,6 +83,11 @@ namespace BackEndData.Repositories
             return result > 0;
         }
 
+        /// <summary>
+        /// metodo para update nuevo cliente en la db
+        /// </summary>
+        /// <param name="client">client a update</param>
+        /// <returns>bool</returns>
         public async Task<bool> UpdateClient(Client client)
         {
             var db = dbConnection();
@@ -89,6 +119,11 @@ namespace BackEndData.Repositories
             return result > 0;
         }
 
+        /// <summary>
+        /// metodo para eliminar cliente de la db
+        /// </summary>
+        /// <param name="client">client</param>
+        /// <returns>client</returns>
         public async Task<bool> DeleteClient(Client client)
         {
             var db = dbConnection();

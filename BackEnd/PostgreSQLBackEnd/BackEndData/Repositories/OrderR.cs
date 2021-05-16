@@ -10,17 +10,32 @@ using System.Threading.Tasks;
 
 namespace BackEndData.Repositories
 {
+    /// <summary>
+    /// clase para implementar metodos de la interfaz del modelo Order
+    /// </summary>
     public class OrderR : IOrder
     {
         private PostgreSQLConfiguration _connectionString;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="connectionString">string para conectar como db</param>
         public OrderR(PostgreSQLConfiguration connectionString) => _connectionString = connectionString;
 
+        /// <summary>
+        /// metodo de conexion db
+        /// </summary>
+        /// <returns>conexion db</returns>
         protected NpgsqlConnection dbConnection()
         {
             return new NpgsqlConnection(_connectionString.ConnectionString);
         }
 
+        /// <summary>
+        /// metodo para obtener todas las order de la db
+        /// </summary>
+        /// <returns>ista de order</returns>
         public async Task<IEnumerable<Order>> GetAllOrder()
         {
             var db = dbConnection();
@@ -32,6 +47,11 @@ namespace BackEndData.Repositories
             return await db.QueryAsync<Order>(sql, new { });
         }
 
+        /// <summary>
+        /// metodo para obtener order especifica de la db
+        /// </summary>
+        /// <param name="id">id de la order</param>
+        /// <returns>order</returns>
         public async Task<Order> GetOrder(int id)
         {
             var db = dbConnection();
@@ -43,6 +63,11 @@ namespace BackEndData.Repositories
             return await db.QueryFirstOrDefaultAsync<Order>(sql, new { orderID = id });
         }
 
+        /// <summary>
+        /// metodo para inserta order en db
+        /// </summary>
+        /// <param name="order">order a insertar</param>
+        /// <returns>int del id de la order</returns>
         public async Task<int> InsertOrder(Order order)
         {
             var db = dbConnection();
@@ -88,6 +113,11 @@ namespace BackEndData.Repositories
             return id;
         }
 
+        /// <summary>
+        /// metodo para hacer update a una order de la db
+        /// </summary>
+        /// <param name="order">order a hacer update</param>
+        /// <returns>bool</returns>
         public async Task<bool> UpdateOrder(Order order)
         {
             var db = dbConnection();
@@ -118,6 +148,12 @@ namespace BackEndData.Repositories
             return result > 0;
 
         }
+
+        /// <summary>
+        /// metodo para eliminar order de la db
+        /// </summary>
+        /// <param name="order">order a eliminar</param>
+        /// <returns>bool</returns>
         public async Task<bool> DeleteOrder(Order order)
         {
             var db = dbConnection();
@@ -142,6 +178,11 @@ namespace BackEndData.Repositories
             return result > 0;
         }
 
+        /// <summary>
+        /// metodo para insertar invoice en la db por cada order
+        /// </summary>
+        /// <param name="invoice">invoice a insertar</param>
+        /// <returns>bool</returns>
         public async Task<bool> InsertInvoice(Invoice invoice)
         {
             var db = dbConnection();
@@ -161,6 +202,11 @@ namespace BackEndData.Repositories
             return result > 0;
         }
 
+        /// <summary>
+        /// metodo para obtener el device de cada order 
+        /// </summary>
+        /// <param name="order">order a la cual se busca el device</param>
+        /// <returns>device</returns>
         public async Task<Device> GetDevice(Order order) {
 
             var db = dbConnection();
@@ -175,6 +221,12 @@ namespace BackEndData.Repositories
             Device _device  = await db.QueryFirstOrDefaultAsync<Device>(sql, new { serialNumber = _serialNumber });
             return _device;
         }
+
+        /// <summary>
+        /// metodo para obtener tiempo de garantia segun el deviceType
+        /// </summary>
+        /// <param name="name">nombre del devicetype</param>
+        /// <returns>int garantia</returns>
         public async Task<int> GetDeviceWarranty(string name)
         {
 
@@ -189,6 +241,11 @@ namespace BackEndData.Repositories
             return warranty;
         }
 
+        /// <summary>
+        /// metodo para insertar nueva garantia en la db por cada order
+        /// </summary>
+        /// <param name="warranty">warranty a insertar</param>
+        /// <returns>bool</returns>
         public async Task<bool> InsertWarranty(Warranty warranty)
         {
             var db = dbConnection();
@@ -210,6 +267,11 @@ namespace BackEndData.Repositories
             return result > 0;
         }
 
+        /// <summary>
+        /// metodo para obtener el nombre del nombres de dueno de la order
+        /// </summary>
+        /// <param name="email">email del dueno a obtener</param>
+        /// <returns>string nombre</returns>
         public async Task<string> GetOwnerName(string email)
         {
             var db = dbConnection();
