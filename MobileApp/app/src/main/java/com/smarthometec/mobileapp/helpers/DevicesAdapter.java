@@ -46,14 +46,14 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch turnOnData ;
     private Context context;
-    private final ArrayList<ArrayList> serialNumber;
-    private final ArrayList<ArrayList> deviceType;
-    private final ArrayList<ArrayList> description;
-    private final ArrayList<ArrayList> brand;
-    private final ArrayList<ArrayList> consume;
-    private final ArrayList<ArrayList> timeLeft;
+    private final ArrayList<Integer> serialNumber;
+    private final ArrayList<String> deviceType;
+    private final ArrayList<String> description;
+    private final ArrayList<String> brand;
+    private final ArrayList<String> consume;
+    private final ArrayList<String> timeLeft;
     public static int time ;
-    public DevicesAdapter(Activity activity, Context context, ArrayList<ArrayList>  serialNumber, ArrayList<ArrayList> description, ArrayList<ArrayList> deviceType, ArrayList<ArrayList> brand , ArrayList<ArrayList> consume, ArrayList<ArrayList> timeLeft){
+    public DevicesAdapter(Activity activity, Context context, ArrayList<Integer>  serialNumber, ArrayList<String> description, ArrayList<String> deviceType, ArrayList<String> brand , ArrayList<String> consume, ArrayList<String> timeLeft){
         this.activity = activity;
         this.context = context;
         this.serialNumber = serialNumber;
@@ -72,10 +72,10 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
     }
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        holder.tvSerialNumber.setText(String.valueOf(serialNumber.get(position).get(0)));
-        holder.tvTypeDevice.setText(String.valueOf(deviceType.get(position).get(0)));
-        holder.tvConsume.setText(String.valueOf(consume.get(position).get(0)));
-        holder.tvTimeLeft.setText(String.valueOf(timeLeft.get(position).get(0)));
+        holder.tvSerialNumber.setText(String.valueOf(serialNumber.get(position)));
+        holder.tvTypeDevice.setText(String.valueOf(deviceType.get(position)));
+        holder.tvConsume.setText(String.valueOf(consume.get(position)));
+        holder.tvTimeLeft.setText(String.valueOf(timeLeft.get(position)));
         turnOnData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +95,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
                     if(time>0){
                         String strDateFormat = "hh: mm: ss a dd-MMM-aaaa";
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat objSDF = new SimpleDateFormat(strDateFormat);
-                        String serialText = String.valueOf(serialNumber.get(position).get(0));
+                        String serialText = String.valueOf(serialNumber.get(position));
                         int serialNumber = Integer.parseInt(serialText);
                         control.setTime(time);
                         control.setDate(objSDF.format(objDate));
@@ -143,7 +143,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
             @Override
             public void onResponse(String response) {
                 String answer = response;
-                if (answer.equals("OK")) {
+                if (answer.equals("Inserted")) {
                     System.out.println("Sended control time device sucessfully");
                 }
             }

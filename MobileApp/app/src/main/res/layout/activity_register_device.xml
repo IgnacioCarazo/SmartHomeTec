@@ -61,14 +61,13 @@
         android:text="@string/typeDevice"
         android:textSize="20dp" />
 
-    <EditText
+    <Spinner
         android:id="@+id/deviceType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="10dp"
-        android:hint="@string/typeDevice"
         android:textAlignment="center"
         android:textSize="10dp" />
 

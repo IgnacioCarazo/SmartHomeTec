@@ -210,8 +210,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return
      */
     public Cursor deleteAllData(String table) {
-        String query = "delete from " + table;
-        System.out.println("Deleting data of "+table);
+        String query = "DELETE FROM " + table;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         if (db != null) {
@@ -220,8 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
     public Cursor getDeviceDataOfRoom(String room){
-        String query = "SELECT "+ KEY_DEVICE_SERIALNUMBER + "," +COLUMN_DEVICE_DESCRIPTION+ "," + COLUMN_DEVICE_TYPE + "," + COLUMN_DEVICE_CONSUMPTION + ","
-                + COLUMN_DEVICE_BRAND+ "," + COLUMN_DEVICE_CREATION +  " FROM " + TABLE_DEVICE ;
+        String query = "SELECT * FROM TABLE_DEVICE WHERE " + KEY_ROOM_NAME + "= '"+room+"'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         if(db!=null){

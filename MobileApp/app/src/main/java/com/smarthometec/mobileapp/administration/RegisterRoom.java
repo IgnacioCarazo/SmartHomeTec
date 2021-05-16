@@ -60,6 +60,7 @@ public class RegisterRoom extends AppCompatActivity {
      * @param room es el cuarto por guardar
      */
     private void saveRoom(Room room){
+        dbHelper.insertRoom(this, room.getName(), room.getUserEmail());
         String postUrl = DatabaseHelper.SERVER_URL + "api/Room";;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JSONObject postData = new JSONObject();
