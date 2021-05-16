@@ -10,17 +10,32 @@ using System.Threading.Tasks;
 
 namespace BackEndData.Repositories
 {
+    /// <summary>
+    /// clase para implementar metodos de la interfaz del modelo Device
+    /// </summary>
     public class DeviceR : IDevice
     {
         private PostgreSQLConfiguration _connectionString;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="connectionString">string para conectar como db</param>
         public DeviceR(PostgreSQLConfiguration connectionString) => _connectionString = connectionString;
 
+        /// <summary>
+        /// metodo de conexion db
+        /// </summary>
+        /// <returns>conexion db</returns>
         protected NpgsqlConnection dbConnection()
         {
             return new NpgsqlConnection(_connectionString.ConnectionString);
         }
 
+        /// <summary>
+        /// metodo para obtener todos los device de la db
+        /// </summary>
+        /// <returns>lista de device</returns>
         public async Task<IEnumerable<Device>> GetAllDevices()
         {
             var db = dbConnection();
@@ -31,6 +46,11 @@ namespace BackEndData.Repositories
             return await db.QueryAsync<Device>(sql, new { });
         }
 
+        /// <summary>
+        /// metodo para obtener device especifico de la db
+        /// </summary>
+        /// <param name="_serialNumber">numero serial del device a obtener</param>
+        /// <returns>device</returns>
         public async Task<Device> GetDevice(int _serialNumber)
         {
             var db = dbConnection();
@@ -43,6 +63,11 @@ namespace BackEndData.Repositories
             return await db.QueryFirstOrDefaultAsync<Device>(sql, new { serialNumber = _serialNumber });
         }
 
+        /// <summary>
+        /// metodo para insertar device en la db
+        /// </summary>
+        /// <param name="device">device a insertar</param>
+        /// <returns>bool</returns>
         public async Task<bool> InsertDevice(Device device)
         {
             var db = dbConnection();
@@ -67,6 +92,11 @@ namespace BackEndData.Repositories
             return result > 0;
         }
 
+        /// <summary>
+        /// metodo para hacer update de device
+        /// </summary>
+        /// <param name="device">device a update</param>
+        /// <returns>bool</returns>
         public async Task<bool> UpdateDevice(Device device)
         {
             var db = dbConnection();
@@ -99,6 +129,11 @@ namespace BackEndData.Repositories
             return result > 0;
         }
 
+        /// <summary>
+        /// metodo para hacer delete de un device en db
+        /// </summary>
+        /// <param name="device">device a eliminar</param>
+        /// <returns>bool</returns>
         public async Task<bool> DeleteDevice(Device device)
         {
             var db = dbConnection();
@@ -124,6 +159,10 @@ namespace BackEndData.Repositories
             return result > 0;
         }
 
+        /// <summary>
+        /// metodo para obtener el promedio de dispostivos por usuarios
+        /// </summary>
+        /// <returns>int promedio</returns>
         public async Task<int> DeviceAVG()
         {
             var db = dbConnection();

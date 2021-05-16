@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BackEndData.InterfaceRepositories
 {
+    /// <summary>
+    /// Interfaz para implementar operaciones sql del modelo Room
+    /// </summary>
     public interface IRoom
     {
         Task<IEnumerable<Room>> GetAllRooms();

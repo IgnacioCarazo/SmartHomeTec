@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BackEndData.InterfaceRepositories
 {
+    /// <summary>
+    /// Interfaz para implementar operaciones sql del modelo Client
+    /// </summary>
     public interface IClient
     {
         Task<IEnumerable<Client>> GetAllClients();

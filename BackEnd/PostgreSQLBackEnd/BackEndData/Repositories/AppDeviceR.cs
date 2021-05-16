@@ -10,17 +10,32 @@ using System.Threading.Tasks;
 
 namespace BackEndData.Repositories
 {
+    /// <summary>
+    /// clase para implementar metodos de la interfaz del modelo AppDevice
+    /// </summary>
     public class AppDeviceR : IAppDevice
     {
         private PostgreSQLConfiguration _connectionString;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="connectionString">string para conectar como db</param>
         public AppDeviceR(PostgreSQLConfiguration connectionString) => _connectionString = connectionString;
 
+        /// <summary>
+        /// metodo de conexion db
+        /// </summary>
+        /// <returns>conexion db</returns>
         protected NpgsqlConnection dbConnection()
         {
             return new NpgsqlConnection(_connectionString.ConnectionString);
         }
 
+        /// <summary>
+        /// Metodo para obtener todos los devices
+        /// </summary>
+        /// <returns>lista de devices</returns>
         public async Task<IEnumerable<AppDevice>> GetAllAppDevices()
         {
             var db = dbConnection();
@@ -32,6 +47,11 @@ namespace BackEndData.Repositories
             return await db.QueryAsync<AppDevice>(sql, new { });
         }
 
+        /// <summary>
+        /// metodo para obtener un device especifico
+        /// </summary>
+        /// <param name="serialNumber"></param>
+        /// <returns>device</returns>
         public async Task<AppDevice> GetAppDevice(int serialNumber)
         {
             var db = dbConnection();
@@ -44,6 +64,11 @@ namespace BackEndData.Repositories
             return await db.QueryFirstOrDefaultAsync<AppDevice>(sql, new { serialNumber = serialNumber });
         }
 
+        /// <summary>
+        /// metodo para insertar un nuevo devive en la db
+        /// </summary>
+        /// <param name="device">device a insertar</param>
+        /// <returns>bool</returns>
         public async Task<bool> InsertAppDevice(AppDevice device)
         {
             var db = dbConnection();
@@ -99,6 +124,26 @@ namespace BackEndData.Repositories
             });
 
             return result > 0;
+        }
+
+        /// <summary>
+        /// metodo para obtener la cantidad de devices activos en la db
+        /// </summary>
+        /// <returns>int cantidad </returns>
+        public int GetActiveDevice()
+        {
+            var db = dbConnection();
+
+            var query = @"
+                        SELECT COUNT(*)
+                        FROM public.""RegisteredDevice"" 
+                        WHERE ""active"" = true ";
+
+
+            int cantDevices = db.ExecuteScalar<int>(query, new { });
+
+
+            return cantDevices;
         }
     }
 }
