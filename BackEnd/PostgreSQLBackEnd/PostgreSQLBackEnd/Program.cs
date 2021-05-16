@@ -11,11 +11,20 @@ namespace PostgreSQLBackEnd
 {
     public class Program
     {
+        /// <summary>
+        /// metodo para crear un host server
+        /// </summary>
+        /// <param name="args">parametros del server</param>
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
 
+        /// <summary>
+        /// genera el host builder y lo asocia al startup
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

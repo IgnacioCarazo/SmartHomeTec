@@ -17,8 +17,15 @@ using System.Threading.Tasks;
 
 namespace PostgreSQLBackEnd
 {
+    /// <summary>
+    /// Clase para configurar el start del web api
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// constructor de la clase
+        /// </summary>
+        /// <param name="configuration">string que indica la configuracion</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
