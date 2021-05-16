@@ -55,12 +55,11 @@ namespace BackEndData.Repositories
             var db = dbConnection();
 
             var sql = @"
-                        INSERT INTO  public.""Control"" (id, time, date, ""SerialNumber"")
-                        VALUES (@id, @time, @date, @SerialNumber) ";
+                        INSERT INTO  public.""Control"" (time, date, ""SerialNumber"")
+                        VALUES (@time, @date, @SerialNumber) ";
 
             var result = await db.ExecuteAsync(sql, new
             {
-                control.id,
                 control.time,
                 control.date,
                 control.SerialNumber
