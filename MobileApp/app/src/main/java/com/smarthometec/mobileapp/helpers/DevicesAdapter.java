@@ -136,13 +136,13 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
         JSONObject jsonObject = new JSONObject();
         final String mRequestBody = jsonObject.toString();
         try {
-            jsonObject.put("time",control.getTime());
-            jsonObject.put("date",control.getDate());
-            jsonObject.put("serialNumber",control.getSerialNumber());
+            jsonObject.put("time", control.getTime());
+            jsonObject.put("date", control.getDate());
+            jsonObject.put("serialNumber", control.getSerialNumber());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        dbHelper.insertControl(context, control.getSerialNumber(), control.getDate(),control.getTime());
+        dbHelper.insertControl(context, control.getSerialNumber(), control.getDate(), control.getTime());
         String postURL = DatabaseHelper.SERVER_URL + "api/Control";
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JSONObject postData = new JSONObject();
@@ -165,4 +165,5 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.MyViewHo
         });
         HttpsTrustManager.allowAllSSL();
         requestQueue.add(jsonObjectRequest);
+    }
 }
