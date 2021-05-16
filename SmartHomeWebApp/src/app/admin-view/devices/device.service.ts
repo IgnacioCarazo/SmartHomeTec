@@ -47,6 +47,8 @@ export class DeviceService {
     this.appDevicesChanged.next(this.appDevices.slice());
   }
 
+  
+
   /**
   * @name getAppDevices()
   * @returns The array of app devices of this service.  
@@ -69,7 +71,6 @@ export class DeviceService {
   * @returns The array of devices of this service.  
   */
   getDevices() {
-    console.log(this.devices);
     return this.devices.slice();
   }
 
@@ -116,10 +117,6 @@ export class DeviceService {
   }
 
   getDeviceByRegion(index: number) {
-    console.log(123456);
-    console.log(this.devicesByClientRegion)
-
-    console.log(this.devicesByClientRegion[index])
     return this.devicesByClientRegion[index];
     
 

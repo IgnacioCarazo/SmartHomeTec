@@ -163,7 +163,6 @@ export class DataStorageService {
           });
         }),
         tap(devices => {
-          console.log(devices);
           this.deviceService.setDevices(devices);
         })
       )
@@ -175,22 +174,22 @@ export class DataStorageService {
   */
    fetchAppDevices() {
     return this.http
-      .get<AppDevice[]>(
-        'https://localhost:5001/api/AppDevice'
-      )
-      .pipe(
-        map(appDevices => {
-          return appDevices.map(appDevice => {
-            return {
-              ...appDevice
-            };
-          });
-        }),
-        tap(appDevices => {
-          console.log(appDevices);
-          this.deviceService.setAppDevices(appDevices);
-        })
-      )
+    .get<AppDevice[]>(
+      'https://localhost:5001/api/AppDevice'
+    )
+    .pipe(
+      map(appDevices => {
+        return appDevices.map(appDevice => {
+          return {
+            ...appDevice
+          };
+        });
+      }),
+      tap(appDevices => {
+        console.log(appDevices);
+        this.deviceService.setAppDevices(appDevices);
+      })
+    )
   }
   /**
    * ------------------------------------------------
@@ -342,6 +341,14 @@ export class DataStorageService {
   */
    fetchDevicesAverage() {
     return this.http.get<number>('https://localhost:5001/api/Device/average')  
+} 
+
+/**
+  * @name fetchDevicesAverage()
+  * @description Sends an http get request to fetch the Dashboard average value from the database.
+  */
+ fetchActiveDevices() {
+  return this.http.get<number>('https://localhost:5001/api/AppDevice/active')  
 } 
 
 /**
